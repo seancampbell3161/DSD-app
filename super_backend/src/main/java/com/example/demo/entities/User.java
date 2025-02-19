@@ -22,6 +22,9 @@ public class User {
     @Column(nullable = false)
     String name;
 
+    public User() {
+    }
+
     public User(UserPojo userPojo) {
         this.password = userPojo.getPassword();
         this.username = userPojo.getUsername();

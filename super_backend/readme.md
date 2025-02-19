@@ -5,6 +5,15 @@
 - add as a maven project
 - run  main method in your ide ```src/main/java/com/example/demo/AppApplication.java```
 
+## using swaggar to view requests 
+
+once the app is running. go to  http://localhost:8080/swagger-ui.html to view the open api definition provided by swagger
+
+try to update your controller methods you add so frontend devs can view https://springdoc.org/
+
+it looks like this 
+
+![img_2.png](img_2.png)
 
 ## to use h2 db to persist while we setup postgres
 I added a h2 db to get started persisting and building out your services. Meanwhile we decide where to host our postgres db and backend.
