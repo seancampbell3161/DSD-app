@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>super</groupId>
-	<artifactId>smart-apartment-app</artifactId>
+	<artifactId>apartment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>smart-apartment-app</name>
+	<name>app</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
