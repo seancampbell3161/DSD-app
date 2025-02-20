@@ -1,68 +1,36 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  --color-*: initial;
+  --color-red: #d23715;
+  --color-accentYellow: #ffd700;
+  --color-blue: #0a2342;
+  --color-accentGreen: #50c878;
+  --color-charcoal: #333333;
+  --color-beige: #edeade;
+  --color-lightGrey: #f4f4f4;
+  
+  --font-header: "Roboto Condensed", "serif";
+  --font-body: "Raleway";
+  
+  --text-6xl : 56px;
+  --text-5xl : 42px;
+  --text-xl : 21px;
+  --text-lg : 14px;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  --tracking-1: -8%;
+  --tracking-2: -4%;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+@font-face {
+  font-family: "Roboto Condensed", serif;
+  src: url("./public/fonts/RobotoCondensed-Regular.woff2") format("woff2"), url("./public/fonts/RobotoCondensed-SemiBold.woff2") format("woff2");
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+@font-face {
+  font-family: "Raleway";
+  src: url("./public/fonts/Raleway-Regular.woff2") format("woff2"),
+  url("./public/fonts/Raleway-SemiBold.woff2") format("woff2"),;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+
