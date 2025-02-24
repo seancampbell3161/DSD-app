@@ -24,12 +24,12 @@ export const Description = ({ isDescriptionOpen, handleDescriptionClose, handleO
           <p className="description-body">
             Leave a brief description in order that Super can best serve you.
           </p>
-          <input type="text" placeholder="brief description..." className="bg-lightGrey border-2 border-black"/>
-          <div className="submit-row">
-            <button onClick={handleDescriptionClose} onTouchEnd={handleDescriptionClose}>
+          <input type="text" placeholder="brief description..." className="bg-lightGrey border-2 border-black w-full h-[100px] text-charcoal"/>
+          <div className="submit-row flex flex-row gap-4 py-4 max-w-[120px] mx-auto">
+            <button className="bg-charcoal w-20 h-10 text-beige" onClick={handleDescriptionClose} onTouchEnd={handleDescriptionClose}>
               cancel
             </button>
-            <button>
+            <button className="bg-charcoal w-20 h-10 text-beige">
               submit
             </button>
           </div>

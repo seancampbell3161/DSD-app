@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { StyleGuide } from './pages/StyleGuide';
 import { Complaint } from './components/complaint/Complaint';
 
@@ -14,7 +14,6 @@ function App() {
         <Routes>
           <Route path="/StyleGuide" element={<StyleGuide />} />
         </Routes>
-
       </Router>
     </> 
   )

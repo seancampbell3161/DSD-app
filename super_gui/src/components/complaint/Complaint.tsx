@@ -44,16 +44,16 @@ export const Complaint = () => {
 
   return (
     <section>
-      <div className="Complaint border-2 border-red relative bottom-0">
+      <div className="Complaint max-w-[400px] h-full my-auto mx-auto py-6 px-4 border-2 border-red relative bottom-0">
         <div className="complaint-header flex flex-row justify-between">
           <h1>Have a complaint?</h1>
-            <button 
-            className={`close-button ${isDescriptionOpen || isModal ? 'block' : 'hidden'} ${!isModal || !isDescriptionOpen ? 'hidden' : ''}`} 
-            onClick={() => { handleDescriptionClose(); handleModalClose(); }}
-            onTouchEnd={() => { handleDescriptionClose(); handleModalClose(); }}
-            >
-              close
-            </button>
+          <button 
+          className={`close-button bg-lightGrey w-10 h-10 ${isDescriptionOpen || isModal ? 'block' : 'hidden'} ${!isModal || !isDescriptionOpen ? 'hidden' : ''}`} 
+          onClick={() => { handleDescriptionClose(); handleModalClose(); }}
+          onTouchEnd={() => { handleDescriptionClose(); handleModalClose(); }}
+          >
+            close
+          </button>
         </div>
         {isDescriptionOpen && window.innerWidth < 431 ? (
           <div className="description" id="description">
@@ -74,15 +74,15 @@ export const Complaint = () => {
             />
           )
         )}
-        <div className={'buttons-grid'}>
-          <button onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
-          Noise
+        <div className={'buttons-grid flex flex-row justify-between py-4'}>
+          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
+          Fixes
           </button>
-          <button onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
+          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
           Super
           </button>
-          <button onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
-          Fixes
+          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
+          Noise
           </button>
         </div>
       </div>

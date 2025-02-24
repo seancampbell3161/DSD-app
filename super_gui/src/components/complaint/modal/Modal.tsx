@@ -26,7 +26,7 @@ export const Modal = ({ isOpen, closeModal,handleOutsideClickOrTap }: ModalProps
                 Leave a brief description in order that Super can best serve you.
               </p>
               <input type="text" placeholder="brief description..." className="bg-lightGrey border-2 border-black"/>
-              <div className="submit-row">
+              <div className="submit-row max-w-[400px] mx-auto">
                 <button onClick={closeModal} onTouchEnd={closeModal}>
                   cancel
                 </button>
