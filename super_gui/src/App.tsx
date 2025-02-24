@@ -1,22 +1,24 @@
-import './App.css'
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { StyleGuide } from './pages/StyleGuide';
+import "./App.css";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { StyleGuide } from "./pages/StyleGuide";
+import Header from "./components/Header";
 
 function App() {
-  
-  return (
-    <>
-      <h1 className='text-red header'>Super App</h1>
-      <Router>
-        <a href="/StyleGuide" className='text-blue underline'>Style Guide</a>
+    return (
+        <>
+            <Header />
 
-        <Routes>
-          <Route path="/StyleGuide" element={<StyleGuide />} />
-        </Routes>
+            <Router>
+                <a href="/StyleGuide" className="text-blue underline">
+                    Style Guide
+                </a>
 
-      </Router>
-    </> 
-  )
+                <Routes>
+                    <Route path="/StyleGuide" element={<StyleGuide />} />
+                </Routes>
+            </Router>
+        </>
+    );
 }
 
-export default App
+export default App;
