@@ -2,12 +2,13 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { StyleGuide } from './pages/StyleGuide';
 import { Complaint } from './components/complaint/Complaint';
+import Header from './components/Header';
 
 function App() {
   
   return (
     <>
-      <h1 className='text-red header'>Super App</h1>
+      <Header />
       <Router>
         <a href="/StyleGuide" className='text-blue underline'>Style Guide</a>
         <Complaint />
@@ -19,4 +20,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
