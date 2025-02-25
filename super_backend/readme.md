@@ -2,14 +2,15 @@
 
 ### Prerequisites
 - Docker Desktop https://docs.docker.com/desktop/
-- java version: 21 (https://www.geeksforgeeks.org/download-install-java-windows-linux-macos/)
+- java version: 21 (https://www.geeksforgeeks.org/download-install-java-windows-linux-macos/). Make sure you also install the `JAVA_HOME` variable discussed in the link.
 - ide. For backend development, IntelliJ is recommend. It has a free community version. https://www.jetbrains.com/idea/download/?section=windows No ide is needed when you are only running the backend to work on the frontend. The instructions below are all in the terminal.
 
 ### Running application
 - go to `super_backend` dir in the terminal
 - Run in terminal `docker compose up -d` to start up docker container with postgres database
-- Run in the terminal `.\mvnw.cmd spring-boot:run` to start up the backend
-
+- Run the following command in the terminal `.\mvnw.cmd spring-boot:run` to start up the backend
+  - Windows: `.\mvnw.cmd spring-boot:run`
+  - Mac/Linux `./mvnw spring-boot:run`. It could be that you have to run `chmod +x mvnw` before you can run `spring-boot:run`
 
 ### Shutting down application
 - In the terminal use `ctrl+c` to shut down the application
