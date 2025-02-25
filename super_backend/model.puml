@@ -1,0 +1,57 @@
+@startuml
+class User{
+primary key
+string name
+string username*
+string email*
+List<RoleType> role
+}
+
+class Apartement {
+long id
+List<User> tenants
+integer apartementNumber
+}
+
+class RoleType{
+}
+
+class Document {
+primary key
+string name
+blob doc
+}
+
+class Lease {
+Date startDate
+Date endDate
+Document doc
+DocStatus docStatus
+Apartement apartement
+}
+
+class DocStatus {
+started, set, done
+}
+
+
+
+
+class Door{
+}
+
+class Locker{
+}
+
+User -- RoleType
+
+Lease -- DocStatus
+Lease -- Document
+Lease -- Apartement
+
+
+
+
+@enduml
+
+https://plantuml.com/class-diagram
