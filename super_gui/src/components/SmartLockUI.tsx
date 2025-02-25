@@ -8,8 +8,8 @@ const SmartLockUI = () => {
         <div className="flex justify-center">
           <div className="flex flex-col items-center mr-6 -my-4 whitespace-nowrap">
             <h2 className="text-white text-xs md:text-base font-extrabold uppercase"></h2>
-            <h2 className=" text-white text-xs md:text-base ">Starting at $</h2>
-            <h2 className="text-white text-xs md:text-base ">Trims: FWD/AWD</h2>
+            <h2 className=" text-white text-xs md:text-base "></h2>
+            <h2 className="text-white text-xs md:text-base "></h2>
           </div>
         </div>
       </div>
