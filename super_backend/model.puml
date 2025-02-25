@@ -5,7 +5,6 @@ string username*
 string email*
 List<RoleType> roles
 List<Apartment> apartments
-List<Building> buildings
 List<Door> doors
 }
 
@@ -49,6 +48,7 @@ class Door{
 Long id
 DoorStatus doorStatus
 Set<DoorCode> doorCodes
+Set<User> allowedToOpen
 }
 
 enum DoorStatus{
@@ -70,12 +70,11 @@ Lease -- DocStatus
 Lease -- Apartment
 User "0..*" -- "0..*" Apartment : > lives is
 Building "1" -- "1..*" Apartment : > has
-Door "1..*" -- "1" Building : < can have entering
+Door "1..*" -- "1" Building : < can be entered by
 Door "1..*" -- "1" Apartment: < has
 Door "1" -- "1" DoorStatus : > has
 Door "1..*" -- "1..*" DoorCode : > can be opened by
 DoorCode "1" -- "1" User :  > issued by
-User "0..*" -- "0..*" Building : > has access to
 User "0..*" -- "0..*" Door : > allowed to open
 
 
