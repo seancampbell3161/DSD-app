@@ -13,7 +13,7 @@ List<User> tenants
 integer apartementNumber
 }
 
-class RoleType{
+enum RoleType{
 }
 
 class Document {
@@ -30,12 +30,12 @@ DocStatus docStatus
 Apartement apartement
 }
 
-class DocStatus {
+enum DocStatus {
 started, set, done
 }
 
-
-
+class Building {
+}
 
 class Door{
 }
@@ -43,11 +43,16 @@ class Door{
 class Locker{
 }
 
+class ParkingSpot {
+}
+
 User -- RoleType
 
 Lease -- DocStatus
 Lease -- Document
 Lease -- Apartement
+User -- Apartement
+Building -- Apartement
 
 
 
