@@ -1,0 +1,1 @@
+INSERT INTO users (username, password, apartment_number, name) values ('test', 'test', 1, 'testname' )

@@ -1,6 +1,0 @@
-2025-02-18 21:58:32.055001-06:00 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into test ([*]1,'ruben')"; expected "identifier"; SQL statement:
-insert into test (1,'ruben') [42001-232]
-2025-02-18 22:21:38.995935-06:00 jdbc[14]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop [*]test"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, MATERIALIZED, VIEW, ROLE, ALIAS, SCHEMA, ALL OBJECTS, DOMAIN, TYPE, AGGREGATE, SYNONYM"; SQL statement:
-drop test [42001-232]
