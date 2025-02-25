@@ -2,7 +2,7 @@
 
 ### Prerequisites
 - Docker Desktop https://docs.docker.com/desktop/
-- java version: 21 (https://www.geeksforgeeks.org/download-install-java-windows-linux-macos/). Make sure you also install the `JAVA_HOME` variable discussed in the link.
+- java version: 21 (https://www.geeksforgeeks.org/download-install-java-windows-linux-macos/). Make sure you also install the `JAVA_HOME` variable discussed in the link. For more info about `JAVA_HOME` use https://www.baeldung.com/java-home-on-windows-mac-os-x-linux
 - ide. For backend development, IntelliJ is recommend. It has a free community version. https://www.jetbrains.com/idea/download/?section=windows No ide is needed when you are only running the backend to work on the frontend. The instructions below are all in the terminal.
 
 ### Running application
