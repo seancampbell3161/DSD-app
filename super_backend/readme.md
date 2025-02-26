@@ -19,6 +19,10 @@
 
 You can go to http://localhost:8080/swagger-ui.html to view the open api definition provided by swagger while running the application
 
+### MapStruct
+
+MapStruct is a package that generates the boilerplate code for mappers. If you name the variables in the entities and DTOs the same, it makes you live really easy. See for quick guide: https://www.baeldung.com/mapstruct
+
 
 ## to use h2 db to persist while we setup postgres
 I added a h2 db to get started persisting and building out your services. Meanwhile we decide where to host our postgres db and backend.
