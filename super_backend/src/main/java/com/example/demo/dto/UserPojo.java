@@ -1,12 +1,14 @@
 package com.example.demo.dto;
 
+import com.example.demo.entities.Apartment;
+import com.example.demo.util.enums.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
 
-@Getter
-@Setter
+import java.util.List;
+
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPojo {
     @NonNull
@@ -14,7 +16,10 @@ public class UserPojo {
     @NonNull
     String password;
     @NonNull
-    Long apartmentNumber;
+    List<Apartment> apartments;
     @NonNull
     String name;
+    @NonNull
+    String email;
+    List<RoleType> roles;
 }
