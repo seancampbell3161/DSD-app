@@ -6,7 +6,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Set;
-//todo test
+//todo and define join table
 @Data
 @Entity
 public class Building {

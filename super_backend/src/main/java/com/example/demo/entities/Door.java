@@ -7,7 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Set;
-//todo  review setup
+//todo  review logic of this table
 @Data
 @Entity(name = "door")
 public class Door {

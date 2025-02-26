@@ -12,7 +12,7 @@ public class DoorCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @OneToMany
-    @JoinColumn(name = "users_id", referencedColumnName = "userId")
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     User issuedBy;
     @Column
     String code;

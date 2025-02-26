@@ -20,8 +20,7 @@ public class Lease {
     @Column
     DocStatus docStatus;
     @Column
-    //todo define cascade
-    @OneToOne(targetEntity = Apartment.class)
-    @JoinColumn(name = "apartment_id", referencedColumnName = "id")
+    //todo define
     Apartment apartment;
+    //todo add userId signed? 
 }

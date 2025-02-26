@@ -8,7 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.List;
-
+//todo design. are people in users table only people that signed leases? should we have a status if they are a potential tenant, active tenant, or past tenant?
 @Data
 @Entity
 @Table(name = "users")
@@ -28,11 +28,10 @@ public class User {
     @Column(columnDefinition = "role_type_enum[]")
     @JdbcTypeCode(SqlTypes.ARRAY)
     List<RoleType> roles;
-    //todo add cascade accordingly. should this be mapped one to one? can a tenant be the current lease owner of multiple apartments?
+    //todo add cascade accordingly. should this be mapped one to one? can a tenant be the current lease owner of multiple apartments? It's possible for multiple people to sign a lease for one apartment. Are people who actually signed a lease to an apartment included here?
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     List<Apartment> apartments;
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
+    //todo define
     List<Door> doors;
 
 
