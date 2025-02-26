@@ -4,25 +4,24 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Set;
-//todo add join tables,define to many to many and test
 @Data
-@Entity(name = "apartment")
+@Entity
+@Table(name = "apartments")
 public class Apartment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column
+
     Integer apartmentNumber;
-    @JoinTable
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "apartments")
     Set<User> tenants;
-    @JoinColumn(name = "current_lease_id", referencedColumnName = "id")
-    @OneToOne
-    Lease currentLease;
-    @JoinTable
-    @ManyToMany
-    Set<Lease> previousLeases;
-    @JoinTable
-    @ManyToMany
+
+    @OneToMany(mappedBy="apartment")
     Set<Door> doors;
+
+    @ManyToOne
+    @JoinColumn(name = "building_id", nullable = false)
+    Building building;
 }

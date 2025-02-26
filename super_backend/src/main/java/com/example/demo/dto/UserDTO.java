@@ -12,7 +12,7 @@ public class UserDTO {
     @NonNull
     String password;
     @NonNull
-    Long apartmentNumber;
+    String email;
     @NonNull
     String name;
 }

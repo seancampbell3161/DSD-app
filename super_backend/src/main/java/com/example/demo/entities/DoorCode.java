@@ -4,18 +4,24 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
-//todo test the user column
+import java.util.Set;
+
 @Data
 @Entity
+@Table(name = "door_codes")
 public class DoorCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @OneToMany
-    @JoinColumn(name = "users_id", referencedColumnName = "id")
+
+    @ManyToOne
+    @JoinColumn(name = "issued_by_user_id")
     User issuedBy;
-    @Column
+
     String code;
-    @Column
+
     ZonedDateTime expireDate;
+
+    @ManyToMany(mappedBy = "doorCodes")
+    Set<Door> doors;
 }

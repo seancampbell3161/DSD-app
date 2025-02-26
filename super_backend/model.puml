@@ -49,6 +49,8 @@ Long id
 DoorStatus doorStatus
 Set<DoorCode> doorCodes
 Set<User> allowedToOpen
+Apartment apartement
+Building building
 }
 
 enum DoorStatus{
@@ -74,7 +76,7 @@ Door "1..*" -- "1" Building : < can be entered by
 Door "1..*" -- "1" Apartment: < has
 Door "1" -- "1" DoorStatus : > has
 Door "1..*" -- "1..*" DoorCode : > can be opened by
-DoorCode "1" -- "1" User :  > issued by
+DoorCode "1..*" -- "1" User :  > issued by
 User "0..*" -- "0..*" Door : > allowed to open
 
 

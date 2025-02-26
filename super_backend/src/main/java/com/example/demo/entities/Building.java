@@ -6,15 +6,18 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Set;
-//todo and define join table
 @Data
 @Entity
+@Table(name = "buildings")
 public class Building {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToMany
+
+    @OneToMany(mappedBy = "building")
     Set<Apartment> apartments;
-    @ManyToMany
+
+    @OneToMany(mappedBy="building")
     Set<Door> doors;
 }
