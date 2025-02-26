@@ -63,6 +63,12 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.dropbox.sign</groupId>
+            <artifactId>dropbox-sign</artifactId>
+            <version>2.4.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
