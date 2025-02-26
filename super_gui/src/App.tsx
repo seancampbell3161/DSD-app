@@ -1,23 +1,27 @@
-import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { StyleGuide } from './pages/StyleGuide';
-import { Complaint } from './components/complaint/Complaint';
-import Header from './components/Header';
+import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { StyleGuide } from "./pages/StyleGuide";
+import { Complaint } from "./components/complaint/Complaint";
+import Header from "./components/Header";
+import SmartLockUI from "./components/SmartLockUI";
 
-function App() {
-  
+const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      <Router>
-        <a href="/StyleGuide" className='text-blue underline'>Style Guide</a>
-        <Complaint />
-        <Routes>
-          <Route path="/StyleGuide" element={<StyleGuide />} />
-        </Routes>
-      </Router>
-    </> 
-  )
-}
+      <nav className=" flex justify-center gap-8">
+        {/* Navigation component */}
+        <Link to="/styleguide">Style Guide</Link>
+        <Link to="/smartlockui">Smart Lock UI</Link>
+        <Link to="/complaint">Complaint</Link>
+      </nav>
+      <Routes>
+        <Route path="/styleguide" element={<StyleGuide />} />
+        <Route path="/smartlockui" element={<SmartLockUI />} />
+        <Route path="/complaint" element={<Complaint />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
