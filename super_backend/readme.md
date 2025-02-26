@@ -57,3 +57,11 @@ screen should be like this
 
 once you logged in this should be what you see. 
 ![img_1.png](img_1.png)
+
+
+## Entity diagram with PlantUML plugin
+
+You need to install the plugin in IntelliJ to create the diagram.y
+
+ - plugin: https://plugins.jetbrains.com/plugin/7017-plantuml-integration
+ - documentation: https://plantuml.com/class-diagram

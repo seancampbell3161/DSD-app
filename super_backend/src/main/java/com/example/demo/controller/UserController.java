@@ -30,7 +30,7 @@ public class UserController {
         description = "Adds a user to the database",
         responses = {
             @ApiResponse(responseCode = "200", description = "User created",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input")
         }
     )
