@@ -15,7 +15,7 @@ public class Door {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     DoorStatus doorStatus;
 
     @ManyToMany
