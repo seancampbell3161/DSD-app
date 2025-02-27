@@ -1,8 +1,10 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.DoorCodeDTO;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.entities.User;
+import java.util.List;
 
 public interface userservice {
     UserDTO saveUser(UserDTO userDTO);
+    List<DoorCodeDTO> getDoorCodesOfUser(Long id);
 }
