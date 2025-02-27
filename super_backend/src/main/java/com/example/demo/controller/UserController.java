@@ -25,16 +25,16 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-     @Operation(
-        summary = "Create a new user",
-        description = "Adds a user to the database",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "User created",
-                content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-        }
+    @Operation(
+            summary = "Create a new user",
+            description = "Adds a user to the database",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User created",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid input")
+            }
     )
-    @PostMapping(path = "/createUser")
+    @PostMapping(path = "")
     public UserDTO createUser(@RequestBody UserDTO user) {
         return userService.saveUser(user);
     }
