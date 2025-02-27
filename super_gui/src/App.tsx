@@ -4,6 +4,7 @@ import { StyleGuide } from "./pages/StyleGuide";
 import { Complaint } from "./components/complaint/Complaint";
 import Header from "./components/Header";
 import SmartLockUI from "./components/SmartLockUI";
+import Parking from "./components/Parking"
 
 const App = () => {
   return (
@@ -14,11 +15,14 @@ const App = () => {
         <Link to="/styleguide">Style Guide</Link>
         <Link to="/smartlockui">Smart Lock UI</Link>
         <Link to="/complaint">Complaint</Link>
+        <Link to="/parking">Parking</Link>
       </nav>
       <Routes>
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/smartlockui" element={<SmartLockUI />} />
         <Route path="/complaint" element={<Complaint />} />
+        <Route path="/parking" element={<Parking />} />
+        
       </Routes>
     </BrowserRouter>
   );
