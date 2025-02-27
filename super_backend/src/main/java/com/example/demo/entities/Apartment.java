@@ -2,8 +2,8 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
-import java.util.Set;
 @Data
 @Entity
 @Table(name = "apartments")
@@ -16,10 +16,10 @@ public class Apartment {
     Integer apartmentNumber;
 
     @ManyToMany(mappedBy = "apartments")
-    Set<User> tenants;
+    List<User> tenants;
 
     @OneToMany(mappedBy="apartment")
-    Set<Door> doors;
+    List<Door> doors;
 
     @ManyToOne
     @JoinColumn(name = "building_id", nullable = false)

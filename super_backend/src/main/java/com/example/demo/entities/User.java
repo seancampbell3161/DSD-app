@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -48,6 +47,6 @@ public class User {
     List<Door> doors;
 
     @OneToMany(mappedBy = "issuedBy")
-    Set<DoorCode> issuedDoorCodes;
+    List<DoorCode> issuedDoorCodes;
 
 }
