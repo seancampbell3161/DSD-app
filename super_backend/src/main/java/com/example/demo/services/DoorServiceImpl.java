@@ -15,7 +15,6 @@ public class DoorServiceImpl implements DoorService{
 
     private final DoorRepository doorRepository;
 
-
     @Override
     public Door getDoor(Long id) {
         Optional<Door> door = doorRepository.findById(id);

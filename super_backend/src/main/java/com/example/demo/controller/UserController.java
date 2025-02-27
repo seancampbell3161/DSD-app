@@ -6,6 +6,7 @@ import com.example.demo.entities.DoorCode;
 import com.example.demo.entities.User;
 import com.example.demo.mappers.DoorCodeMapper;
 import com.example.demo.mappers.UserMapper;
+import com.example.demo.services.DoorCodeService;
 import com.example.demo.services.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,6 +31,8 @@ public class UserController {
 
     private final DoorCodeMapper doorCodeMapper;
 
+    private final DoorCodeService doorCodeService;
+
 
     @Operation( summary = "Get all users")
     @GetMapping
@@ -53,7 +56,6 @@ public class UserController {
         return userMapper.userToUserDTO(newUser);
     }
 
-    @GetMapping("/{id}/door-codes")
     @Operation(
             summary = "Returns the door codes created by the user",
             description = "Retrieves a list of door codes associated with the specified user ID. "
@@ -64,12 +66,22 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "The user does not have any door codes or does not exist.")
             }
     )
+    @GetMapping("/{id}/door-codes")
     public ResponseEntity<List<DoorCodeDTO>> getDoorCodesOfUser(@PathVariable Long id) {
-        List<DoorCodeDTO> doorCodesSet = this.userService.getDoorCodesOfUser(id);
+        List<DoorCode> doorCodesSet = this.userService.getDoorCodesOfUser(id);
         if (doorCodesSet == null || doorCodesSet.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not have door codes");
         }
         List<DoorCodeDTO> doorCodeDTOList = doorCodesSet.stream().map(doorCodeMapper::doorCodeToDoorCodeDTO).toList();
         return ResponseEntity.ok(doorCodeDTOList);
+    }
+
+    @PostMapping(path = "{userId}/doors/{doorId}/door-codes")
+    public ResponseEntity<DoorCodeDTO> createDoorCode(@PathVariable Long userId, @PathVariable Long doorId){
+        DoorCode code = this.doorCodeService.createDoorCode(userId,doorId);
+
+        DoorCodeDTO doorCodeDTO = doorCodeMapper.doorCodeToDoorCodeDTO(code);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(doorCodeDTO);
     }
 }

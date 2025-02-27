@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements userservice{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -30,20 +30,24 @@ public class UserServiceImpl implements userservice{
     }
 
     @Override
-    public List<DoorCodeDTO> getDoorCodesOfUser(Long id) {
     public List<DoorCode> getDoorCodesOfUser(Long id) {
+        User user = getUser(id);
+
+        return user.getIssuedDoorCodes();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUser(Long id) {
         Optional<User> user = userRepository.findById(id);
 
         if(user.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user does not exist");
         }
-
-        List<DoorCodeDTO> doorCodeDTOlist = user.get().getIssuedDoorCodes().stream().map(doorCodeMapper::doorCodeToDoorCodeDTO).toList();
-
-        return doorCodeDTOlist;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return user.get();
     }
 }
