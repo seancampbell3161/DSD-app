@@ -6,15 +6,24 @@
   --color-accentYellow: #ffd700;
   --color-blue: #0a2342;
   --color-accentGreen: #50c878;
+  --color-green: #328f6c;
+  --color-accentBlue: #1358ae;
   --color-charcoal: #333333;
   --color-beige: #edeade;
-  --color-lightGrey: #f4f4f4;
+  --color-brown: #d3c9b8;
+  --color-grey-100: #f4f4f4;
+  --color-grey-400: #d9d9d9;
+  --color-grey-800: #747272;
+  --color-white: #fefefe;
   
   --font-header: "Roboto Condensed", "serif";
+  --font-subHeading: "Playfair Display";
   --font-body: "Raleway";
   
   --text-6xl : 56px;
   --text-5xl : 42px;
+  --text-4xl : 36px;
+  --text-2xl: 28px;
   --text-xl : 21px;
   --text-lg : 14px;
 
@@ -24,13 +33,19 @@
 
 @font-face {
   font-family: "Roboto Condensed", serif;
-  src: url("./public/fonts/RobotoCondensed-Regular.woff2") format("woff2"), url("./public/fonts/RobotoCondensed-SemiBold.woff2") format("woff2");
+  src: url("./fonts/RobotoCondensed-Regular.woff2") format("woff2"), url("./fonts/RobotoCondensed-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Raleway";
-  src: url("./public/fonts/Raleway-Regular.woff2") format("woff2"),
-  url("./public/fonts/Raleway-SemiBold.woff2") format("woff2"),;
+  src: url("./fonts/Raleway-Regular.woff2") format("woff2"),
+  url("./fonts/Raleway-SemiBold.woff2") format("woff2"),;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("./fonts/PlayfairDisplay-VariableFont_wght.woff2") format("woff2"),
+  url("./fonts/Raleway-SemiBold.woff2") format("woff2"),;
 }
 
 
