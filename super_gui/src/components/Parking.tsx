@@ -10,7 +10,7 @@ const Parking = () => {
 
             <button 
                 onClick={() => setIsModalOpen(true)}
-                className="w-full sm:w-auto sm:px-4 py-2 bg-accentGreen text-white uppercase"
+                className="w-full sm:w-auto sm:px-4 py-2 rounded bg-accentGreen text-white uppercase"
             >
                 generate parking pass
             </button>

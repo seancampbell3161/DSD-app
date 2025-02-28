@@ -1,6 +1,6 @@
 const Activeparkpass = () => {
     return (
-        <section className="mt-7 bg-white">
+        <section className="mt-7 rounded bg-white">
             <h3 className="text-lg font-semibold mb-4">Active Passes</h3>
 
             <table className="table-fixed w-full">
