@@ -9,6 +9,7 @@
 - go to `super_backend` dir in the terminal
 - Run in terminal `docker compose up -d` to start up docker container with postgres database
 - Run the following command in the terminal `.\mvnw.cmd spring-boot:run` to start up the backend
+- - bash `./mvnw.cmd spring-boot:run`
   - Windows: `.\mvnw.cmd spring-boot:run`
   - Mac/Linux `./mvnw spring-boot:run`. It could be that you have to run `chmod +x mvnw` before you can run `spring-boot:run`
 
