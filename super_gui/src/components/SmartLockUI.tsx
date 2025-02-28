@@ -127,7 +127,7 @@ const SmartLockUI = () => {
       </div>
 
       {/* MOBILE NAV BAR */}
-      <div className="md:hidden fixed bottom-3 left-0 right-0 bg-white border-t-2 p-2">
+      <div className="md:hidden fixed bottom-3 left-0 right-0 border-t-2 p-2">
         <div className="flex justify-between max-w-4xl mx-auto">
           {menuItems.map((item, index) => (
             <div
