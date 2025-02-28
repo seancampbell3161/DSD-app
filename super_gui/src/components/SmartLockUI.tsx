@@ -5,8 +5,9 @@ import Complaints from "/assets/icons/bxs-folder-open.svg";
 import SmartLocker from "/assets/icons/bxs-package.svg";
 import Key from "/assets/icons/bxs-key.svg";
 import Car from "/assets/icons/bxs-car.svg";
-import User from "/assets/icons/bx-user-circle.svg";
+import User from "/assets/icons/bxs-user.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
+import Lock from "/assets/icons/bx-lock-alt.svg";
 
 const SmartLockUI = () => {
   const menuItems = [
@@ -20,7 +21,7 @@ const SmartLockUI = () => {
   return (
     <main className="min-h-screen relative pb-16 md:pb-0">
       {/* DESKTOP NAV BAR*/}
-      <div className="hidden md:block container mx-auto border-2 max-w-4xl">
+      <div className="hidden md:block container mx-auto border-2 max-w-4xl ">
         <div className="border-b-2 border-t-2 p-2 flex justify-between">
           {menuItems.map((item, index) => (
             <div key={index} className="flex gap-2 items-center w-auto">
@@ -37,43 +38,90 @@ const SmartLockUI = () => {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="container mx-auto border-2 max-w-4xl">
-        {/* LOCK ACCESS */}
-        <div className="mx-auto m-2 p-2">
-          <h2 className="text-xl font-bold mb-2">Hello Moto,</h2>
-          <div className="flex flex-col items-center border rounded-sm p-3 md:p-4">
-            <h2 className="text-lg md:text-xl mb-1">Front Door</h2>
-            <h2 className="mb-3">Status: Locked</h2>
+      <div className="mx-auto m-2 p-2">
+        {/* Hello Moto outside the main container */}
+        <h1 className="text-center text-xl mb-4">Hello Moto,</h1>
 
-            <div className="flex justify-between w-full max-w-xs">
-              <button className="flex justify-center items-center border rounded-sm rounded-r-none p-2 w-1/2">
-                Lock
-              </button>
-              <button className="flex justify-center items-center border rounded-sm rounded-l-none p-2 w-1/2">
-                Unlock
-              </button>
+        {/* Main content container */}
+        <div className="border rounded-lg overflow-hidden">
+          {/* Desktop: stacked vertically with centered content
+        Mobile: horizontal layout with icons on left, content on right */}
+          <div className="flex flex-col md:flex-row">
+            {/* Front Door Section */}
+            <div className="p-4 md:w-1/2">
+              {/* Desktop: centered layout */}
+              <div className="hidden md:flex md:flex-col md:items-center border rounded-2xl h-full">
+                <div className="flex justify-center items-center border rounded-full h-24 w-24 mb-2">
+                  <img src={Lock} alt="Lock" />
+                </div>
+                <h2 className="text-lg mb-1">Front Door</h2>
+                <p className="mb-2">Status: Locked</p>
+                <div className="flex w-48">
+                  <button className="border py-1 px-4 w-1/2">Lock</button>
+                  <button className="border py-1 px-4 w-1/2">Unlock</button>
+                </div>
+              </div>
+
+              {/* Mobile: horizontal layout */}
+              <div className="flex flex-row md:hidden  mb-1 h-48 border rounded-2xl p-2">
+                <div className="flex justify-center items-center border rounded-full h-24 w-24 mr-4">
+                  <img src={Lock} alt="Lock" />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-lg mb-1">Front Door</h2>
+                  <p className="mb-2">Status: Locked</p>
+                  <div className="flex w-full max-w-xs">
+                    <button className="border py-1 px-4 w-1/2">Lock</button>
+                    <button className="border py-1 px-4 w-1/2">Unlock</button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* GUEST ACCESS */}
-        <div className="flex flex-col gap-4 py-4 px-2">
-          <div className="flex justify-center">
-            <img src={User} alt="Smart Locker" className="w-10 h-auto" />
-          </div>
+            {/* Guest Section */}
+            <div className="p-4 md:w-1/2">
+              {/* Desktop: centered layout */}
+              <div className="hidden md:flex md:flex-col md:items-center border rounded-2xl ">
+                <div className="flex justify-center items-center border rounded-full h-24 w-24 mb-2 ">
+                  <div className="flex flex-col items-center">
+                    <img src={User} alt="User" className="" />
+                  </div>
+                </div>
+                <h2 className="text-lg mb-1">Guest</h2>
+                <div className="flex mb-2">
+                  <span className="border px-2 py-1">
+                    <span>USad23@ </span>
+                    <span>Exp: 24hrs</span>
+                  </span>
+                </div>
+                <div className="flex w-48">
+                  <button className="border py-1 px-4 w-1/2">Generate</button>
+                  <button className="border py-1 px-4 w-1/2">Delete</button>
+                </div>
+              </div>
 
-          <h3 className="text-center font-bold text-xl">Guest Access</h3>
-
-          <div className="flex flex-col items-center gap-4">
-            <button className="flex justify-center items-center gap-2 border rounded-sm w-full max-w-xs p-3">
-              <img src={Key} alt="Key" className="w-5 h-5 " />
-              Tap for Lock #
-            </button>
-
-            <button className="flex justify-center items-center gap-2 border rounded-sm w-full max-w-xs p-3">
-              <img src={Car} alt="Car" className="w-5 h-5" />
-              Tap for Parking #
-            </button>
+              {/* Mobile: horizontal layout */}
+              <div className="flex flex-row md:hidden h-48 border rounded-2xl p-2">
+                <div className="flex justify-center items-center border rounded-full h-24 w-24 mr-4">
+                  <div className="flex flex-col items-center">
+                    <img src={User} alt="User" className="" />
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-lg mb-1">Guest</h2>
+                  <div className="flex mb-2">
+                    <span className="border px-2 py-1">
+                      <span>USad23@ </span>
+                      <span>Exp: 24hrs</span>
+                    </span>
+                  </div>
+                  <div className="flex w-full max-w-xs">
+                    <button className="border py-1 px-4 w-1/2">Generate</button>
+                    <button className="border py-1 px-4 w-1/2">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
