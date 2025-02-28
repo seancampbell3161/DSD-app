@@ -58,3 +58,4 @@ lerna-debug.log*
 *.sln
 *.sw?
 /super_backend/super_backend/
+/super_backend/data/mydb.mv.db
