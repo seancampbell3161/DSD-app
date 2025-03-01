@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Door;
 import com.example.demo.entities.DoorCode;
 import com.example.demo.entities.User;
 import com.example.demo.repository.DoorCodeRepository;
@@ -10,6 +9,8 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.util.DoorCodeUtil.getRandomNumberString;
+
 @Service
 @RequiredArgsConstructor
 public class DoorCodeServiceImpl implements DoorCodeService {
@@ -18,23 +19,56 @@ public class DoorCodeServiceImpl implements DoorCodeService {
 
     private final UserService userService;
 
-    private final DoorService doorService;
-
 
     @Override
-    public DoorCode createDoorCode(Long userId, Long doorId) {
+    public DoorCode createDoorCodeForTenant(Long userId) {
         User user = userService.getUser(userId);
-        Door door = doorService.getDoor(doorId);
-        List<Door> doorList = new ArrayList<>();
-        doorList.add(door);
+
+        if(!user.getIssuedDoorCodes().isEmpty()) {
+            for(DoorCode doorCode : user.getIssuedDoorCodes()) {
+                deleteDoorCode(doorCode.getId());
+            }
+        }
 
         DoorCode doorCode = DoorCode.builder()
                 .expireDate(ZonedDateTime.now().plusDays(1))
                 .issuedBy(user)
-                .doors(doorList)
-                .code("12345678")
+                .doors(new ArrayList<>(user.getDoors()))
+                .code(getRandomNumberString())
                 .build();
 
         return doorCodeRepository.save(doorCode);
+    }
+
+    @Override
+    public List<DoorCode> getDoorCodesOfUser(Long id) {
+        User user = this.userService.getUser(id);
+        ZonedDateTime now = ZonedDateTime.now();
+
+        List<DoorCode> doorCodeList = user.getIssuedDoorCodes();
+        List<DoorCode> filteredList = new ArrayList<>();
+
+        for (DoorCode doorCode : doorCodeList) {
+            if (now.isAfter(doorCode.getExpireDate())) {
+                deleteDoorCode(doorCode.getId());
+            } else {
+                filteredList.add(doorCode);
+            }
+        }
+        return  filteredList;
+    }
+
+    @Override
+    public void deleteDoorCode(Long doorCodeId) {
+        this.doorCodeRepository.deleteById(doorCodeId);
+    }
+
+    @Override
+    public void deleteDoorCodeOfTenant(Long userId) {
+        User tenant = userService.getUser(userId);
+
+        for(DoorCode doorCode : tenant.getIssuedDoorCodes()){
+            deleteDoorCode(doorCode.getId());
+        }
     }
 }

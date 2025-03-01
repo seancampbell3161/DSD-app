@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.UserDTO;
-import com.example.demo.entities.DoorCode;
 import com.example.demo.entities.User;
 import com.example.demo.mappers.UserMapper;
 import com.example.demo.repository.UserRepository;
@@ -29,12 +28,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Override
-    public List<DoorCode> getDoorCodesOfUser(Long id) {
-        User user = getUser(id);
-
-        return user.getIssuedDoorCodes();
-    }
 
     @Override
     public List<User> getAllUsers() {

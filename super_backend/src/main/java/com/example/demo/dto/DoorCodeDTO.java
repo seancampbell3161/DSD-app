@@ -5,6 +5,9 @@ import java.time.ZonedDateTime;
 
 @Data
 public class DoorCodeDTO {
+
+    Long id;
+
     String code;
 
     ZonedDateTime expireDate;
