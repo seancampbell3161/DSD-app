@@ -15,7 +15,7 @@ const Activeparkpass = () => {
     };
 
     return (
-        <section className="mt-7 pt-1 bg-white">
+        <section className="mt-7 py-3 px-2 bg-white">
             <h3 className="text-lg font-semibold m-2 ml-4 text-left">Active Passes</h3>
 
             <table className="table-fixed w-full">
@@ -32,19 +32,19 @@ const Activeparkpass = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item) => (
-                        <tr key={item.id} className="border-b border-beige">
+                    {data.map((pass) => (
+                        <tr key={pass.id} className="border-b border-beige">
                             <td className="w-1/3 p-2 text-left border-r border-beige">
-                                {showLicensePlate ? item.licensePlate : item.name}
+                                {showLicensePlate ? pass.licensePlate : pass.name}
                             </td>
-                            <td className="w-1/3 p-2 text-left border-r border-beige">{item.code}</td>
-                            <td className="w-1/3 p-2 text-left">{item.time}</td>
+                            <td className="w-1/3 p-2 text-left border-r border-beige">{pass.code}</td>
+                            <td className="w-1/3 p-2 text-left">{pass.time}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <p className="m-7">Contact management if more than 3 guest passes are needed.</p>
+            <p className="m-7 text-charcoal italic">Contact management if more than 3 guest passes are needed.</p>
         </section>
     );
 };
