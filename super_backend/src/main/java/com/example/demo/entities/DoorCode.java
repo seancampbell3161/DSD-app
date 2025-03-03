@@ -1,14 +1,17 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
+import lombok.*;
 import java.time.ZonedDateTime;
-import java.util.Set;
+import java.util.List;
+
 
 @Data
+@Builder
 @Entity
 @Table(name = "door_codes")
+@NoArgsConstructor
+@AllArgsConstructor
 public class DoorCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +26,5 @@ public class DoorCode {
     ZonedDateTime expireDate;
 
     @ManyToMany(mappedBy = "doorCodes")
-    Set<Door> doors;
+    List<Door> doors;
 }
