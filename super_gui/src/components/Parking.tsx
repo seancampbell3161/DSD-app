@@ -10,7 +10,7 @@ const Parking = () => {
 
             <button 
                 onClick={() => setIsModalOpen(true)}
-                className="w-full sm:w-auto sm:px-4 py-2 rounded bg-accentGreen text-white uppercase"
+                className="w-full sm:w-auto sm:px-4 py-2 bg-blue text-white uppercase"
             >
                 generate parking pass
             </button>
@@ -18,7 +18,7 @@ const Parking = () => {
             {/* Modal with backdrop blur */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm backdrop-brightness-50 flex justify-center items-center">
-                    <div className="bg-white p-6 sm:rounded-lg w-full max-w-md shadow-lg">
+                    <div className="bg-white p-6 w-full max-w-md shadow-lg">
                         <form>
                             <div className="mb-4">
                                 <label htmlFor="apartment" className="block text-sm font-medium text-gray-700">Apartment</label>
