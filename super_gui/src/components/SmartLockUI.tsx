@@ -6,6 +6,7 @@ import SmartLocker from "/assets/icons/bxs-package.svg";
 import User from "/assets/icons/bxs-user.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 import Lock from "/assets/icons/bx-lock-alt.svg";
+import DigitalLease from "./DigitalLease"
 
 const SmartLockUI = () => {
   const menuItems = [
@@ -17,15 +18,15 @@ const SmartLockUI = () => {
   ];
 
   return (
-    <main className="min-h-screen relative pb-16 md:pb-0">
+    <main className="relative min-h-screen pb-16 md:pb-0">
       {/* DESKTOP NAV BAR LAYOUT*/}
-      <div className="hidden md:block container mx-auto border-2 max-w-4xl">
-        <div className="border-b-2 border-t-2 p-2 flex justify-between">
+      <div className="container hidden max-w-4xl mx-auto border-2 md:block">
+        <div className="flex justify-between p-2 border-t-2 border-b-2">
           {menuItems.map((item, index) => (
-            <div key={index} className="flex gap-2 items-center w-auto">
+            <div key={index} className="flex items-center w-auto gap-2">
               <Link
                 to=""
-                className="border rounded-full p-2 flex-shrink-0 bg-gray-800 hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none transition duration-500 group"
+                className="flex-shrink-0 p-2 transition duration-500 bg-gray-800 border rounded-full hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none group"
               >
                 <img src={item.Icon} alt={item.alt} className="w-6 h-6" />
               </Link>
@@ -36,33 +37,33 @@ const SmartLockUI = () => {
       </div>
 
       {/* MAIN CONTENT */}
-      <main className="mx-auto max-w-4xl m-4 p-4">
-        <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold mb-4">
+      <main className="max-w-4xl p-4 m-4 mx-auto">
+        <h1 className="mb-4 text-xl font-semibold text-center sm:text-2xl md:text-3xl">
           Welcome Back: Rudy Moto!
         </h1>
-        <div className="border rounded-xl shadow-md overflow-hidden">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-0">
+        <div className="overflow-hidden border shadow-md rounded-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:gap-0">
             {/* DESKTOP FRONT DOOR LAYOUT */}
-            <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
-              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition">
-                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-4 shadow-sm">
+            {/* <div className="flex justify-center p-4 md:p-6 md:w-1/2">
+              <div className="hidden w-full max-w-sm p-6 transition border shadow-sm md:flex md:flex-col md:items-center md:justify-center rounded-2xl hover:shadow">
+                <div className="flex items-center justify-center w-32 h-32 mb-4 border rounded-full shadow-sm">
                   <img src={Lock} alt="Lock" className="w-20 h-20" />
                 </div>
-                <h2 className="text-xl font-bold mb-2">Front Door</h2>
+                <h2 className="mb-2 text-xl font-bold">Front Door</h2>
                 <p className="mb-6 text-center">Status: Locked</p>
                 <div className="flex w-full max-w-xs">
-                  <button className="border rounded-l-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
+                  <button className="w-1/2 px-4 py-2 font-medium transition border rounded-l-lg hover:bg-gray-50 active:bg-gray-100">
                     Lock
                   </button>
-                  <button className="border rounded-r-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
+                  <button className="w-1/2 px-4 py-2 font-medium transition border rounded-r-lg hover:bg-gray-50 active:bg-gray-100">
                     Unlock
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               {/* MOBILE FRONT DOOR LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex justify-center items-center border rounded-full h-24 w-24 sm:h-28 sm:w-28 mr-4 shadow-sm">
+              {/* <div className="flex flex-row w-full p-4 border shadow-sm md:hidden rounded-2xl">
+                <div className="flex items-center justify-center w-24 h-24 mr-4 border rounded-full shadow-sm sm:h-28 sm:w-28">
                   <img
                     src={Lock}
                     alt="Lock"
@@ -70,52 +71,52 @@ const SmartLockUI = () => {
                   />
                 </div>
                 <div className="flex flex-col justify-center flex-1 text-center">
-                  <h2 className="text-lg sm:text-xl font-bold mb-2">
+                  <h2 className="mb-2 text-lg font-bold sm:text-xl">
                     Front Door
                   </h2>
                   <p className="mb-4">Status: Locked</p>
                   <div className="flex w-full">
-                    <button className="border rounded-l-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
+                    <button className="w-1/2 px-3 py-2 font-medium transition border rounded-l-lg sm:px-4 active:bg-gray-100">
                       Lock
                     </button>
-                    <button className="border rounded-r-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
+                    <button className="w-1/2 px-3 py-2 font-medium transition border rounded-r-lg sm:px-4 active:bg-gray-100">
                       Unlock
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* DESKTOP GUEST LAYOUT */}
-            <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
-              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition">
-                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-4 shadow-sm">
+            {/* <div className="flex justify-center p-4 md:p-6 md:w-1/2">
+              <div className="hidden w-full max-w-sm p-6 transition border shadow-sm md:flex md:flex-col md:items-center md:justify-center rounded-2xl hover:shadow">
+                <div className="flex items-center justify-center w-32 h-32 mb-4 border rounded-full shadow-sm">
                   <img src={User} alt="User" className="w-20 h-20" />
                 </div>
-                <h2 className="text-xl font-bold mb-2">Guest</h2>
+                <h2 className="mb-2 text-xl font-bold">Guest</h2>
 
-                <div className="flex justify-center mb-6 w-full">
-                  <div className="flex flex-col border rounded-lg px-3 py-2 gap-2 w-full max-w-md mx-auto shadow-sm">
-                    <span className="border rounded-sm px-3 p-1 overflow-hidden text-ellipsis whitespace-nowrap text-center font-mono">
+                <div className="flex justify-center w-full mb-6">
+                  <div className="flex flex-col w-full max-w-md gap-2 px-3 py-2 mx-auto border rounded-lg shadow-sm">
+                    <span className="p-1 px-3 overflow-hidden font-mono text-center border rounded-sm text-ellipsis whitespace-nowrap">
                       USad23@
                     </span>
-                    <span className="text-center text-sm">Exp: 24hrs</span>
+                    <span className="text-sm text-center">Exp: 24hrs</span>
                   </div>
                 </div>
 
                 <div className="flex w-full max-w-xs">
-                  <button className="border rounded-l-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
+                  <button className="w-1/2 px-4 py-2 font-medium transition border rounded-l-lg hover:bg-gray-50 active:bg-gray-100">
                     Generate
                   </button>
-                  <button className="border rounded-r-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
+                  <button className="w-1/2 px-4 py-2 font-medium transition border rounded-r-lg hover:bg-gray-50 active:bg-gray-100">
                     Delete
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               {/* MOBILE GUEST LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex justify-center items-center border rounded-full h-24 w-24 sm:h-28 sm:w-28 mr-4 shadow-sm">
+              {/* <div className="flex flex-row w-full p-4 border shadow-sm md:hidden rounded-2xl">
+                <div className="flex items-center justify-center w-24 h-24 mr-4 border rounded-full shadow-sm sm:h-28 sm:w-28">
                   <img
                     src={User}
                     alt="User"
@@ -123,43 +124,45 @@ const SmartLockUI = () => {
                   />
                 </div>
                 <div className="flex flex-col justify-center flex-1 text-center">
-                  <h2 className="text-lg sm:text-xl font-bold mb-2">Guest</h2>
+                  <h2 className="mb-2 text-lg font-bold sm:text-xl">Guest</h2>
                   <div className="flex justify-center mb-3">
-                    <div className="flex flex-col border rounded-lg px-3 py-1 gap-1 w-full max-w-md mx-auto shadow-sm">
-                      <span className="border rounded-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap text-center font-mono text-sm">
+                    <div className="flex flex-col w-full max-w-md gap-1 px-3 py-1 mx-auto border rounded-lg shadow-sm">
+                      <span className="px-2 py-1 overflow-hidden font-mono text-sm text-center border rounded-sm text-ellipsis whitespace-nowrap">
                         USad23@
                       </span>
-                      <span className="text-center text-xs sm:text-sm">
+                      <span className="text-xs text-center sm:text-sm">
                         Exp: 24hrs
                       </span>
                     </div>
                   </div>
                   <div className="flex w-full">
-                    <button className="border rounded-l-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
+                    <button className="w-1/2 px-3 py-2 font-medium transition border rounded-l-lg sm:px-4 active:bg-gray-100">
                       Generate
                     </button>
-                    <button className="border rounded-r-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
+                    <button className="w-1/2 px-3 py-2 font-medium transition border rounded-r-lg sm:px-4 active:bg-gray-100">
                       Delete
                     </button>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
+            <DigitalLease />
           </div>
+  
         </div>
       </main>
 
       {/* MOBILE NAV BAR */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 p-2 bg-white shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 p-2 bg-white border-t-2 shadow-lg md:hidden">
         <div className="flex justify-around max-w-4xl mx-auto">
           {menuItems.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col gap-1 items-center w-auto"
+              className="flex flex-col items-center w-auto gap-1"
             >
               <Link
                 to=""
-                className="border rounded-full p-2 flex-shrink-0 bg-gray-800 hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none transition duration-500 group"
+                className="flex-shrink-0 p-2 transition duration-500 bg-gray-800 border rounded-full hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none group"
               >
                 <img src={item.Icon} alt={item.alt} className="w-5 h-5" />
               </Link>
