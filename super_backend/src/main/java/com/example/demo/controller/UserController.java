@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -22,10 +23,14 @@ public class UserController {
 
     private final UserMapper userMapper;
 
+    @Value("${JWT_SECRET}")
+    private String test;
+
 
     @Operation( summary = "Get all users")
     @GetMapping
     public List<UserDTO> getUsers() {
+        log.info(test);
         List<User> userList = userService.getAllUsers();
         return userList.stream().map(userMapper::userToUserDTO).toList();
     }
