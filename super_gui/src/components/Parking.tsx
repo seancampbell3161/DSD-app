@@ -21,16 +21,6 @@ const Parking = () => {
                     <div className="bg-white p-6 w-full max-w-md shadow-lg">
                         <form>
                             <div className="mb-4">
-                                <label htmlFor="apartment" className="block text-sm font-medium text-gray-700">Apartment</label>
-                                <input
-                                    type="text"
-                                    name="apartment"
-                                    id="apartment"
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentGreen focus:border-accentGreen sm:text-sm"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                                 <input
                                     type="text"
