@@ -19,6 +19,8 @@ const menuItems = [
 
 const SmartLockUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
+  // const [guestAccess, setGuestAccess] = useState<string | null>(null);
+
   const doorId = 1; // Initial Door value:
 
   // GET Door status
@@ -131,12 +133,21 @@ const SmartLockUI = () => {
                   <h2 className="text-lg sm:text-xl font-bold mb-2">
                     Front Door
                   </h2>
-                  <p className="mb-4">Status: Locked</p>
-                  <div className="flex justify-center w-full">
-                    <button className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Unlock
-                    </button>
-                  </div>
+                  {lockStatus === null ? (
+                    <p className="italic">Loading door status...</p>
+                  ) : (
+                    <>
+                      <p className="mb-4">Status: {lockStatus}</p>
+                      <div className="flex justify-center w-full">
+                        <button
+                          onClick={updateDoorStatus}
+                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition"
+                        >
+                          {lockStatus === "Locked" ? "Unlocked" : "Locked"}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
