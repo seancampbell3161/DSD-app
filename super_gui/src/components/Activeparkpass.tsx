@@ -1,4 +1,6 @@
 import { useState } from "react";
+import trashCan from '/assets/icons/bin.svg';
+import swap from '/assets/icons/swap.svg';
 
 const Activeparkpass = () => {
     const [showLicensePlate, setShowLicensePlate] = useState(false);
@@ -18,27 +20,34 @@ const Activeparkpass = () => {
         <section className="mt-7 py-3 px-2 bg-white rounded">
             <h3 className="text-lg font-semibold m-2 ml-4 text-left">Active Passes</h3>
 
-            <table className="table-fixed w-full">
+            <table className=" w-full">
                 <thead>
                     <tr className="border-b border-beige">
-                        <th
-                            className="w-1/3 p-2 text-left font-normal border-b border-beige cursor-pointer"
-                            onClick={toggleDisplay}
-                        >
-                            Name / Plate
-                        </th>
-                        <th className="w-1/3 p-2 text-left font-normal border-b border-beige">Access Code</th>
-                        <th className="w-1/3 p-2 text-left font-normal border-b border-beige">Time</th>
+                    <th
+                        className=" p-2 text-left font-normal border-b border-beige cursor-pointer"
+                        onClick={toggleDisplay}
+                    >
+                        <div className="flex items-center">
+                            Name <img src={swap} alt="Swap" className="h-3 mx-1" /> Plate
+                        </div>
+                    </th>
+                        <th className=" p-2 text-left font-normal border-b border-beige">Access Code</th>
+                        <th className=" p-2 text-left font-normal border-b border-beige">Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((pass) => (
                         <tr key={pass.id} className="border-b border-beige">
-                            <td className="w-1/3 p-2 text-left border-r border-beige">
+                            <td className=" p-2 text-left border-r border-beige">
                                 {showLicensePlate ? pass.licensePlate : pass.name}
                             </td>
-                            <td className="w-1/3 p-2 text-left border-r border-beige">{pass.code}</td>
-                            <td className="w-1/3 p-2 text-left">{pass.time}</td>
+                            <td className=" p-2 text-left border-r border-beige">{pass.code}</td>
+                            <td className=" p-2 text-left">{pass.time}</td>
+                            <td className=" p-2">
+                                <div className="flex justify-end">
+                                    <img src={trashCan} alt="Bin" className="h-5"/>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
