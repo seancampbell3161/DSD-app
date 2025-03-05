@@ -38,7 +38,7 @@ const SmartLockUI = () => {
         );
         if (res.ok) {
           const data = await res.json();
-          setLockStatus(data.status);
+          setLockStatus(data);
         } else {
           console.error("Failed to determine door status");
         }
@@ -47,22 +47,25 @@ const SmartLockUI = () => {
       }
     };
     fetchDoorStatus();
-  }, [doorId]); // Only run when doorId changes
+  }, []); // Only run when doorId changes
 
   // UPDATE Door Status
   const updateDoorStatus = async () => {
     if (lockStatus === null) return;
-    const newStatus = lockStatus === "Locked" ? "Unlocked" : "Locked";
+    const newStatus = lockStatus === "locked";
     try {
-      const res = await fetch(`http://localhost:8080/doors/${doorId}/status`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      const res = await fetch(
+        `http://localhost:8080/doors/${doorId}/status?openTheDoor=${newStatus}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (res.ok) {
-        setLockStatus(newStatus);
+        const data = await res.json();
+        setLockStatus(data);
       } else {
         console.error("Failed to update door status");
       }
@@ -113,7 +116,7 @@ const SmartLockUI = () => {
                         onClick={updateDoorStatus}
                         className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition"
                       >
-                        {lockStatus === "Locked" ? "Unlocked" : "Locked"}
+                        {lockStatus === "locked" ? "unlocked" : "locked"}
                       </button>
                     </div>
                   </>
