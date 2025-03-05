@@ -13,4 +13,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     User getUser(Long id);
+
+//    Optional<User> getUserbyUsername(String username);
 }

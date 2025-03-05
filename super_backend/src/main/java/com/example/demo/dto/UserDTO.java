@@ -2,21 +2,23 @@ package com.example.demo.dto;
 
 import com.example.demo.util.enums.RoleType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.List;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserDTO {
-    @NonNull
-    String username;
-    @NonNull
-    String password;
-    @NonNull
-    String email;
-    @NonNull
-    String name;
-    List<RoleType> roles;
+
+    private Long id;
+
+    private String username;
+
+    private String email;
+
+    private String name;
+
+    private List<RoleType> roles;
 }
