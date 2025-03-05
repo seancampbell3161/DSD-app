@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FrontDoor from "/assets/icons/bx-door-open.svg";
 import Parking from "/assets/icons/bxs-parking.svg";
@@ -7,15 +8,71 @@ import User from "/assets/icons/bxs-user.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 import Lock from "/assets/icons/bx-lock-alt.svg";
 
-const SmartLockUI = () => {
-  const menuItems = [
-    { Icon: FrontDoor, alt: "FrontDoor" },
-    { Icon: Parking, alt: "Parking" },
-    { Icon: Complaints, alt: "Complaints" },
-    { Icon: Lease, alt: "Lease" },
-    { Icon: SmartLocker, alt: "SmartLocker" },
-  ];
+// Navigation Icons:
+const menuItems = [
+  { Icon: FrontDoor, alt: "FrontDoor" },
+  { Icon: Parking, alt: "Parking" },
+  { Icon: Complaints, alt: "Complaints" },
+  { Icon: Lease, alt: "Lease" },
+  { Icon: SmartLocker, alt: "SmartLocker" },
+];
 
+const SmartLockUI = () => {
+  const [lockStatus, setLockStatus] = useState<string | null>(null);
+  // const [guestAccess, setGuestAccess] = useState<string | null>(null);
+
+  const doorId = 1; // Initial Door value:
+
+  // GET Door status
+  useEffect(() => {
+    const fetchDoorStatus = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8080/doors/${doorId}/status`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setLockStatus(data);
+        } else {
+          console.error("Failed to determine door status");
+        }
+      } catch (error) {
+        console.error("Error determining door status:", error);
+      }
+    };
+    fetchDoorStatus();
+  }, []); // Only run when doorId changes
+
+  // UPDATE Door Status
+  const updateDoorStatus = async () => {
+    if (lockStatus === null) return;
+    const newStatus = lockStatus === "locked";
+    try {
+      const res = await fetch(
+        `http://localhost:8080/doors/${doorId}/status?openTheDoor=${newStatus}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setLockStatus(data);
+      } else {
+        console.error("Failed to update door status");
+      }
+    } catch (error) {
+      console.error("Error updating door status:", error);
+    }
+  };
   return (
     <main className="min-h-screen relative pb-16 md:pb-0">
       {/* DESKTOP NAV BAR LAYOUT*/}
@@ -45,19 +102,25 @@ const SmartLockUI = () => {
             {/* DESKTOP FRONT DOOR LAYOUT */}
             <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
               <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition">
-                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-4 shadow-sm">
+                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-8 shadow-sm">
                   <img src={Lock} alt="Lock" className="w-20 h-20" />
                 </div>
                 <h2 className="text-xl font-bold mb-2">Front Door</h2>
-                <p className="mb-6 text-center">Status: Locked</p>
-                <div className="flex w-full max-w-xs">
-                  <button className="border rounded-l-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
-                    Lock
-                  </button>
-                  <button className="border rounded-r-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
-                    Unlock
-                  </button>
-                </div>
+                {lockStatus === null ? (
+                  <p className="italic">Loading door status...</p>
+                ) : (
+                  <>
+                    <p className="mb-6 text-center">Status: {lockStatus}</p>
+                    <div className="flex justify-center w-full max-w-xs">
+                      <button
+                        onClick={updateDoorStatus}
+                        className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition"
+                      >
+                        {lockStatus === "locked" ? "unlocked" : "locked"}
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* MOBILE FRONT DOOR LAYOUT */}
@@ -73,15 +136,21 @@ const SmartLockUI = () => {
                   <h2 className="text-lg sm:text-xl font-bold mb-2">
                     Front Door
                   </h2>
-                  <p className="mb-4">Status: Locked</p>
-                  <div className="flex w-full">
-                    <button className="border rounded-l-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Lock
-                    </button>
-                    <button className="border rounded-r-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Unlock
-                    </button>
-                  </div>
+                  {lockStatus === null ? (
+                    <p className="italic">Loading door status...</p>
+                  ) : (
+                    <>
+                      <p className="mb-4">Status: {lockStatus}</p>
+                      <div className="flex justify-center w-full">
+                        <button
+                          onClick={updateDoorStatus}
+                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition"
+                        >
+                          {lockStatus === "Locked" ? "Unlocked" : "Locked"}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -94,7 +163,7 @@ const SmartLockUI = () => {
                 </div>
                 <h2 className="text-xl font-bold mb-2">Guest</h2>
 
-                <div className="flex justify-center mb-6 w-full">
+                <div className="flex justify-center mb-3 w-full">
                   <div className="flex flex-col border rounded-lg px-3 py-2 gap-2 w-full max-w-md mx-auto shadow-sm">
                     <span className="border rounded-sm px-3 p-1 overflow-hidden text-ellipsis whitespace-nowrap text-center font-mono">
                       USad23@
@@ -103,12 +172,9 @@ const SmartLockUI = () => {
                   </div>
                 </div>
 
-                <div className="flex w-full max-w-xs">
-                  <button className="border rounded-l-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
-                    Generate
-                  </button>
-                  <button className="border rounded-r-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
-                    Delete
+                <div className="flex justify-center w-full max-w-xs">
+                  <button className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition">
+                    Cancel
                   </button>
                 </div>
               </div>
@@ -134,12 +200,9 @@ const SmartLockUI = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex w-full">
-                    <button className="border rounded-l-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Generate
-                    </button>
-                    <button className="border rounded-r-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Delete
+                  <div className="flex justify-center w-full">
+                    <button className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
+                      Cancel
                     </button>
                   </div>
                 </div>
