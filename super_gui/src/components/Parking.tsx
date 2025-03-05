@@ -7,7 +7,7 @@ const Parking = () => {
 
     return (
             <section className="sm:grid sm:grid-cols-2 sm:gap-4 p-4 bg-beige text-center min-h-screen">
-                <div className='sm:bg-white self-start sm:mt-7 sm:p-5'>
+                <div className='sm:bg-white self-start sm:mt-7 sm:p-5 sm:rounded'>
                     <h2 
                         className="mt-12 mb-4 text-3xl font-semibold
                                     sm:text-lg sm:font-semibold sm:m-2 sm:ml-4 sm:text-left">
