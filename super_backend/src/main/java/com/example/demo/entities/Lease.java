@@ -19,8 +19,8 @@ public class Lease {
     final ZonedDateTime startDate;
     @Column(nullable = false, name = "lease_end_date")
     final ZonedDateTime endDate;
-    @Column(nullable = false, name = "dropbox_request_id")
-    String dropBoxRequestId;
+    @Column(nullable = false, name = "external_id")
+    String externalId;
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "DEFAULT 'draft'")
     DocStatus status;
