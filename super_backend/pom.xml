@@ -93,6 +93,11 @@
             <version>2.4.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>7.0.0</version>
+        </dependency>
 
     </dependencies>
 
