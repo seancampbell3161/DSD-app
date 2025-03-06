@@ -4,6 +4,8 @@ import com.example.demo.util.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "roles")
@@ -15,6 +17,9 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private RoleType name;
+
+//    @ManyToMany(mappedBy = "roles")
+//    private Set<User> users;
 
     public Role() {
 

@@ -18,17 +18,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final UserMapper userMapper;
-
-    @Override
-    public User saveUser(UserDTO userDTO) {
-
-        User user = userMapper.userDTOtoUser(userDTO);
-
-        return userRepository.save(user);
-    }
-
-
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();

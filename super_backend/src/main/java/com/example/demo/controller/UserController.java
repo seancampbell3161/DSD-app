@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -23,32 +22,28 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    @Value("${JWT_SECRET}")
-    private String test;
-
 
     @Operation( summary = "Get all users")
     @GetMapping
     public List<UserDTO> getUsers() {
-        log.info(test);
         List<User> userList = userService.getAllUsers();
         return userList.stream().map(userMapper::userToUserDTO).toList();
     }
 
-    @Operation(
-            summary = "Create a new user",
-            description = "Adds a user to the database",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "User created",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid input")
-            }
-    )
-    @PostMapping(path = "")
-    public UserDTO createUser(@RequestBody UserDTO user) {
-        User newUser = userService.saveUser(user);
-        return userMapper.userToUserDTO(newUser);
-    }
+//    @Operation(
+//            summary = "Create a new user",
+//            description = "Adds a user to the database",
+//            responses = {
+//                    @ApiResponse(responseCode = "200", description = "User created",
+//                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
+//                    @ApiResponse(responseCode = "400", description = "Invalid input")
+//            }
+//    )
+//    @PostMapping(path = "")
+//    public UserDTO createUser(@RequestBody UserDTO user) {
+//        User newUser = userService.saveUser(user);
+//        return userMapper.userToUserDTO(newUser);
+//    }
 
 
 
