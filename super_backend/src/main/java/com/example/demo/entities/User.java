@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import com.example.demo.util.enums.RoleType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 import java.util.List;
@@ -17,16 +18,16 @@ public class User {
     Long id;
 
     @Column(nullable = false, unique = true)
-    String username;
+    final String username;
 
     @Column(nullable = false)
-    String password;
-
+    final String password;
+    @Email(message = "Email format should be valid")
     @Column(unique = true, nullable = false)
-    String email;
+    final String email;
 
     @Column(nullable = false)
-    String name;
+    final String name;
 
     @ElementCollection(targetClass = RoleType.class)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -50,4 +51,6 @@ public class User {
     @OneToMany(mappedBy = "issuedBy")
     Set<DoorCode> issuedDoorCodes;
 
+    @OneToOne(mappedBy = "user")
+    Tenant tenantProfile;
 }
