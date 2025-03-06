@@ -72,9 +72,11 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     @Override
     public User register(RegisterUserRequest request) {
+        log.info("before checking");
         if (userService.existsByUsername(request.getUsername())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already registered");
         }
+        log.info("after checking");
 
         if (userService.existsByEmail(request.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registered");
