@@ -1,6 +1,6 @@
 package com.example.demo.entities;
 
-import utils.enums.DoorStatus;
+import com.example.demo.utils.enums.DoorStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 

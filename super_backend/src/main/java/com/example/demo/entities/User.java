@@ -1,6 +1,6 @@
 package com.example.demo.entities;
 
-import utils.enums.RoleType;
+import com.example.demo.utils.enums.RoleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;

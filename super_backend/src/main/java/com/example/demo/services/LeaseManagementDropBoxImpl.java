@@ -5,6 +5,7 @@ import com.dropbox.sign.ApiException;
 import com.dropbox.sign.api.SignatureRequestApi;
 import com.dropbox.sign.model.*;
 import com.example.demo.dto.LeaseSignRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
