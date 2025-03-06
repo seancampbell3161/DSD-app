@@ -7,6 +7,9 @@ import SmartLocker from "/assets/icons/bxs-package.svg";
 import User from "/assets/icons/bxs-user.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 import Lock from "/assets/icons/bx-lock-alt.svg";
+import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
+import Placeholder from "/assets/images/placeholder.jpg";
+import FrontDoorModal from "./FrontDoorModal";
 
 // Navigation Icons:
 const menuItems = [
@@ -19,7 +22,8 @@ const menuItems = [
 
 const SmartLockUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
-  // const [guestAccess, setGuestAccess] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasConfirmed, setHasConfirmed] = useState(false);
 
   const doorId = 1; // Initial Door value:
 
@@ -48,7 +52,7 @@ const SmartLockUI = () => {
       }
     };
     fetchDoorStatus();
-  }, []); // Only run when doorId changes
+  }, []);
 
   // UPDATE Door Status
   const updateDoorStatus = async () => {
@@ -65,9 +69,7 @@ const SmartLockUI = () => {
         }
       );
       if (res.ok) {
-        const data = await res.json();
-        setLockStatus(data);
-        console.log(`Door Status:`, data);
+        setIsModalOpen(true);
       } else {
         console.error("Failed to update door status");
       }
@@ -75,8 +77,42 @@ const SmartLockUI = () => {
       console.error("Error updating door status:", error);
     }
   };
+
+  const handleConfirmation = (response: boolean) => {
+    setHasConfirmed(response);
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (hasConfirmed) {
+      const proceedWithUpdate = async () => {
+        const res = await fetch(
+          `http://localhost:8080/doors/${doorId}/status?openTheDoor=${
+            lockStatus === "locked" ? true : false
+          }`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setLockStatus(data);
+          console.log(`Door Status:`, data);
+        } else {
+          console.error("Error updating door status");
+        }
+      };
+
+      proceedWithUpdate();
+      setHasConfirmed(false);
+    }
+  }, [hasConfirmed, lockStatus, doorId]);
+
   return (
-    <main className="min-h-screen relative pb-16 md:pb-0">
+    <main className="min-h-screen  relative pb-16 md:pb-0 bg-[#D3C9B8]">
       {/* DESKTOP NAV BAR LAYOUT*/}
       <div className="hidden md:block container mx-auto border-2 max-w-4xl">
         <div className="border-b-2 border-t-2 p-2 flex justify-between">
@@ -95,32 +131,63 @@ const SmartLockUI = () => {
       </div>
 
       {/* MAIN CONTENT */}
+
       <main className="mx-auto max-w-4xl m-4 p-4">
-        <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold mb-4">
-          Welcome Back: Rudy Moto!
-        </h1>
         <div className="border rounded-xl shadow-md overflow-hidden">
-          <div className="flex flex-col md:flex-row gap-4 md:gap-0">
+          <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white bg-accentBlue">
+            Welcome Back: Laura Johnson
+          </h1>
+          <div className="flex flex-col md:flex-row gap-4 md:gap-0 bg-accentBlue">
             {/* DESKTOP FRONT DOOR LAYOUT */}
             <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
-              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition">
-                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-8 shadow-sm">
-                  <img src={Lock} alt="Lock" className="w-20 h-20" />
+              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white ">
+                <div className="relative w-full flex justify-center mt-2">
+                  <h2 className="absolute bottom-5 text-xl text-center font-medium font-[Roboto Condensed]">
+                    Front Door
+                    <hr className="flex justify-start border-[#D3C9B8] w-80" />
+                  </h2>
                 </div>
-                <h2 className="text-xl font-bold mb-2">Front Door</h2>
+
+                <div className="flex justify-center">
+                  <div className="relative flex justify-center items-center border rounded-full h-32 w-32 mb-8 shadow-sm">
+                    <img
+                      src={Placeholder}
+                      alt="Placeholder"
+                      className="w-32 h-32 border rounded-full"
+                    />
+                    <div className="absolute top-18 left-23 flex justify-center items-center border border-[#EDEADE] rounded-full h-12 w-12 mb-8 shadow-sm bg-[#EDEADE]">
+                      {lockStatus === "locked" ? (
+                        <>
+                          <img src={Lock} alt="Lock" className="w-10 h-10" />
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={OpenLock}
+                            alt="Lock"
+                            className="w-10 h-10"
+                          />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 {lockStatus === null ? (
                   <p className="italic">Loading door status...</p>
                 ) : (
                   <>
-                    <p className="mb-6 text-center capitalize">
-                      Status: {lockStatus}
-                    </p>
-                    <div className="flex justify-center w-full max-w-xs">
+                    <h1 className="mb-4 text-center capitalize font-[Roboto Condensed] font-medium text-xl">
+                      Laura Johnson
+                      <p className="text-sm">Room: 204</p>
+                    </h1>
+                    <div className="flex justify-center w-full">
                       <button
                         onClick={updateDoorStatus}
-                        className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition capitalize"
+                        className="border rounded-full py-2 px-4 w-full text-white font-medium bg-[#0A2342] transition capitalize"
                       >
-                        {lockStatus === "locked" ? "unlocked" : "locked"}
+                        {lockStatus === "locked" ? "unlocked" : "locked"} Front
+                        Door
                       </button>
                     </div>
                   </>
@@ -158,6 +225,13 @@ const SmartLockUI = () => {
                 </div>
               </div>
             </div>
+
+            {/* Modal Component */}
+            <FrontDoorModal
+              isOpen={isModalOpen}
+              onConfirm={handleConfirmation}
+              onCancel={handleConfirmation}
+            />
 
             {/* DESKTOP GUEST LAYOUT */}
             <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
@@ -217,7 +291,7 @@ const SmartLockUI = () => {
       </main>
 
       {/* MOBILE NAV BAR */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 p-2 bg-white shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 p-2 shadow-lg">
         <div className="flex justify-around max-w-4xl mx-auto">
           {menuItems.map((item, index) => (
             <div
