@@ -8,8 +8,11 @@
 ### Running application
 - go to `super_backend` dir in the terminal
 - Run in terminal `docker compose up -d` to start up docker container with postgres database
-- Run the following command in the terminal `.\mvnw.cmd spring-boot:run` to start up the backend
-  - Windows: `.\mvnw.cmd spring-boot:run`
+- Set the environment variable `JWT_SECRET_ENV`. It should be a string of at least 32 characters. An example could be: `THisIsaveryLongJWTsecretThatshouldBeALittleBitLongerITHinkItisLongEnough`. If you want to use the JWT token from a previous session, you must ensure that the secret is the same secret. I set a temperary variable in my terminal at the begiining of the day once like this: 
+  - Powershell: run `$env:JWT_SECRET_ENV="{YOUR_SECRET}"`. You can check with `echo $env:JWT_SECRET_ENV` if you set the variable
+  - Mac/Linux: run `export JWT_SECRET_ENV="{YOUR_SECRET}""`. You can check with `echo $JWT_SECRET_ENV` if you set the variable
+- Run the following command in the terminal to start up the backend
+  - Powershell: `./mvnw.cmd spring-boot:run`
   - Mac/Linux `./mvnw spring-boot:run`. It could be that you have to run `chmod +x mvnw` before you can run `spring-boot:run`
 
 ### Shutting down application
