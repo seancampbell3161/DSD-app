@@ -18,7 +18,6 @@ export const StyleGuide = () => {
 
   return (
     <div>
-      <h1 className="header">Hi Super Team</h1>
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-2">
         <div className="colors py-20">
           <h1 className="font-header">Colors</h1>
