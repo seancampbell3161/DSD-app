@@ -75,8 +75,13 @@
             <scope>test</scope>
         </dependency>
         <!--End of list of dependencies that matter-->
-
-
+        <!-- added dev tools for hot reload -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope> <!-- DevTools will NOT be included in production -->
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
