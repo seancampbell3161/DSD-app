@@ -39,6 +39,7 @@ const SmartLockUI = () => {
         if (res.ok) {
           const data = await res.json();
           setLockStatus(data);
+          console.log(`Door Status:`, data);
         } else {
           console.error("Failed to determine door status");
         }
@@ -66,6 +67,7 @@ const SmartLockUI = () => {
       if (res.ok) {
         const data = await res.json();
         setLockStatus(data);
+        console.log(`Door Status:`, data);
       } else {
         console.error("Failed to update door status");
       }
@@ -110,11 +112,13 @@ const SmartLockUI = () => {
                   <p className="italic">Loading door status...</p>
                 ) : (
                   <>
-                    <p className="mb-6 text-center">Status: {lockStatus}</p>
+                    <p className="mb-6 text-center capitalize">
+                      Status: {lockStatus}
+                    </p>
                     <div className="flex justify-center w-full max-w-xs">
                       <button
                         onClick={updateDoorStatus}
-                        className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition"
+                        className="border rounded-lg py-2 px-4 w-1/2 font-medium hover:bg-gray-50 active:bg-gray-100 transition capitalize"
                       >
                         {lockStatus === "locked" ? "unlocked" : "locked"}
                       </button>
@@ -140,13 +144,13 @@ const SmartLockUI = () => {
                     <p className="italic">Loading door status...</p>
                   ) : (
                     <>
-                      <p className="mb-4">Status: {lockStatus}</p>
+                      <p className="mb-4 capitalize">Status: {lockStatus}</p>
                       <div className="flex justify-center w-full">
                         <button
                           onClick={updateDoorStatus}
-                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition"
+                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition capitalize"
                         >
-                          {lockStatus === "Locked" ? "Unlocked" : "Locked"}
+                          {lockStatus === "locked" ? "unlocked" : "locked"}
                         </button>
                       </div>
                     </>
