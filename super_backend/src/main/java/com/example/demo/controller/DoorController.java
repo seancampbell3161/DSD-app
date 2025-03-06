@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.entities.Door;
+import com.example.demo.services.DoorService;
 import com.example.demo.util.enums.DoorStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DoorController {
 
+    private final DoorService doorService;
+
 
     @Operation(
             summary = "Get the status of a door",
@@ -26,8 +30,8 @@ public class DoorController {
     )
     @GetMapping("/{doorId}/status")
     public ResponseEntity<DoorStatus> getDoorStatus(@PathVariable Long doorId) {
-        DoorStatus doorStatus = DoorStatus.LOCKED;
-        return ResponseEntity.ok(doorStatus);
+        Door door = this.doorService.getDoor(doorId);
+        return ResponseEntity.ok(door.getDoorStatus());
     }
 
     @Operation(
@@ -44,11 +48,14 @@ public class DoorController {
     @PutMapping("/{doorId}/status")
     public ResponseEntity<DoorStatus> updateDoorStatus(@PathVariable Long doorId, @RequestParam Boolean openTheDoor) {
 
+        DoorStatus doorStatus;
+
         if(openTheDoor) {
-            return ResponseEntity.ok(DoorStatus.UNLOCKED);
+            doorStatus = this.doorService.updateDoorStatus(DoorStatus.UNLOCKED, doorId);
+        } else {
+            doorStatus = this.doorService.updateDoorStatus(DoorStatus.LOCKED, doorId);
         }
 
-        return ResponseEntity.ok(DoorStatus.LOCKED);
-
+        return ResponseEntity.ok(doorStatus);
     }
 }
