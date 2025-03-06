@@ -5,7 +5,6 @@ import com.dropbox.sign.ApiException;
 import com.dropbox.sign.api.SignatureRequestApi;
 import com.dropbox.sign.model.*;
 import com.example.demo.dto.LeaseSignRequestDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -29,16 +28,16 @@ public class LeaseManagementDropBoxImpl implements LeaseManagement {
         var signOptions = new SubSigningOptions().draw(true).type(true).defaultType(SubSigningOptions.DefaultTypeEnum.DRAW);
         var subFieldOptions = new SubFieldOptions().dateFormat(SubFieldOptions.DateFormatEnum.DDMMYYYY);
         var data = new SignatureRequestSendRequest()
-            .title("NDA with Acme Co.")
-            .subject("The NDA we talked about")
-            .message("Please sign this NDA and then we can discuss more. Let me know if you have any questions.")
-            .signers(List.of(signer))
-            .ccEmailAddresses(List.of("lawyer1@dropboxsign.com", "lawyer2@dropboxsign.com"))
-            .addFilesItem(new File("example_signature_request.pdf"))
-            .metadata(Map.of("custom_id", 1234, "custom_text", "NDA #9"))
-            .signingOptions(signOptions)
-            .fieldOptions(subFieldOptions)
-            .testMode(true);
+                .title("NDA with Acme Co.")
+                .subject("The NDA we talked about")
+                .message("Please sign this NDA and then we can discuss more. Let me know if you have any questions.")
+                .signers(List.of(signer))
+                .ccEmailAddresses(List.of("lawyer1@dropboxsign.com", "lawyer2@dropboxsign.com"))
+                .addFilesItem(new File("example_signature_request.pdf"))
+                .metadata(Map.of("custom_id", 1234, "custom_text", "NDA #9"))
+                .signingOptions(signOptions)
+                .fieldOptions(subFieldOptions)
+                .testMode(true);
         try {
             response = signatureRequestApi.signatureRequestSend(signatureRequestSendRequest);
         } catch (ApiException e) {
@@ -47,6 +46,7 @@ public class LeaseManagementDropBoxImpl implements LeaseManagement {
         return response;
     }
 
+    //todo
     @Override
     public void cancelLeaseSignatureRequest() {
 
@@ -54,6 +54,10 @@ public class LeaseManagementDropBoxImpl implements LeaseManagement {
 
     @Override
     public void getLeaseStatus() {
-
+        try {
+            SignatureRequestGetResponse requestStatus = signatureRequestApi.signatureRequestGet("requestID pulled from db");
+        } catch (ApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
