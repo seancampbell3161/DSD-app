@@ -1,10 +1,11 @@
 package com.example.demo.entities;
 
-import com.example.demo.util.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -27,10 +28,11 @@ public class User {
     @Column(nullable = false)
     String name;
 
-    @ElementCollection(targetClass = RoleType.class)
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    List<RoleType> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tenants_apartments",
