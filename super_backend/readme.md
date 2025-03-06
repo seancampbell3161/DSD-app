@@ -21,7 +21,7 @@
 
 ## Swagger
 
-You can go to http://localhost:8080/swagger-ui.html to view the open api definition provided by swagger while running the application
+You can go to http://localhost:8080/swagger-ui/index.html to view the open api definition provided by swagger while running the application
 
 ### MapStruct
 
