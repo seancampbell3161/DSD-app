@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
+import jakarta.validation.Valid;
+
+import lombok.AllArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.request.LoginRequest;
 import com.example.demo.dto.request.RegisterUserRequest;
 import com.example.demo.dto.response.LoginReponse;
 import com.example.demo.services.AuthService;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -24,8 +26,7 @@ public class AuthController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequest request) {
-        authService.register(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authService.register(request));
     }
 
 

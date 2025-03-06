@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-//todo makes this maybe private
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     @Serial

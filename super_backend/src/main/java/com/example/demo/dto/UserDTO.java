@@ -1,10 +1,10 @@
 package com.example.demo.dto;
 
-import com.example.demo.util.enums.RoleType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
+
 import lombok.*;
 
-import java.util.List;
+import com.example.demo.util.enums.RoleType;
 
 @Data
 @NoArgsConstructor
