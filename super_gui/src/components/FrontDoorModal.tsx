@@ -5,7 +5,7 @@ interface ModalProps {
   onCancel: (value: boolean) => void;
 }
 
-export const FrontDoorModal: React.FC<ModalProps> = ({
+const FrontDoorModal: React.FC<ModalProps> = ({
   isOpen,
   onConfirm,
   onCancel,

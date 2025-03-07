@@ -22,8 +22,8 @@ const menuItems = [
 
 const SmartLockUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [hasConfirmed, setHasConfirmed] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
 
   const doorId = 1; // Initial Door value:
 
@@ -78,14 +78,14 @@ const SmartLockUI = () => {
     }
   };
 
-  const handleConfirmation = (response: boolean) => {
-    setHasConfirmed(response);
-    setIsModalOpen(false);
-  };
+  // Handle modal confirmation (Yes/Cancel)
+  const handleConfirmation = async (res: boolean) => {
+    setIsModalOpen(false); // close modal regardless of response.
 
-  useEffect(() => {
-    if (hasConfirmed) {
-      const proceedWithUpdate = async () => {
+    if (res) {
+      setHasConfirmed(true); // set to true to handle logic.
+
+      try {
         const res = await fetch(
           `http://localhost:8080/doors/${doorId}/status?openTheDoor=${
             lockStatus === "locked" ? true : false
@@ -97,6 +97,7 @@ const SmartLockUI = () => {
             },
           }
         );
+
         if (res.ok) {
           const data = await res.json();
           setLockStatus(data);
@@ -104,12 +105,13 @@ const SmartLockUI = () => {
         } else {
           console.error("Error updating door status");
         }
-      };
-
-      proceedWithUpdate();
+      } catch (error) {
+        console.error("Error updating door status:", error);
+      }
+      // Resets to false after fetch is done.
       setHasConfirmed(false);
     }
-  }, [hasConfirmed, lockStatus, doorId]);
+  };
 
   return (
     <main className="min-h-screen  relative pb-16 md:pb-0 bg-[#D3C9B8]">
