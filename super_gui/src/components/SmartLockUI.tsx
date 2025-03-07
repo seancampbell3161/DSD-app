@@ -24,9 +24,10 @@ const SmartLockUI = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
   const [guestCode, setGuestCode] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [displayGuestCode, setDisplayGuestCode] = useState<boolean>(false);
 
   const doorId = 1; // Initial Door value:
+  const userId = 1; // Initial Tenant value:
 
   // GET Door status
   useEffect(() => {
@@ -115,13 +116,26 @@ const SmartLockUI = () => {
   };
 
   // Updates update for user
-  const handleStatusChange = (e) => {
-    setGuestCode(e.target.value);
-  };
+  const handleGuestCode = async () => {
+    setDisplayGuestCode(false);
 
-  // Toggles the edit icon
-  const toggleEdit = () => {
-    setIsEditing(!isEditing);
+    try {
+      const res = await fetch(`http://localhost:8080/${userId}/door-codes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setGuestCode(data);
+        console.log(`Guest Code:`, data);
+      } else {
+        console.error("Failed to update door status");
+      }
+    } catch (error) {
+      console.error("Error updating door status:", error);
+    }
   };
 
   return (
@@ -257,32 +271,39 @@ const SmartLockUI = () => {
                 </div>
 
                 <div className="flex justify-center w-full">
-                  {guestCode ? (
+                  {!guestCode ? (
                     <button
-                      onClick={toggleEdit}
-                      onChange={handleStatusChange}
+                      onClick={handleGuestCode}
                       className="border rounded-sm py-2 px-4 w-full text-white font-medium bg-[#0A2342] transition capitalize"
                     >
                       Generate Access Code
                     </button>
                   ) : (
                     <div className="flex flex-col justify-center items-center w-full gap-3">
-                      <div
-                        className="border rounded-sm w-24 text-white font-medium bg-[#FFD700] transition capitalize text-center -my-4"
-                        onClick={() => {}}
-                      >
-                        <h1 className="text-[#413f3f] text-center">
-                          exp: 24:00
+                      <div className="border rounded-sm w-24 text-white font-medium bg-[#FFD700] transition capitalize text-center -my-4">
+                        <h1 className="text-[#413f3f] text-center flex items-center justify-center">
+                          <span className="gap-24">
+                            Exp:{" "}
+                            <span>
+                              {new Date(guestCode.expireDate).toLocaleString(
+                                [],
+                                {
+                                  hour: "numeric",
+                                  hour12: false,
+                                }
+                              )}
+                            </span>
+                            <span className="text-xs">hrs</span>
+                          </span>
                         </h1>
                       </div>
 
                       <span
-                        onClick={toggleEdit}
-                        onChange={handleStatusChange}
+                        onClick={handleGuestCode}
                         className="flex justify-center border rounded-sm py-2 px-4 w-2xs text-white font-medium bg-[#0A2342] transition capitalize"
                       >
                         <h1 className="bg-[#413f3f] w-1/2 flex justify-center rounded-sm">
-                          68914194
+                          {guestCode.code}
                         </h1>
                       </span>
 
