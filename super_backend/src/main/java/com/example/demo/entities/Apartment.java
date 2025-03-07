@@ -27,6 +27,6 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     List<Lease> leaseHistory;
 
-    @ManyToMany(mappedBy = "apartment")
+    @ManyToMany(mappedBy = "apartments")
     Set<User> tenants;
 }

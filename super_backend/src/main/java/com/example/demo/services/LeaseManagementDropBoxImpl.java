@@ -5,41 +5,49 @@ import com.dropbox.sign.ApiException;
 import com.dropbox.sign.api.SignatureRequestApi;
 import com.dropbox.sign.model.*;
 import com.example.demo.dto.LeaseSignRequestDTO;
+import com.example.demo.entities.User;
+import com.example.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.Optional;
 
 @Service
 public class LeaseManagementDropBoxImpl implements LeaseManagement {
     private final SignatureRequestApi signatureRequestApi;
-
-    public LeaseManagementDropBoxImpl(ApiClient apiClient) {
+    private final UserRepository userRespository;
+    @Autowired
+    public LeaseManagementDropBoxImpl(ApiClient apiClient, UserRepository userRepository) {
         this.signatureRequestApi = new SignatureRequestApi(apiClient);
+        userRespository = userRepository;
     }
 
-    //todo
     @Override
     public SignatureRequestGetResponse createLeaseSignatureRequest(LeaseSignRequestDTO leaseSignRequestDTO) {
         SignatureRequestGetResponse response;
-        var signatureRequestSendRequest = new SignatureRequestSendRequest();
-        var signer = new SubSignatureRequestSigner().emailAddress("address").name("name").order(0);
+        Optional<User> user = userRespository.findByEmailIgnoreCase(leaseSignRequestDTO.getSignerEmails().getFirst());
+        if(user.isEmpty()){
+            throw new RuntimeException("no user in db matching email address");
+        }
+        var signer = new SubSignatureRequestSigner().emailAddress(leaseSignRequestDTO.getSignerEmails().getFirst()).name(user.get().getName()).order(0);
         var signOptions = new SubSigningOptions().draw(true).type(true).defaultType(SubSigningOptions.DefaultTypeEnum.DRAW);
         var subFieldOptions = new SubFieldOptions().dateFormat(SubFieldOptions.DateFormatEnum.DDMMYYYY);
         var data = new SignatureRequestSendRequest()
-                .title("NDA with Acme Co.")
-                .subject("The NDA we talked about")
-                .message("Please sign this NDA and then we can discuss more. Let me know if you have any questions.")
+                .title("Lease Agreement")
+                .subject("Lease Agreement with Super")
+                .message("please review and sign the lease")
                 .signers(List.of(signer))
-                .ccEmailAddresses(List.of("lawyer1@dropboxsign.com", "lawyer2@dropboxsign.com"))
-                .addFilesItem(new File("example_signature_request.pdf"))
-                .metadata(Map.of("custom_id", 1234, "custom_text", "NDA #9"))
+                .ccEmailAddresses(leaseSignRequestDTO.getCcEmails())
+                .addFilesItem((File) leaseSignRequestDTO.getFile())
                 .signingOptions(signOptions)
                 .fieldOptions(subFieldOptions)
                 .testMode(true);
         try {
-            response = signatureRequestApi.signatureRequestSend(signatureRequestSendRequest);
+            response = signatureRequestApi.signatureRequestSend(data);
+            System.out.println(response);
         } catch (ApiException e) {
             throw new RuntimeException(e);
         }

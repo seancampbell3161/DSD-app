@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NonNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
@@ -15,7 +16,8 @@ public class LeaseSignRequestDTO {
     @NonNull
     Long apartmentNumber;
     @NonNull
-    File file;
+    MultipartFile file;
     @Size(min = 1)
     List<String> ccEmails;
+    MetaData metaData;
 }

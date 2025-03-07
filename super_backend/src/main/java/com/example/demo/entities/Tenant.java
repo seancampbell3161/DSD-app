@@ -17,6 +17,6 @@ public class Tenant {
     @JoinColumn(name = "user_profile_id", unique = true, nullable = false)
     final User user;
 
-    @ManyToMany(mappedBy = "tenant")
+    @ManyToMany(mappedBy = "tenants")
     List<Lease> leases;
 }
