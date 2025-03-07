@@ -1,22 +1,57 @@
 import { useState } from "react";
-import Autosuggest from "react-autosuggest";
+import Autosuggest, { InputProps } from "react-autosuggest";
 
-const emailTest = ["john@example.com", "jane@domain.com", "doe@mail.com"]
-
-const getEmails = (value: string) => {
-  const inputValue = value.trim().toLowerCase()
-  return emailTest.filter(email => email.toLowerCase().includes(inputValue))
-}
+const emailTest = ["sam@example.com", "jane@domain.com", "doe@mail.com"]
 
 const AutoCompleteEmail = () => {
   const [value, setValue] = useState('')
-  const [email, setEmail] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<string[]>([])
+
+  const onChange = (event: React.FormEvent<HTMLElement>, { newValue }: Autosuggest.ChangeEvent) => {
+    setValue(newValue);
+  }
+  const onSuggestionsFetchRequested = ({ value }: {value: string }) => {
+    setSuggestions(() => getSuggestions(value));
+  }
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  }
+  const inputProps: InputProps<string> = {
+    placeholder: "search your data",
+    value,
+    onChange: onChange
+  }
+
+  const getSuggestions = (value: string) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0
+      ? []
+      : emailTest.filter(
+          (email:string) => email.toLowerCase().slice(0, inputLength) === inputValue
+        );
+  }
+
+  const getSuggestionValue = (suggestion: string) => suggestion
+
+
+  const renderSuggestion = (suggestion:string) => (
+    <div className="p-3 border-1">{suggestion}</div>
+  )
 
   return (
-    <Autosuggest
-    suggestions={email}
-    onSuggestionsFetchRequested={({ value }) = setEmail(getEmails(value))}
-
-
+    <>
+      <Autosuggest
+      suggestions={suggestions}
+      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+      onSuggestionsClearRequested={onSuggestionsClearRequested}
+      getSuggestionValue={getSuggestionValue}
+      renderSuggestion={renderSuggestion}
+      inputProps={inputProps}
+      />
+    </>
   )
 }
+export default AutoCompleteEmail

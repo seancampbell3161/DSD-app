@@ -1,11 +1,11 @@
-import { useState } from "react";
+import AutoCompleteEmail from "./AutoCompleteSearch";
 
 const DigitalLease = () => {
   
-
     return (
         <section className="h-full p-4 text-center bg-beige">
             <h2 className="mt-12 mb-4 text-3xl font-semibold">Digital Lease</h2>
+            <AutoCompleteEmail/>
 
             {/* <button 
                 onClick={() => setIsModalOpen(true)}
