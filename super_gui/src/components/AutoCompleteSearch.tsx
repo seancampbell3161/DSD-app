@@ -1,44 +1,70 @@
 import { useState } from "react";
-import Autosuggest, { InputProps } from "react-autosuggest";
+import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest";
 
-const emailTest = ["sam@example.com", "jane@domain.com", "doe@mail.com"]
+interface Tenant {
+  name: string;
+  email: string;
+  apt: string;
 
-const AutoCompleteEmail = () => {
+}
+
+const emailTest: Tenant[] = [
+  
+  {name: 'Sam Donald', email: 'sam@example.com', apt: "118"},  
+  {name: 'Jane Donald', email: 'jane@domain.com.com', apt: "150"},  
+  {name: 'Doe Donald', email: 'doe@mail.com', apt: "150"}  
+]
+    
+const AutoCompleteTenant = () => {
   const [value, setValue] = useState('')
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<Tenant[]>([])
+  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null)
 
-  const onChange = (event: React.FormEvent<HTMLElement>, { newValue }: Autosuggest.ChangeEvent) => {
-    setValue(newValue);
+
+  const onChange = (
+    event: React.FormEvent<HTMLElement>, 
+    { newValue }: ChangeEvent
+  ) => { 
+    setValue(newValue)
+    setSelectedTenant(null) //Clear selected info when input changes
   }
-  const onSuggestionsFetchRequested = ({ value }: {value: string }) => {
-    setSuggestions(() => getSuggestions(value));
+
+  const onSuggestionsFetchRequested = ({ value }: {value: string}) => {
+    setSuggestions(getSuggestions(value));
   }
 
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   }
-  const inputProps: InputProps<string> = {
+
+  const inputProps: InputProps<Tenant> = {
     placeholder: "search your data",
     value,
-    onChange: onChange
+    onChange
   }
 
   const getSuggestions = (value: string) => {
     const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0
+    return inputValue.length === 0
       ? []
       : emailTest.filter(
-          (email:string) => email.toLowerCase().slice(0, inputLength) === inputValue
+          (tenant) => tenant.email.toLowerCase().includes(inputValue)
         );
   }
 
-  const getSuggestionValue = (suggestion: string) => suggestion
+  const getSuggestionValue = (suggestion: Tenant) => suggestion.email
 
-
-  const renderSuggestion = (suggestion:string) => (
-    <div className="p-3 border-1">{suggestion}</div>
+  const renderSuggestion = (suggestion: Tenant) => (
+    <div className="p-3 border-1"
+    onClick={() => {
+      setValue(suggestion.email) //Set input val to selected email
+      setSelectedTenant(suggestion) // Store selected Tenant for display
+    }}
+    >
+      {suggestion.name}
+      {suggestion.email}
+      {suggestion.apt}   
+    </div>
   )
 
   return (
@@ -51,7 +77,13 @@ const AutoCompleteEmail = () => {
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}
       />
+       {selectedTenant && ( // Conditionally render info if email is selected
+        <div>
+          <p>Name: {selectedTenant.name}</p>
+          <p>Apartment: {selectedTenant.apt}</p>
+        </div>
+      )}
     </>
   )
 }
-export default AutoCompleteEmail
+export default AutoCompleteTenant
