@@ -38,10 +38,22 @@ const AutoCompleteTenant = () => {
   }
 
   const inputProps: InputProps<Tenant> = {
-    placeholder: "search your data",
+    placeholder: "Email",
     value,
-    onChange
+    onChange,
+    className: "w-[320px] border rounded-md px-4 py-2 bg-[var(--color-white)] text-[var(--color-grey-800)] font-normal text-sm border-[var(--color-grey-400)] focus:outline-none focus:ring-2 focus:ring-blue-500"
   }
+//Style dropdown
+const theme = {
+  container: "relative",
+  input: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
+  suggestionsContainer: "absolute mt-1 w-[320px] rounded-lg shadow-md bg-transparent z-10",
+  suggestionsList: "bg-white rounded-lg", // Ensures suggestions have a background
+  suggestion: "p-3 cursor-pointer hover:bg-gray-100",
+  suggestionHighlighted: "bg-blue-500 text-white"
+}
+
+  
 
   const getSuggestions = (value: string) => {
     const inputValue = value.trim().toLowerCase();
@@ -76,11 +88,12 @@ const AutoCompleteTenant = () => {
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}
+      theme={theme}
       />
        {selectedTenant && ( // Conditionally render info if email is selected
         <div>
-          <p>Name: {selectedTenant.name}</p>
-          <p>Apartment: {selectedTenant.apt}</p>
+          <p className="color-grey-800">Name: {selectedTenant.name}</p>
+          <p className="color-grey-800">Apartment: {selectedTenant.apt}</p>
         </div>
       )}
     </>

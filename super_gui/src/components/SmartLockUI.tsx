@@ -134,16 +134,16 @@ const SmartLockUI = () => {
 
       {/* MAIN CONTENT */}
 
-      <main className="mx-auto max-w-4xl m-4 p-4">
-        <div className="border rounded-xl shadow-md overflow-hidden">
-          <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white bg-accentBlue">
+      <main className="max-w-4xl p-4 m-4 mx-auto">
+        <div className="overflow-hidden border shadow-md rounded-xl">
+          <h1 className="text-xl font-semibold text-center text-white sm:text-2xl md:text-3xl bg-accentBlue">
             Welcome Back: Laura Johnson
           </h1>
-          <div className="flex flex-col md:flex-row gap-4 md:gap-0 bg-accentBlue">
+          <div className="flex flex-col gap-4 md:flex-row md:gap-0 bg-accentBlue">
             {/* DESKTOP FRONT DOOR LAYOUT */}
-            <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
-              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white ">
-                <div className="relative w-full flex justify-center mt-2">
+            <div className="flex justify-center p-4 md:p-6 md:w-1/2">
+              <div className="hidden w-full max-w-sm p-6 transition bg-white border shadow-sm md:flex md:flex-col md:items-center md:justify-center rounded-2xl hover:shadow ">
+                <div className="relative flex justify-center w-full mt-2">
                   <h2 className="absolute bottom-5 text-xl text-center font-medium font-[Roboto Condensed]">
                     Front Door
                     <hr className="flex justify-start border-[#D3C9B8] w-80" />
@@ -151,7 +151,7 @@ const SmartLockUI = () => {
                 </div>
 
                 <div className="flex justify-center">
-                  <div className="relative flex justify-center items-center border rounded-full h-32 w-32 mb-8 shadow-sm">
+                  <div className="relative flex items-center justify-center w-32 h-32 mb-8 border rounded-full shadow-sm">
                     <img
                       src={Placeholder}
                       alt="Placeholder"
@@ -197,8 +197,8 @@ const SmartLockUI = () => {
               </div>
 
               {/* MOBILE FRONT DOOR LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex justify-center items-center border rounded-full h-24 w-24 sm:h-28 sm:w-28 mr-4 shadow-sm">
+              <div className="flex flex-row w-full p-4 border shadow-sm md:hidden rounded-2xl">
+                <div className="flex items-center justify-center w-24 h-24 mr-4 border rounded-full shadow-sm sm:h-28 sm:w-28">
                   <img
                     src={Lock}
                     alt="Lock"
@@ -217,7 +217,7 @@ const SmartLockUI = () => {
                       <div className="flex justify-center w-full">
                         <button
                           onClick={updateDoorStatus}
-                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition capitalize"
+                          className="w-1/2 px-3 py-2 font-medium capitalize transition border rounded-lg sm:px-4 active:bg-gray-100"
                         >
                           {lockStatus === "locked" ? "unlocked" : "locked"}
                         </button>
@@ -229,9 +229,9 @@ const SmartLockUI = () => {
             </div>
 
             {/* DESKTOP GUEST LAYOUT */}
-            <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
-              <div className="hidden md:flex md:flex-col md:items-center md:justify-center border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition">
-                <div className="flex justify-center items-center border rounded-full h-32 w-32 mb-4 shadow-sm">
+            <div className="flex justify-center p-4 md:p-6 md:w-1/2">
+              <div className="hidden w-full max-w-sm p-6 transition border shadow-sm md:flex md:flex-col md:items-center md:justify-center rounded-2xl hover:shadow">
+                <div className="flex items-center justify-center w-32 h-32 mb-4 border rounded-full shadow-sm">
                   <img src={User} alt="User" className="w-20 h-20" />
                 </div>
                 <h2 className="mb-2 text-xl font-bold">Guest</h2>
@@ -253,8 +253,8 @@ const SmartLockUI = () => {
               </div>
 
               {/* MOBILE GUEST LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex justify-center items-center border rounded-full h-24 w-24 sm:h-28 sm:w-28 mr-4 shadow-sm">
+              <div className="flex flex-row w-full p-4 border shadow-sm md:hidden rounded-2xl">
+                <div className="flex items-center justify-center w-24 h-24 mr-4 border rounded-full shadow-sm sm:h-28 sm:w-28">
                   <img
                     src={User}
                     alt="User"
@@ -279,16 +279,16 @@ const SmartLockUI = () => {
                     </button>
                   </div>
                 </div>
-              </div> */}
-            {/* </div> */}
-            <DigitalLease />
+              </div>
+            </div> 
+    
           </div>
   
         </div>
       </main>
 
       {/* MOBILE NAV BAR */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 p-2 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 p-2 border-t-2 shadow-lg md:hidden">
         <div className="flex justify-around max-w-4xl mx-auto">
           {menuItems.map((item, index) => (
             <div

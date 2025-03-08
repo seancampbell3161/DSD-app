@@ -3,8 +3,8 @@ import AutoCompleteTenant from "./AutoCompleteSearch";
 const DigitalLease = () => {
   
     return (
-        <section className="h-full p-4 text-center bg-beige">
-            <h2 className="mt-12 mb-4 text-3xl font-semibold">Digital Lease</h2>
+        <section className="max-w-4xl p-4 m-4 mx-auto text-center rounded-2xl bg-accentBlue">
+            {/* <h2 className="mt-12 mb-4 text-3xl font-semibold">Digital Lease</h2> */}
             <AutoCompleteTenant />
 
             {/* <button 
