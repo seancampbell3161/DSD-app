@@ -9,6 +9,7 @@ import Lock from "/assets/icons/bx-lock-alt.svg";
 import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
 import Placeholder from "/assets/images/placeholder.jpg";
 import FrontDoorModal from "./FrontDoorModal";
+import GuestAccessModal from "./GuestAccessModal";
 
 // Navigation Icons:
 const menuItems = [
@@ -23,7 +24,7 @@ const SmartLockUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
-  const [guestCode, setGuestCode] = useState<string>("");
+  const [guestCode, setGuestCode] = useState<string | null>("");
   const [displayGuestCode, setDisplayGuestCode] = useState<boolean>(false);
 
   const doorId = 1; // Initial Door value:
@@ -115,7 +116,7 @@ const SmartLockUI = () => {
     }
   };
 
-  // Updates update for user
+  // Creates Guest Access Code
   const handleGuestCode = async () => {
     setDisplayGuestCode(false);
 
@@ -132,6 +133,31 @@ const SmartLockUI = () => {
         console.log(`Guest Code:`, data);
       } else {
         console.error("Failed to update door status");
+      }
+    } catch (error) {
+      console.error("Error updating door status:", error);
+    }
+  };
+
+  // Deletes Guest Access Code
+  const DeleteGuestCode = async () => {
+    setDisplayGuestCode(false);
+
+    try {
+      const res = await fetch(`http://localhost:8080/${userId}/door-codes`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: guestCode.id }),
+      });
+      if (res.ok) {
+        console.log(`Guest Code deleted: ${guestCode.id}`);
+        setGuestCode(null);
+      } else {
+        console.error("Failed to delete door code");
+        const errorData = await res.json();
+        console.error("Server error:", errorData);
       }
     } catch (error) {
       console.error("Error updating door status:", error);
@@ -260,6 +286,8 @@ const SmartLockUI = () => {
               onCancel={handleConfirmation}
             />
 
+            {/* <GuestAccessModal /> */}
+
             {/* DESKTOP GUEST LAYOUT */}
             <div className="p-4 md:p-6 md:w-1/2 flex-auto justify-center">
               <div className="hidden md:flex md:flex-col md:items-center md:justify-start border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
@@ -298,24 +326,21 @@ const SmartLockUI = () => {
                         </h1>
                       </div>
 
-                      <span
-                        onClick={handleGuestCode}
-                        className="flex justify-center border rounded-sm py-2 px-4 w-2xs text-white font-medium bg-[#0A2342] transition capitalize"
-                      >
+                      <span className="flex justify-center border rounded-sm py-2 px-4 w-2xs text-white font-medium bg-[#0A2342] transition capitalize">
                         <h1 className="bg-[#413f3f] w-1/2 flex justify-center rounded-sm">
                           {guestCode.code}
                         </h1>
                       </span>
 
-                      <button
+                      {/* <button
                         className="border rounded-sm py-2 px-4 w-1/2 text-white font-medium bg-[#50C878] transition capitalize text-center"
                         onClick={() => {}}
                       >
                         Refresh Code
-                      </button>
+                      </button> */}
                       <button
                         className="border rounded-sm py-2 px-4 w-1/2 text-white font-medium bg-[#D23715] transition capitalize text-center"
-                        onClick={() => {}}
+                        onClick={DeleteGuestCode}
                       >
                         Delete
                       </button>
