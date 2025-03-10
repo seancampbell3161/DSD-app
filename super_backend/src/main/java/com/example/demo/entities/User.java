@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -32,10 +34,11 @@ public class User {
     @Column(nullable = false)
     final String name;
 
-    @ElementCollection(targetClass = RoleType.class)
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    List<RoleType> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tenants_apartments",

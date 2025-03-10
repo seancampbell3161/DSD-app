@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum RoleType {
     TENANT("tenant"),
-    MANAGEMENT("management"),
-    GUEST("guest");
+    ADMIN("admin");
     private final String role;
 
     RoleType(String role){
