@@ -51,8 +51,8 @@ public class UserController {
             }
     )
     @PostMapping(path = "")
-    public UserDTO createUser(@RequestBody UserDTO user) {
-        User newUser = userService.saveUser(user);
+    public UserDTO createUser(@RequestBody User user) {
+        User newUser = userService.save(user);
         return userMapper.userToUserDTO(newUser);
     }
 
