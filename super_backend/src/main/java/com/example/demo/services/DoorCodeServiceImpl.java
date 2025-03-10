@@ -9,7 +9,8 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.util.DoorCodeUtil.getRandomNumberString;
+import static com.example.demo.utils.DoorCodeUtil.getRandomNumberString;
+
 
 @Service
 @RequiredArgsConstructor
