@@ -56,11 +56,11 @@ const AutoCompleteTenant = () => {
   const theme = {
     container: "relative",
     containerOpen: "block",
-    input: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500",
-    suggestionsContainer: "absolute mt-1 w-[320px] rounded-lg shadow-md bg-transparent z-10",
-    suggestionsList: "bg-white rounded-lg", // Ensures suggestions have a background
-    suggestion: "p-3 cursor-pointer hover:bg-gray-100",
-    suggestionHighlighted: "bg-blue-500 text-white"
+    input: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+    suggestionsContainer: "absolute mt-1 w-[320px] rounded-md shadow-md bg-transparent z-10",
+    suggestionsList: "bg-[var(--color-white)] rounded-md", // Ensures suggestions have a background
+    suggestion: "p-3 text-[var(--color-grey-800)] cursor-pointer hover:bg-gray-100",
+    suggestionHighlighted: "bg-blue-500 text-[var(--color-grey-800)]"
   }
 
   
@@ -82,30 +82,38 @@ const AutoCompleteTenant = () => {
       setSelectedTenant(suggestion) // Store selected Tenant for display
     }}
     >
-      {suggestion.firstName}
       {suggestion.email}
       {suggestion.apt}   
     </div>
   )
 
   return (
-    <>
-      <Autosuggest
-      suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={onSuggestionsClearRequested}
-      getSuggestionValue={getSuggestionValue}
-      renderSuggestion={renderSuggestion}
-      inputProps={inputProps}
-      theme={theme}
-      />
-       {selectedTenant && ( // Conditionally render info if email is selected
-        <div>
-          <p className="color-grey-800">Name: {selectedTenant.firstName}</p>
-          <p className="color-grey-800">Apartment: {selectedTenant.apt}</p>
+    <div className="grid grid-cols-2 gap-4 mt-10">
+      <div className="flex flex-col items-center">
+        <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={inputProps}
+        theme={theme}
+        />
+      </div>
+      <div className="flex flex-col h-[190px] bg-[var(--color-white)] rounded-lg font-normal text-sm">
+        <div className="border border-(--color-beige)">
+          <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-[12px]">Tenant</h2>
         </div>
-      )}
-    </>
+        <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm">
+          {selectedTenant && ( // Conditionally render info if email is selected
+            <div>
+              <p className="color-grey-800">Name: {selectedTenant.firstName}</p>
+              <p className="color-grey-800">Apartment: {selectedTenant.apt}</p>
+            </div>
+          )}
+        </div>
+    </div>
+    </div>
   )
 }
 export default AutoCompleteTenant
