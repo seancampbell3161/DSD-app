@@ -14,8 +14,8 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "apartment_number")
-    final Integer apartmentNumber;
+    @Column(name = "apartment_number", unique = true)
+    final Long apartmentNumber;
 
     @OneToMany(mappedBy = "apartment")
     Set<Door> doors;

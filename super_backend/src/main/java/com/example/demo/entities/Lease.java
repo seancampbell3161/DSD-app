@@ -1,12 +1,13 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import com.example.demo.utils.enums.DocStatus;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-
+@Builder
 @Data
 @Table(name = "leases")
 @Entity

@@ -3,13 +3,17 @@ package com.example.demo.entities;
 import com.example.demo.utils.enums.RoleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 @Table(name = "users")
 public class User {
 
