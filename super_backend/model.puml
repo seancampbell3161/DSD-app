@@ -6,6 +6,13 @@ string email*
 List<RoleType> roles
 List<Apartment> apartments
 List<Door> doors
+List<EntryCode> entryCodes
+}
+
+enum RoleType{
+TENANT
+MANAGEMENT
+GUEST
 }
 
 class Apartment {
@@ -17,13 +24,53 @@ List<Lease> previousLeases
 List<Door> doors
 }
 
-enum RoleType{
-TENANT
-MANAGEMENT
-GUEST
+
+
+class Building {
+Long id
+List<Apartment> apartments
+List<Door> doors
+Set<Parking> parkings
 }
 
+class Door{
+Long id
+DoorStatus doorStatus
+Set<DoorCode> doorCodes
+Set<User> allowedToOpen
+Apartment apartement
+Building building
+Parking parking
+}
 
+class Parking {
+Long id
+int numberOfGuestSpots
+int numberOfTenantSpots
+Set<Door> doors;
+Building building
+}
+
+enum DoorStatus{
+LOCKED,
+UNLOCKED,
+OUT_OF_SERVICE
+}
+
+abstract class EntryCode {
+Long id
+User issuedBy
+string code
+ZonedDateTime expireDate
+Door door
+}
+
+class DoorCode extends EntryCode {
+}
+
+class ParkingCode extends EntryCode {
+string licensePlateNumber
+}
 
 class Lease {
 ZonedDateTime startDate
@@ -38,33 +85,6 @@ REVIEW,
 SIGNED
 }
 
-class Building {
-Long id
-List<Apartment> apartments
-List<Door> frontDoors
-}
-
-class Door{
-Long id
-DoorStatus doorStatus
-Set<DoorCode> doorCodes
-Set<User> allowedToOpen
-Apartment apartement
-Building building
-}
-
-enum DoorStatus{
-LOCKED,
-UNLOCKED,
-OUT_OF_SERVICE
-}
-
-class DoorCode {
-User issuedBy
-string code
-ZonedDateTime expireDate
-}
-
 
 
 User "1" -- "1..3" RoleType : > has
@@ -75,9 +95,11 @@ Building "1" -- "1..*" Apartment : > has
 Door "1..*" -- "1" Building : < can be entered by
 Door "1..*" -- "1" Apartment: < has
 Door "1" -- "1" DoorStatus : > has
-Door "1..*" -- "1..*" DoorCode : > can be opened by
-DoorCode "1..*" -- "1" User :  > issued by
+Door "1..*" -- "1..*" EntryCode : > can be opened by
+EntryCode "1..*" -- "1" User :  > issued by
 User "0..*" -- "0..*" Door : > allowed to open
+Building "1" -- "1..*" Parking : > has
+
 
 
 
