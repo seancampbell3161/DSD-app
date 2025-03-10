@@ -1,24 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import FrontDoor from "/assets/icons/bx-door-open.svg";
-import Parking from "/assets/icons/bxs-parking.svg";
-import Complaints from "/assets/icons/bxs-folder-open.svg";
-import SmartLocker from "/assets/icons/bxs-package.svg";
-import Lease from "/assets/icons/bxs-pen.svg";
 import Lock from "/assets/icons/bx-lock-alt.svg";
 import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
 import NoSignal from "/assets/icons/bx-no-signal.svg";
 import Placeholder from "/assets/images/placeholder.jpg";
 import FrontDoorModal from "./FrontDoorModal";
-
-// Navigation Icons:
-const menuItems = [
-  { Icon: FrontDoor, alt: "FrontDoor" },
-  { Icon: Parking, alt: "Parking" },
-  { Icon: Complaints, alt: "Complaints" },
-  { Icon: Lease, alt: "Lease" },
-  { Icon: SmartLocker, alt: "SmartLocker" },
-];
 
 const SmartLockUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
@@ -173,27 +158,9 @@ const SmartLockUI = () => {
   };
 
   return (
-    <main className="min-h-screen  relative pb-16 md:pb-0 bg-[#D3C9B8]">
-      {/* DESKTOP NAV BAR LAYOUT*/}
-      <div className="hidden md:block container mx-auto border-2 max-w-4xl">
-        <div className="border-b-2 border-t-2 p-2 flex justify-between">
-          {menuItems.map((item, index) => (
-            <div key={index} className="flex gap-2 items-center w-auto">
-              <Link
-                to=""
-                className="border rounded-full p-2 flex-shrink-0 bg-gray-800 hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none transition duration-500 group"
-              >
-                <img src={item.Icon} alt={item.alt} className="w-6 h-6" />
-              </Link>
-              <p className="text-base font-medium">{item.alt}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
+    <main className="min-h-screen relative pb-16 md:pb-0">
       {/* MAIN CONTENT */}
-
-      <main className="mx-auto max-w-4xl m-4 p-4">
+      <div className="mx-auto max-w-4xl m-4 p-4">
         <div className="border rounded-xl shadow-md overflow-hidden">
           <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white bg-accentBlue">
             Welcome Back: Laura Johnson
@@ -456,26 +423,6 @@ const SmartLockUI = () => {
               </div>
             </section>
           </div>
-        </div>
-      </main>
-
-      {/* MOBILE NAV BAR */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 border-t-2 p-2 shadow-lg">
-        <div className="flex justify-around max-w-4xl mx-auto">
-          {menuItems.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-1 items-center w-auto"
-            >
-              <Link
-                to=""
-                className="border rounded-full p-2 flex-shrink-0 bg-gray-800 hover:bg-accentGreen focus:bg-accentGreen focus:ring-0 focus:ring-accentGreen focus:outline-none transition duration-500 group"
-              >
-                <img src={item.Icon} alt={item.alt} className="w-5 h-5" />
-              </Link>
-              <span className="text-xs">{item.alt}</span>
-            </div>
-          ))}
         </div>
       </div>
     </main>
