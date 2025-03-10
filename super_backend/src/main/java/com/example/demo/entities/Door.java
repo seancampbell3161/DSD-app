@@ -3,9 +3,8 @@ package com.example.demo.entities;
 import com.example.demo.utils.enums.DoorStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
-
-import java.util.Set;
 @Data
 @Entity
 @Table(name = "doors")
@@ -15,7 +14,7 @@ public class Door {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     DoorStatus doorStatus;
 
     @ManyToMany
@@ -23,10 +22,10 @@ public class Door {
             joinColumns = @JoinColumn(name = "door_id"),
             inverseJoinColumns = @JoinColumn(name = "door_codes_id")
     )
-    Set<DoorCode> doorCodes;
+    List<DoorCode> doorCodes;
 
     @ManyToMany(mappedBy = "doors")
-    Set<User> allowedUsers;
+    List<User> allowedUsers;
 
     @ManyToOne
     @JoinColumn(name = "apartment_id")

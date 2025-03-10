@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -34,12 +33,12 @@ public class User {
     final String name;
 
     @ElementCollection(targetClass = RoleType.class)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     List<RoleType> roles;
 
     @ManyToMany
-    @JoinTable(name = "tenant_apartment",
+    @JoinTable(name = "tenants_apartments",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "apartment_id")
     )
@@ -53,7 +52,7 @@ public class User {
     List<Door> doors;
 
     @OneToMany(mappedBy = "issuedBy")
-    Set<DoorCode> issuedDoorCodes;
+    List<DoorCode> issuedDoorCodes;
 
     @OneToOne(mappedBy = "user")
     Tenant tenantProfile;
