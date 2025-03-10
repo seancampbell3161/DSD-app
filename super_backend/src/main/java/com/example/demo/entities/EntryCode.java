@@ -14,8 +14,8 @@ import java.time.ZonedDateTime;
 @Table(name = "entry_codes", uniqueConstraints = { @UniqueConstraint(name = "UniqueUserAndDoor", columnNames  ={"issued_by_user_id", "door_id"})})
 @Data
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class EntryCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

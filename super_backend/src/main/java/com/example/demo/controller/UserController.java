@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping
     public List<UserDTO> getUsers() {
         List<User> userList = userService.getAllUsers();
-        return userList.stream().map(userMapper::userToUserDTO).toList();
+        return userList.stream().map(userMapper::mapToUserDTO).toList();
     }
 
     @Operation(
@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping(path = "")
     public UserDTO createUser(@RequestBody UserDTO user) {
         User newUser = userService.saveUser(user);
-        return userMapper.userToUserDTO(newUser);
+        return userMapper.mapToUserDTO(newUser);
     }
 
 

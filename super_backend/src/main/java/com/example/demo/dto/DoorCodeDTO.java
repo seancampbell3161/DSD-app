@@ -1,14 +1,10 @@
 package com.example.demo.dto;
 
 import lombok.Data;
-import java.time.ZonedDateTime;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class DoorCodeDTO {
+public class DoorCodeDTO extends EntryCodeDTO {
 
-    Long id;
-
-    String code;
-
-    ZonedDateTime expireDate;
 }

@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 public class DoorCode extends EntryCode{
 

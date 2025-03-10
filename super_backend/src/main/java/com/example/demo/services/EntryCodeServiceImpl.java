@@ -4,6 +4,7 @@ import com.example.demo.entities.Door;
 import com.example.demo.entities.DoorCode;
 import com.example.demo.entities.User;
 import com.example.demo.repository.DoorCodeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,7 @@ public class EntryCodeServiceImpl implements EntryCodeService {
         this.doorCodeRepository.deleteById(doorCodeId);
     }
 
+    @Transactional
     @Override
     public void deleteEntryCodeByUserAndByDoor(Long userId, Long doorId) {
         doorCodeRepository.deleteByUserAndDoor(doorId,userId);
