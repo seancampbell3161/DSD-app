@@ -10,7 +10,6 @@ import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
 import NoSignal from "/assets/icons/bx-no-signal.svg";
 import Placeholder from "/assets/images/placeholder.jpg";
 import FrontDoorModal from "./FrontDoorModal";
-import GuestAccessModal from "./GuestAccessModal";
 
 // Navigation Icons:
 const menuItems = [
@@ -259,34 +258,49 @@ const SmartLockUI = () => {
               </div>
 
               {/* MOBILE FRONT DOOR LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex justify-center items-center border rounded-full h-24 w-24 sm:h-28 sm:w-28 mr-4 shadow-sm">
-                  <img
-                    src={Lock}
-                    alt="Lock"
-                    className="w-14 h-14 sm:w-16 sm:h-16"
-                  />
-                </div>
-                <div className="flex flex-col justify-center flex-1 text-center">
-                  <h2 className="text-lg sm:text-xl font-bold mb-2">
+              <div className="md:hidden sm:flex sm:flex-col sm:justify-center border rounded-2xl p-6 w-full shadow-sm hover:shadow transition bg-white">
+                <div className="w-full mb-6">
+                  <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
                     Front Door
                   </h2>
-                  {lockStatus === null ? (
-                    <p className="italic">Loading door status...</p>
-                  ) : (
-                    <>
-                      <p className="mb-4 capitalize">Status: {lockStatus}</p>
-                      <div className="flex justify-center w-full">
-                        <button
-                          onClick={updateDoorStatus}
-                          className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition capitalize"
-                        >
-                          {lockStatus === "locked" ? "unlocked" : "locked"}
-                        </button>
-                      </div>
-                    </>
-                  )}
+                  <hr className="border-[#D3C9B8] w-full mt-2" />
                 </div>
+
+                {lockStatus === null ? (
+                  <p className="italic text-center">Loading door status...</p>
+                ) : (
+                  <>
+                    <div className="flex justify-center w-full">
+                      <button
+                        onClick={updateDoorStatus}
+                        className="relative border rounded-sm py-2 px-4 w-full text-white font-medium bg-[#0A2342] transition capitalize"
+                      >
+                        <span className="text-center w-full">
+                          {lockStatus === "locked" ? "unlocked" : "locked"}{" "}
+                          Front Door
+                        </span>
+
+                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center border border-[#EDEADE] rounded-full h-9 w-9 bg-[#EDEADE]">
+                          {lockStatus === "locked" ? (
+                            <img src={Lock} alt="Lock" className="w-10 h-10" />
+                          ) : lockStatus === "unlocked" ? (
+                            <img
+                              src={OpenLock}
+                              alt="Unlock"
+                              className="w-10 h-10"
+                            />
+                          ) : (
+                            <img
+                              src={NoSignal}
+                              alt="No signal"
+                              className="w-10 h-10"
+                            />
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -297,10 +311,9 @@ const SmartLockUI = () => {
               onCancel={handleConfirmation}
             />
 
-            {/* <GuestAccessModal /> */}
-
-            {/* DESKTOP GUEST LAYOUT */}
-            <div className="p-4 md:p-6 md:w-1/2 flex-auto justify-center">
+            {/* GUEST ACCESS NO CARS */}
+            <section className="p-4 md:p-6 md:w-1/2 flex-auto justify-center">
+              {/* DESKTOP GUEST LAYOUT */}
               <div className="hidden md:flex md:flex-col md:items-center md:justify-start border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
                 <div className="w-full mb-8">
                   <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
@@ -372,27 +385,76 @@ const SmartLockUI = () => {
               </div>
 
               {/* MOBILE GUEST LAYOUT */}
-              <div className="flex flex-row md:hidden rounded-2xl border p-4 w-full shadow-sm">
-                <div className="flex flex-col justify-center flex-1 text-center">
-                  <h2 className="text-lg sm:text-xl font-bold mb-2">Guest</h2>
-                  <div className="flex justify-center mb-3">
-                    <div className="flex flex-col border rounded-lg px-3 py-1 gap-1 w-full max-w-md mx-auto shadow-sm">
-                      <span className="border rounded-sm px-2 py-1 overflow-hidden text-ellipsis whitespace-nowrap text-center font-mono text-sm">
-                        USad23@
-                      </span>
-                      <span className="text-center text-xs sm:text-sm">
-                        Exp: 24hrs
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-center w-full">
-                    <button className="border rounded-lg py-2 px-3 sm:px-4 w-1/2 font-medium active:bg-gray-100 transition">
-                      Cancel
+              <div className="md:hidden sm:flex sm:flex-col sm:justify-center border rounded-2xl p-6 w-full shadow-sm hover:shadow transition bg-white">
+                <div className="w-full mb-8">
+                  <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
+                    Guest Access
+                  </h2>
+                  <hr className="border-[#D3C9B8] w-full mt-2" />
+                </div>
+
+                <div className="flex justify-center w-full">
+                  {!guestCode ? (
+                    <button
+                      onClick={handleGuestCode}
+                      className="border rounded-sm py-2 px-4 w-full text-white font-medium bg-[#0A2342] transition capitalize"
+                    >
+                      Generate Access Code
                     </button>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col justify-center items-center w-full gap-3">
+                      <div className="border rounded-sm w-24 text-white font-medium bg-[#FFD700] transition capitalize text-center -my-4">
+                        <h1 className="text-[#413f3f] text-center flex items-center justify-center">
+                          <span className="gap-24">
+                            Exp:{" "}
+                            <span>
+                              {new Date(guestCode.expireDate).toLocaleString(
+                                [],
+                                {
+                                  hour: "numeric",
+                                  hour12: false,
+                                }
+                              )}
+                            </span>
+                            <span className="text-xs">hrs</span>
+                          </span>
+                        </h1>
+                      </div>
+
+                      <span className="flex justify-center border rounded-sm py-2 px-4 w-2xs text-white font-medium bg-[#0A2342] transition capitalize">
+                        <h1 className="bg-[#413f3f] w-1/2 flex items-center justify-between rounded-sm text-center">
+                          <span className="flex-1">{guestCode.code}</span>
+                          <img
+                            className="w-7 h-7 rounded-r-sm bg-white/10 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur cursor-pointer"
+                            onClick={handleCopy}
+                            src={
+                              copied === guestCode.code
+                                ? "/assets/icons/bx-check.svg"
+                                : "/assets/icons/bx-copy.svg"
+                            }
+                          />
+                        </h1>
+                      </span>
+
+                      <div className="flex justify-between scale-130 ">
+                        <button
+                          className="border rounded-sm px-6 w-1/2 text-white font-semibold bg-[#50C878] transition capitalize text-center text-lg hover:bg-[#45a65a]"
+                          onClick={handleGuestCode}
+                        >
+                          Refresh
+                        </button>
+                        <button
+                          className="border rounded-sm px-6 w-1/2 text-white font-semibold bg-[#D23715] transition capitalize text-center text-lg hover:bg-[#a92b12]"
+                          onClick={DeleteGuestCode}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </main>
