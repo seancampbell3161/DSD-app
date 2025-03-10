@@ -7,6 +7,7 @@ import SmartLocker from "/assets/icons/bxs-package.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 import Lock from "/assets/icons/bx-lock-alt.svg";
 import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
+import NoSignal from "/assets/icons/bx-no-signal.svg";
 import Placeholder from "/assets/images/placeholder.jpg";
 import FrontDoorModal from "./FrontDoorModal";
 import GuestAccessModal from "./GuestAccessModal";
@@ -26,9 +27,17 @@ const SmartLockUI = () => {
   const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
   const [guestCode, setGuestCode] = useState<string | null>("");
   const [displayGuestCode, setDisplayGuestCode] = useState<boolean>(false);
+  const [copied, setCopied] = useState<string | null>("");
 
   const doorId = 1; // Initial Door value:
   const userId = 1; // Initial Tenant value:
+
+  // Gives prompt copy functionality
+  const handleCopy = () => {
+    setCopied(guestCode.code);
+    navigator.clipboard.writeText(guestCode.code);
+    setTimeout(() => setCopied(""), 3000);
+  };
 
   // GET Door status
   useEffect(() => {
@@ -210,17 +219,19 @@ const SmartLockUI = () => {
                     />
                     <div className="absolute top-18 left-23 flex justify-center items-center border border-[#EDEADE] rounded-full h-12 w-12 mb-8 shadow-sm bg-[#EDEADE]">
                       {lockStatus === "locked" ? (
-                        <>
-                          <img src={Lock} alt="Lock" className="w-10 h-10" />
-                        </>
+                        <img src={Lock} alt="Lock" className="w-10 h-10" />
+                      ) : lockStatus === "unlocked" ? (
+                        <img
+                          src={OpenLock}
+                          alt="Unlock"
+                          className="w-10 h-10"
+                        />
                       ) : (
-                        <>
-                          <img
-                            src={OpenLock}
-                            alt="Lock"
-                            className="w-10 h-10"
-                          />
-                        </>
+                        <img
+                          src={NoSignal}
+                          alt="No signal"
+                          className="w-10 h-10"
+                        />
                       )}
                     </div>
                   </div>
@@ -327,23 +338,34 @@ const SmartLockUI = () => {
                       </div>
 
                       <span className="flex justify-center border rounded-sm py-2 px-4 w-2xs text-white font-medium bg-[#0A2342] transition capitalize">
-                        <h1 className="bg-[#413f3f] w-1/2 flex justify-center rounded-sm">
-                          {guestCode.code}
+                        <h1 className="bg-[#413f3f] w-1/2 flex items-center justify-between rounded-sm text-center">
+                          <span className="flex-1">{guestCode.code}</span>
+                          <img
+                            className="w-7 h-7 rounded-r-sm bg-white/10 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur cursor-pointer"
+                            onClick={handleCopy}
+                            src={
+                              copied === guestCode.code
+                                ? "/assets/icons/bx-check.svg"
+                                : "/assets/icons/bx-copy.svg"
+                            }
+                          />
                         </h1>
                       </span>
 
-                      {/* <button
-                        className="border rounded-sm py-2 px-4 w-1/2 text-white font-medium bg-[#50C878] transition capitalize text-center"
-                        onClick={() => {}}
-                      >
-                        Refresh Code
-                      </button> */}
-                      <button
-                        className="border rounded-sm py-2 px-4 w-1/2 text-white font-medium bg-[#D23715] transition capitalize text-center"
-                        onClick={DeleteGuestCode}
-                      >
-                        Delete
-                      </button>
+                      <div className="flex justify-between scale-130 ">
+                        <button
+                          className="border rounded-sm px-6 w-1/2 text-white font-semibold bg-[#50C878] transition capitalize text-center text-lg hover:bg-[#45a65a]"
+                          onClick={handleGuestCode}
+                        >
+                          Refresh
+                        </button>
+                        <button
+                          className="border rounded-sm px-6 w-1/2 text-white font-semibold bg-[#D23715] transition capitalize text-center text-lg hover:bg-[#a92b12]"
+                          onClick={DeleteGuestCode}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
