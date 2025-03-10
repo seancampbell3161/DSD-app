@@ -11,7 +11,7 @@ DELETE FROM buildings where (select count(*) from buildings) > 0;
 INSERT INTO users (id,username, password, email, name)
 VALUES
     (1,'alice_j', 'securepassword1', 'alice@example.com', 'Alice Johnson'),
-     ('ruben', 'securepassword1', null,'ruben g');
+     (2,'ruben', 'securepassword1', 'test@gmail.com','ruben g');
 
 INSERT INTO buildings (id) values (1);
 
