@@ -35,7 +35,7 @@ public class DoorCodeController {
     @GetMapping("users/{userId}/doors/{doorId}/door-codes")
     public ResponseEntity<DoorCodeDTO> getDoorCodeOfUser(@PathVariable Long userId, @PathVariable Long doorId) {
         DoorCode doorCode = this.entryCodeService.getDoorCodeOfUser(userId, doorId);
-        DoorCodeDTO doorCodeDTO = (DoorCodeDTO) doorCodeMapper.mapToDoorCodeDTO(doorCode);
+        DoorCodeDTO doorCodeDTO = doorCodeMapper.mapToDoorCodeDTO(doorCode);
         return ResponseEntity.ok(doorCodeDTO);
     }
 
@@ -53,7 +53,7 @@ public class DoorCodeController {
     public ResponseEntity<DoorCodeDTO> createDoorCodeForTenant(@PathVariable Long userId, @PathVariable Long doorId){
         DoorCode code = this.entryCodeService.createDoorCodeForTenant(userId, doorId);
 
-        DoorCodeDTO doorCodeDTO = (DoorCodeDTO) doorCodeMapper.mapToDoorCodeDTO(code);
+        DoorCodeDTO doorCodeDTO = doorCodeMapper.mapToDoorCodeDTO(code);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(doorCodeDTO);
     }

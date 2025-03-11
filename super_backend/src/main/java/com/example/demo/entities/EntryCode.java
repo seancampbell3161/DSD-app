@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "entry_code_type")
-@Table(name = "entry_codes", uniqueConstraints = { @UniqueConstraint(name = "UniqueUserAndDoor", columnNames  ={"issued_by_user_id", "door_id"})})
 @Data
 @SuperBuilder
 @NoArgsConstructor

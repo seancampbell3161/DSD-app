@@ -47,7 +47,7 @@ class Parking {
 Long id
 int numberOfGuestSpots
 int numberOfTenantSpots
-Set<Door> doors;
+Set<Door> doors
 Building building
 }
 
@@ -92,14 +92,14 @@ Lease -- DocStatus
 Lease -- Apartment
 User "0..*" -- "0..*" Apartment : > lives is
 Building "1" -- "1..*" Apartment : > has
-Door "1..*" -- "1" Building : < can be entered by
-Door "1..*" -- "1" Apartment: < has
+Door "1..*" -- "0..1" Building : > belongs to
+Door "1..*" -- "0..1" Apartment: > belongs to
 Door "1" -- "1" DoorStatus : > has
 Door "1..*" -- "1..*" EntryCode : > can be opened by
 EntryCode "1..*" -- "1" User :  > issued by
 User "0..*" -- "0..*" Door : > allowed to open
-Building "1" -- "1..*" Parking : > has
-
+Building "0..1" -- "1..*" Parking : > has
+Parking "0..1" -- "1" Door : < belongs to
 
 
 

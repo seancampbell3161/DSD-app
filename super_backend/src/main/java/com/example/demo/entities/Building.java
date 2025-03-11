@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,4 +19,7 @@ public class Building {
 
     @OneToMany(mappedBy="building")
     List<Door> doors;
+
+    @OneToMany(mappedBy = "building")
+    Set<Parking> parkings;
 }
