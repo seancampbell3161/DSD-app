@@ -5,8 +5,10 @@ import com.example.demo.dto.LeaseSignRequestDTO;
 import com.example.demo.dto.MetaData;
 import com.example.demo.services.LeaseManagementDropBoxImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,14 @@ import java.nio.file.Path;
 public class DocumentManagementController {
     final LeaseManagementDropBoxImpl leaseManagementDropBox;
 
-      @Operation(
-            summary = "send doc request",
+    @Operation(
+            summary = "send doc request via dropbox signature services",
             description = "sends signature request and saves to database for a valid user",
+            requestBody = @RequestBody(
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE
+                    )
+            ),
             responses = {
                     @ApiResponse(responseCode = "200", description = "lease successfully sent",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = SignatureRequestGetResponse.class))),
@@ -40,16 +47,10 @@ public class DocumentManagementController {
             }
     )
     @PostMapping(path = "/sendSignatureRequest", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
-    ResponseEntity<?> sendLeaseSignatureRequest(@RequestPart("file") MultipartFile file, @RequestPart("leaseSignatureRequestDetails") LeaseSignRequestDTO leaseSignRequestDTO, @RequestPart("metaData") MetaData metaData) throws Exception {
+    ResponseEntity<?> sendLeaseSignatureRequest(@RequestPart("file") @Schema(type = "string", format = "binary") MultipartFile file, @Parameter(description = "all other details", required = true) @RequestPart("leaseSignatureRequestDetails") LeaseSignRequestDTO leaseSignRequestDTO, @Parameter(description = "meta data about the document", required = true) @RequestPart("metaData") MetaData metaData) throws Exception {
         Path document;
-        try {
-            document = Files.createTempFile("lease", file.getOriginalFilename());
-            file.transferTo(document);
-            leaseSignRequestDTO.setFile(document.toFile());
-        } catch (Exception e) {
-            log.error("exception thrown stackTrace:\n {}", e.getStackTrace(), e);
-            throw new RuntimeException("file is required");
-        }
+        document = Files.createTempFile("lease", ".tmp");
+        file.transferTo(document);
         leaseSignRequestDTO.setFile(document.toFile());
         leaseSignRequestDTO.setMetaData(metaData);
         SignatureRequestGetResponse body = leaseManagementDropBox.createLeaseSignatureRequest(leaseSignRequestDTO);
