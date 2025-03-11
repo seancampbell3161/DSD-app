@@ -47,6 +47,6 @@ public class User {
     List<Door> doors;
 
     @OneToMany(mappedBy = "issuedBy")
-    List<DoorCode> issuedDoorCodes;
+    List<EntryCode> issuedEntryCodes;
 
 }
