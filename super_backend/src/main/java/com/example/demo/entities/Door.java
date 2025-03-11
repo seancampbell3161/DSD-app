@@ -30,4 +30,8 @@ public class Door {
     @ManyToOne
     @JoinColumn(name = "building_id")
     Building building;
+
+    @OneToOne
+    @JoinColumn(name = "parking_id")
+    Parking parking;
 }
