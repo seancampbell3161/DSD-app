@@ -5,7 +5,6 @@ interface Tenant {
   firstName: string;
   email: string;
   apt: string;
-
 }
 // const emailTest: Tenant[] = [
   
@@ -23,7 +22,7 @@ const AutoCompleteTenant = () => {
 
   const onChange = (
     event: React.FormEvent<HTMLElement>, 
-    { newValue }: ChangeEvent
+    { newValue, method }: ChangeEvent
   ) => { 
     setValue(newValue)
     setSelectedTenant(null) //Clear selected info when input changes
@@ -48,14 +47,16 @@ const AutoCompleteTenant = () => {
 
   const inputProps: InputProps<Tenant> = {
     placeholder: "Email",
-    value,
-    onChange,
+    value: value,
+    onChange: (_, { newValue, method }) => {
+      setValue(newValue);
+    },
     className: "w-[320px] border rounded-md px-4 py-2 bg-[var(--color-white)] text-[var(--color-grey-800)] font-normal text-sm border-[var(--color-grey-400)] focus:outline-none focus:ring-2 focus:ring-blue-500"
   }
   //Style dropdown
   const theme = {
     container: "relative",
-    containerOpen: "block",
+    containerOpen: "block absolute z-2",
     input: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
     suggestionsContainer: "absolute mt-1 w-[320px] rounded-md shadow-md bg-transparent z-10",
     suggestionsList: "bg-[var(--color-white)] rounded-md", // Ensures suggestions have a background
@@ -63,13 +64,14 @@ const AutoCompleteTenant = () => {
     suggestionHighlighted: "bg-blue-500 text-[var(--color-grey-800)]"
   }
 
-  
+
+  // shouuld this be used in fetch? 
   const getSuggestions = (value: string) => {
     const inputValue = value.trim().toLowerCase();
     return inputValue.length === 0
       ? []
       : users.email.filter(
-          (tenant) => tenant.email.toLowerCase().includes(inputValue)
+          (tenant:Tenant) => tenant.email.toLowerCase().includes(inputValue)
         );
   }
 
@@ -94,6 +96,9 @@ const AutoCompleteTenant = () => {
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
         onSuggestionsClearRequested={onSuggestionsClearRequested}
+        onSuggestionSelected={(_, { suggestionValue }) =>
+          console.log("Selected: " + suggestionValue)
+        }
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
