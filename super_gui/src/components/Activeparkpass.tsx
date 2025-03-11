@@ -7,7 +7,7 @@ import swap from "/assets/icons/swap.svg";
 const Activeparkpass = () => {
   const [showLicensePlate, setShowLicensePlate] = useState(false);
 
-  // Sample data - this data would come from the DB on load, if any
+  // Temporary Mock Data
   const data = [
     {
       id: 1,
@@ -30,6 +30,20 @@ const Activeparkpass = () => {
       code: "12345",
       time: "12:27",
     },
+    {
+      id: 4,
+      name: "Al Johnson",
+      licensePlate: "DEF-456",
+      code: "12345",
+      time: "12:27",
+    },
+    {
+      id: 5,
+      name: "Tim Son",
+      licensePlate: "DEF-456",
+      code: "12345",
+      time: "12:27",
+    },
   ];
 
   const toggleDisplay = () => {
@@ -44,7 +58,7 @@ const Activeparkpass = () => {
             Welcome Back: Laura Johnson
           </h1>
           <div className="flex flex-col md:flex-row gap-4 md:gap-0 bg-accentBlue">
-            {/* Guest Parking Component - Left Side */}
+            {/* Guest Parking Component */}
             <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
               <div className="hidden md:flex md:flex-col md:items-center md:justify-start border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
                 <div className="w-full mb-6">
@@ -73,7 +87,7 @@ const Activeparkpass = () => {
               </div>
             </div>
 
-            {/* Active Park Pass Component - Right Side */}
+            {/* Active Park Pass Component*/}
             <div className="p-4 md:p-6 md:w-1/2 flex justify-center">
               <div className="flex flex-col items-center justify-start border rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
                 <div className="w-full mb-6">
@@ -83,48 +97,52 @@ const Activeparkpass = () => {
                   <hr className="border-[#D3C9B8] w-full mt-2" />
                 </div>
 
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-beige">
-                      <th
-                        className="p-2 text-left font-normal border-b border-beige cursor-pointer"
-                        onClick={toggleDisplay}
-                      >
-                        <div className="flex items-center">
-                          Name{" "}
-                          <img src={swap} alt="Swap" className="h-3 mx-1" />{" "}
-                          Plate
-                        </div>
-                      </th>
-                      <th className="p-2 text-left font-normal border-b border-beige">
-                        Access Code
-                      </th>
-                      <th className="p-2 text-left font-normal border-b border-beige">
-                        Time
-                      </th>
-                      <th className="p-2"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((pass) => (
-                      <tr key={pass.id} className="border-b border-beige">
-                        <td className="p-2 text-left border-r border-beige">
-                          {showLicensePlate ? pass.licensePlate : pass.name}
-                        </td>
-                        <td className="p-2 text-left border-r border-beige">
-                          {pass.code}
-                        </td>
-                        <td className="p-2 text-left">{pass.time}</td>
-                        <td className="p-2">
-                          <div className="flex justify-end">
-                            <img src={trashCan} alt="Bin" className="h-5" />
+                <div className="w-full h-48 overflow-y-auto no-scrollbar">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-white">
+                      <tr className="border-b border-beige">
+                        <th
+                          className="p-2 text-left font-body border-b border-beige cursor-pointer"
+                          onClick={toggleDisplay}
+                        >
+                          <div className="flex items-left">
+                            Name{" "}
+                            <img src={swap} alt="Swap" className="h-3 mx-1" />{" "}
+                            Plate
                           </div>
-                        </td>
+                        </th>
+                        <th className="p-2 text-center font-body border-b border-beige">
+                          Pass #
+                        </th>
+                        <th className="p-2 text-right font-body border-b border-beige">
+                          Time
+                        </th>
+                        <th className="p-2"></th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-
+                    </thead>
+                    <tbody>
+                      {data.map((pass) => (
+                        <tr key={pass.id} className="border-b border-beige">
+                          <td className="p-2 text-left border-r border-beige">
+                            {showLicensePlate ? pass.licensePlate : pass.name}
+                          </td>
+                          <td className="p-2 text-left border-r border-beige">
+                            {pass.code}
+                          </td>
+                          <td className="p-2 text-left">{pass.time}</td>
+                          <td className="p-2">
+                            <div className="flex justify-end">
+                              <img src={trashCan} alt="Bin" className="h-5" />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="flex justify-center sm:hidden">
+                  <Parking />
+                </div>
                 <p className="mt-6 text-charcoal italic text-center">
                   Contact management if more than 3 guest passes are needed.
                 </p>
