@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/* Custom utility to hide scrollbar on multiple Browsers*/
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari, and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
 @theme {
   --color-*: initial;
   --color-red: #d23715;
@@ -15,17 +29,17 @@
   --color-grey-400: #d9d9d9;
   --color-grey-800: #747272;
   --color-white: #fefefe;
-  
+
   --font-header: "Roboto Condensed", "serif";
   --font-subHeading: "Playfair Display";
   --font-body: "Raleway";
-  
-  --text-6xl : 56px;
-  --text-5xl : 42px;
-  --text-4xl : 36px;
+
+  --text-6xl: 56px;
+  --text-5xl: 42px;
+  --text-4xl: 36px;
   --text-2xl: 28px;
-  --text-xl : 21px;
-  --text-lg : 14px;
+  --text-xl: 21px;
+  --text-lg: 14px;
 
   --tracking-1: -8%;
   --tracking-2: -4%;
@@ -33,19 +47,18 @@
 
 @font-face {
   font-family: "Roboto Condensed", serif;
-  src: url("./fonts/RobotoCondensed-Regular.woff2") format("woff2"), url("./fonts/RobotoCondensed-SemiBold.woff2") format("woff2");
+  src: url("./fonts/RobotoCondensed-Regular.woff2") format("woff2"),
+    url("./fonts/RobotoCondensed-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Raleway";
   src: url("./fonts/Raleway-Regular.woff2") format("woff2"),
-  url("./fonts/Raleway-SemiBold.woff2") format("woff2"),;
+    url("./fonts/Raleway-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Playfair Display";
   src: url("./fonts/PlayfairDisplay-VariableFont_wght.woff2") format("woff2"),
-  url("./fonts/Raleway-SemiBold.woff2") format("woff2"),;
+    url("./fonts/Raleway-SemiBold.woff2") format("woff2");
 }
-
-
