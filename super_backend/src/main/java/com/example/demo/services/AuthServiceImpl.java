@@ -7,7 +7,7 @@ import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.services.UserDetailsImpl;
-import com.example.demo.util.enums.RoleType;
+import com.example.demo.utils.enums.RoleType;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

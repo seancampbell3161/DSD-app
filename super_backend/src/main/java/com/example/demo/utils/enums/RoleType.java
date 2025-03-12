@@ -1,4 +1,4 @@
-package com.example.demo.util.enums;
+package com.example.demo.utils.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

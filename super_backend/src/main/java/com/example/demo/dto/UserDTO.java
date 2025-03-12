@@ -1,10 +1,10 @@
 package com.example.demo.dto;
 
-import java.util.List;
 
+import com.example.demo.utils.enums.RoleType;
 import lombok.*;
 
-import com.example.demo.util.enums.RoleType;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,12 +13,13 @@ import com.example.demo.util.enums.RoleType;
 public class UserDTO {
 
     private Long id;
-
-    private String username;
-
-    private String email;
-
-    private String name;
-
-    private List<RoleType> roles;
+    @NonNull
+    String username;
+    @NonNull
+    String password;
+    @NonNull
+    String email;
+    @NonNull
+    String name;
+    List<RoleType> roles;
 }

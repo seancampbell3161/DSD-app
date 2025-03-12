@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.util.enums.DoorStatus;
+
+import com.example.demo.utils.enums.DoorStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

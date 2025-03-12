@@ -1,7 +1,11 @@
 package com.example.demo.entities;
 
+import com.example.demo.utils.enums.RoleType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +13,8 @@ import java.util.Set;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 @Table(name = "users")
 public class User {
 
@@ -17,16 +23,16 @@ public class User {
     Long id;
 
     @Column(nullable = false, unique = true)
-    String username;
+     String username;
 
     @Column(nullable = false)
-    String password;
-
+     String password;
+    @Email(message = "Email format should be valid")
     @Column(unique = true, nullable = false)
-    String email;
+     String email;
 
     @Column(nullable = false)
-    String name;
+     String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -51,4 +57,6 @@ public class User {
     @OneToMany(mappedBy = "issuedBy")
     List<DoorCode> issuedDoorCodes;
 
+    @OneToOne(mappedBy = "user")
+    Tenant tenantProfile;
 }

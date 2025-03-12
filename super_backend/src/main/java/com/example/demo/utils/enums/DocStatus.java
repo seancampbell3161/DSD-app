@@ -1,12 +1,14 @@
-package com.example.demo.util.enums;
+package com.example.demo.utils.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DocStatus {
-    UNSIGNED("unsigned"),
-    REVIEW("review"),
-    SIGNED("signed");
+    DRAFT("draft"),
+    ARCHIVED("archived"),
+    SIGNED("signed"),
+    SENT("sent"),
+    CANCELLED("canceled");
     private final String documentStatus;
 
     DocStatus(String documentStatus) {
