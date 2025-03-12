@@ -1,5 +1,8 @@
 import { useState } from "react"
 import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
+
 
 interface User {
 	name: string
@@ -101,37 +104,39 @@ const AutoCompleteTenant = () => {
 	)
 
 	return (
-		<div className="grid grid-cols-2 gap-4 mt-10">
-			<div className="flex flex-col items-center">
-				<Autosuggest
-					suggestions={suggestions}
-					onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-					onSuggestionsClearRequested={onSuggestionsClearRequested}
-					onSuggestionSelected={(_, { suggestionValue }) =>
-						console.log("Selected: " + suggestionValue)
-					}
-					getSuggestionValue={getSuggestionValue}
-					renderSuggestion={renderSuggestion}
-					inputProps={inputProps}
-					theme={theme}
-				/>
-			</div>
-			<div className="flex flex-col h-[190px] bg-[var(--color-white)] rounded-lg font-normal text-sm">
-				<div className="border border-(--color-beige)">
-					<h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-[12px]">
-						Tenant
-					</h2>
-				</div>
-				<div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm">
-					{selectedTenant && ( // Conditionally render info if email is selected
-						<div>
-							<p className="color-grey-800">Name: {selectedTenant.name}</p>
-							<p className="color-grey-800">Username: {selectedTenant.username}</p>
-						</div>
-					)}
-				</div>
-			</div>
-		</div>
+    <Theme>
+      <div className="grid grid-cols-2 gap-4 mt-10">
+        <div className="flex flex-col items-center">
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={onSuggestionsClearRequested}
+            onSuggestionSelected={(_, { suggestionValue }) =>
+              console.log("Selected: " + suggestionValue)
+            }
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            theme={theme}
+          />
+        </div>
+        <div className="flex flex-col h-[190px] bg-[var(--color-white)] rounded-lg font-normal text-sm">
+          <div className="border border-(--color-beige)">
+            <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-[12px]">
+              Tenant
+            </h2>
+          </div>
+          <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm">
+            {selectedTenant && ( // Conditionally render info if email is selected
+              <div>
+                <p className="color-grey-800">Name: {selectedTenant.name}</p>
+                <p className="color-grey-800">Username: {selectedTenant.username}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </Theme>
 	)
 }
 export default AutoCompleteTenant
