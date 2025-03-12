@@ -1,10 +1,11 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-
+@Builder
 @Data
 @Table(name = "tenants")
 @Entity
