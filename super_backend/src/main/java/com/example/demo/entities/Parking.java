@@ -9,11 +9,11 @@ import lombok.Data;
 public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private Integer numberOfGuestSpots;
+    Integer numberOfGuestSpots;
 
-    private Integer numberOfTenantSpots;
+    Integer numberOfTenantSpots;
 
     @OneToOne(mappedBy = "parking")
     Door door;

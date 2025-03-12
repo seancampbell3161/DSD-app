@@ -7,4 +7,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ParkingCodeDTO extends EntryCodeDTO {
     String numberPlate;
+    String guestName;
 }

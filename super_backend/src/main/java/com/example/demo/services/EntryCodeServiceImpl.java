@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
+import java.util.List;
 
 import static com.example.demo.util.DoorCodeUtil.getRandomNumberString;
 
@@ -63,18 +63,18 @@ public class EntryCodeServiceImpl implements EntryCodeService {
 
     @Override
     public void deleteEntryCode(Long doorCodeId) {
-        this.doorCodeRepository.deleteById(doorCodeId);
+        this.entryCodeRepository.deleteById(doorCodeId);
     }
 
     @Transactional
     @Override
-    public void deleteEntryCodeByUserAndByDoor(Long userId, Long doorId) {
+    public void deleteDoorCodeByUserAndByDoor(Long userId, Long doorId) {
         doorCodeRepository.deleteByUserAndDoor(doorId,userId);
     }
 
 
     @Override
-    public Set<ParkingCode> getParkingCodeOfUser(Long userId, Long doorId) {
+    public List<ParkingCode> getParkingCodeOfUser(Long userId, Long doorId) {
         entryCodeRepository.deleteExpiredDoorCodes(ZonedDateTime.now());
 
         return parkingCodeRepository.findByUserAndDoor(userId,doorId);
@@ -88,14 +88,14 @@ public class EntryCodeServiceImpl implements EntryCodeService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This door is not a parking door");
         }
 
-        Set<ParkingCode> parkingCodesIssuedByUser = getParkingCodeOfUser(userId,doorId);
+        List<ParkingCode> parkingCodesIssuedByUser = getParkingCodeOfUser(userId,doorId);
 
         if(parkingCodesIssuedByUser.size() > 3) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The client has issued more than 3 valid parking codes. Remove one or more parking codes until you have less than 3 before creating new parking codes");
         }
 
         entryCodeRepository.deleteExpiredDoorCodes(ZonedDateTime.now());
-        Set<ParkingCode> totalValidParkingCodesForParking = getAllValidParkingCodesByDoor(doorId);
+        List<ParkingCode> totalValidParkingCodesForParking = getAllValidParkingCodesByDoor(doorId);
 
         if(totalValidParkingCodesForParking.size() > door.getParking().getNumberOfGuestSpots()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "There are no guest parking spots left at the moment. Try again at a later time");
@@ -109,13 +109,14 @@ public class EntryCodeServiceImpl implements EntryCodeService {
                 .issuedBy(issuedBy)
                 .code(getRandomNumberString())
                 .numberPlate(request.getNumberPlate())
+                .guestName(request.getGuestName())
                 .build();
 
         return parkingCodeRepository.save(code);
     }
 
     @Override
-    public Set<ParkingCode> getAllValidParkingCodesByDoor(Long doorId) {
+    public List<ParkingCode> getAllValidParkingCodesByDoor(Long doorId) {
         entryCodeRepository.deleteExpiredDoorCodes(ZonedDateTime.now());
         return parkingCodeRepository.findParkingCodesByDoor_Id(doorId);
     }

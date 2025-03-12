@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class ParkingCodeRequest {
-    private String numberPlate;
+    String numberPlate;
+    String guestName;
 }

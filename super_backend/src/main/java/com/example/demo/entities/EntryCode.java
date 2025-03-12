@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "entry_codes")
 public abstract class EntryCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

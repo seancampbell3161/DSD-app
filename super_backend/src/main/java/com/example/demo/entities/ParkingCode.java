@@ -15,4 +15,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class ParkingCode extends EntryCode{
     String numberPlate;
+    String guestName;
 }

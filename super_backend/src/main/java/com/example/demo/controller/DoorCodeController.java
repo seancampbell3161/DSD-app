@@ -69,7 +69,7 @@ public class DoorCodeController {
     @DeleteMapping(path = "users/{userId}/door/{doorId}/door-codes")
     public ResponseEntity<?> deleteDoorCode(@PathVariable Long userId , @PathVariable Long doorId){
 
-        this.entryCodeService.deleteEntryCodeByUserAndByDoor(userId, doorId);
+        this.entryCodeService.deleteDoorCodeByUserAndByDoor(userId, doorId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
