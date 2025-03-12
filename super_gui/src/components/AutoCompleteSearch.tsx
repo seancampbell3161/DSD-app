@@ -37,7 +37,7 @@ const AutoCompleteTenant = () => {
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					console.table(data)
+					console.log(data)
 					setSuggestions(data._embedded.userReadList)
 				})
 		} catch (error) {
@@ -81,7 +81,7 @@ const AutoCompleteTenant = () => {
 			? []
 			: users.email.filter((tenant: User) =>
 					tenant.email.toLowerCase().includes(inputValue),
-			  )
+			)
 	}
 
 	const getSuggestionValue = (suggestion: User) => suggestion.email
