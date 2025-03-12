@@ -29,7 +29,7 @@ const AutoCompleteTenant = () => {
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
 		setIsLoading(true) // Set loading state
 		try {
-			fetch(`/api//users/searchUsersByEmail?email=${value}`, {
+			fetch(`/api/users/searchUsersByEmail?email=${value}&page=0&size=10&sortParam=email`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/hal+json",
