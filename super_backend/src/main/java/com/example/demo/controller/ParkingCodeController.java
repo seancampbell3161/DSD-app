@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("")
@@ -45,7 +44,7 @@ public class ParkingCodeController {
     })
     @GetMapping("users/{userId}/doors/{doorId}/parking-codes")
     public ResponseEntity<List<ParkingCodeDTO>> getParkingCodeOfUser(@PathVariable Long userId, @PathVariable Long doorId) {
-        Set<ParkingCode> parkingCodesSet = this.entryCodeService.getParkingCodeOfUser(userId, doorId);
+        List<ParkingCode> parkingCodesSet = this.entryCodeService.getParkingCodeOfUser(userId, doorId);
         List<ParkingCodeDTO> parkingCodeDTOList = new ArrayList<>();
 
         for(ParkingCode parkingCode : parkingCodesSet){
