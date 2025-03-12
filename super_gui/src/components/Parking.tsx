@@ -23,21 +23,6 @@ const Parking = () => {
             <form>
               <div className="mb-4">
                 <label
-                  htmlFor="apartmentNumber"
-                  className="block text-base font-medium text-gray-700"
-                >
-                  Apartment #
-                </label>
-                <input
-                  type="text"
-                  name="apartmentNumber"
-                  id="apartmentNumber"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentGreen focus:border-accentGreen sm:text-sm"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
                   htmlFor="name"
                   className="block text-base  font-medium text-gray-700"
                 >
