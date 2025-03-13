@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TestEndpoint from "../components/TestEndpoint";
 
 import api from "../api/api"
 
@@ -58,6 +59,7 @@ export const Login = () => {
         </button>
         {error && <p className="text-red-500">{error}</p>}
       </form>
+      {/* <TestEndpoint /> */}
     </div>
   )
 }
