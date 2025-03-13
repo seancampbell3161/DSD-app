@@ -44,7 +44,7 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "500", description = "server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @PostMapping(path = "/sendSignatureRequest", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+    @PostMapping(path = "/send", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
     ResponseEntity<SignatureRequestGetResponse> sendLeaseSignatureRequest(@RequestPart("file") @Schema(type = "string", format = "binary") MultipartFile file, @Parameter(description = "all other details", required = true) @RequestPart("leaseSignatureRequestDetails") LeaseSignRequestDTO leaseSignRequestDTO, @Parameter(description = "meta data about the document", required = true) @RequestPart("metaData") MetaData metaData) throws Exception {
         Path document;
         document = Files.createTempFile("lease", ".tmp");
@@ -63,9 +63,9 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "4XX", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @PostMapping(path = "/sendRequestToCancel")
-    ResponseEntity<?> sendLeaseSignatureRequest(@Parameter String externalId) throws ApiException {
-        leaseManagementDropBox.cancelLeaseSignatureRequest(externalId);
+    @PostMapping(path = "/cancel")
+    ResponseEntity<?> sendLeaseSignatureRequest(@RequestParam String leaseId) throws ApiException {
+        leaseManagementDropBox.cancelLeaseSignatureRequest(leaseId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Operation(
@@ -78,8 +78,8 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "4XX", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @GetMapping(path = "/getStatus", consumes = "application/json", produces = "application/json")
-    ResponseEntity<SignatureRequestGetResponse> getLeaseSignatureStatus(@Parameter String externalId) throws ApiException {
-        return new ResponseEntity<>(leaseManagementDropBox.getLeaseStatus(externalId), HttpStatus.OK);
+    @GetMapping(path = "/get", consumes = "application/json", produces = "application/json")
+    ResponseEntity<SignatureRequestGetResponse> getLeaseSignatureStatus(@RequestParam String leaseId) throws ApiException {
+        return new ResponseEntity<>(leaseManagementDropBox.getLeaseStatus(leaseId), HttpStatus.OK);
     }
 }
