@@ -3,7 +3,7 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.rmi.dgc.Lease;
+
 import java.util.List;
 import java.util.Set;
 
