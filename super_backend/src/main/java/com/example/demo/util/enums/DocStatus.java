@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DocStatus {
+    PENDING("pending"),
     UNSIGNED("unsigned"),
     REVIEW("review"),
     SIGNED("signed");
@@ -14,14 +15,15 @@ public enum DocStatus {
     }
 
     @JsonValue
-    public String getDocumentStatus(){
-        return  documentStatus;
+    public String getDocumentStatus() {
+        return documentStatus;
     }
+
     //this makes values of enum in json passed insensitive
     @JsonCreator
-    public static DocStatus fromValue(String documentStatus){
-        for(DocStatus docStatus: values()){
-            if(docStatus.documentStatus.equalsIgnoreCase(documentStatus)){
+    public static DocStatus fromValue(String documentStatus) {
+        for (DocStatus docStatus : values()) {
+            if (docStatus.documentStatus.equalsIgnoreCase(documentStatus)) {
                 return docStatus;
             }
         }
