@@ -17,6 +17,10 @@ export const Login = () => {
     });
   };
 
+  const handleClick = async() => {
+    await api.get('/doors/1/status')
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -24,7 +28,7 @@ export const Login = () => {
       const response = await api.post('/auth/login', credentials)
       const { access_token } = response.data;
       console.log(access_token);
-      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('access_token', access_token);
 
     } catch (error) {
       console.error(error);
@@ -60,6 +64,9 @@ export const Login = () => {
         {error && <p className="text-red-500">{error}</p>}
       </form>
       {/* <TestEndpoint /> */}
+      <button onClick={handleClick}>
+        Click me
+      </button>
     </div>
   )
 }
