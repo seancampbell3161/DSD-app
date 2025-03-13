@@ -35,12 +35,12 @@ public class UserController {
     private final UserMapper userMapper;
 
 
-    @Operation(summary = "Get all users")
-    @GetMapping
-    public List<UserDTO> getUsers() {
-        List<User> userList = userService.getAllUsers();
-        return userList.stream().map(userMapper::mapToUserDTO).toList();
-    }
+//    @Operation(summary = "Get all users")
+//    @GetMapping
+//    public List<UserDTO> getUsers() {
+//        List<User> userList = userService.getAllUsers();
+//        return userList.stream().map(userMapper::mapToUserDTO).toList();
+//    }
 
     @Operation(
             summary = "this sends a signature requests to anyone with an email in our user table db",
