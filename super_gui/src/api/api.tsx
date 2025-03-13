@@ -36,10 +36,9 @@ api.interceptors.response.use(
       } catch {
         // Handle refresh token error or redirect to login
         // For example, you might want to redirect to the login page
-        window.location.href = '/login';
+        // window.location.href = '/login';
       }
     }
-
     return Promise.reject(error);
   }
 );
