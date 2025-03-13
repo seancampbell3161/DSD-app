@@ -20,10 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public User saveUser(UserDTO userDTO) {
-
-        User user = userMapper.maptoUser(userDTO);
-
+    public User save(User user) {
         return userRepository.save(user);
     }
 
