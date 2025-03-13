@@ -1,13 +1,20 @@
 package com.example.demo.entities;
 
-import com.example.demo.util.enums.RoleType;
-import jakarta.persistence.*;
-import lombok.Data;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 @Table(name = "users")
 public class User {
 
@@ -16,21 +23,22 @@ public class User {
     Long id;
 
     @Column(nullable = false, unique = true)
-    String username;
+     String username;
 
     @Column(nullable = false)
-    String password;
-
+     String password;
+    @Email(message = "Email format should be valid")
     @Column(unique = true, nullable = false)
-    String email;
+     String email;
 
     @Column(nullable = false)
-    String name;
+     String name;
 
-    @ElementCollection(targetClass = RoleType.class)
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    List<RoleType> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tenants_apartments",
@@ -47,6 +55,8 @@ public class User {
     List<Door> doors;
 
     @OneToMany(mappedBy = "issuedBy")
-    List<EntryCode> issuedEntryCodes;
+    List<DoorCode> issuedDoorCodes;
 
+    @OneToOne(mappedBy = "user")
+    Tenant tenantProfile;
 }
