@@ -17,12 +17,8 @@ public class Door {
     @Enumerated(EnumType.STRING)
     DoorStatus doorStatus;
 
-    @ManyToMany
-    @JoinTable(name = "door_codes_doors",
-            joinColumns = @JoinColumn(name = "door_id"),
-            inverseJoinColumns = @JoinColumn(name = "door_codes_id")
-    )
-    List<DoorCode> doorCodes;
+    @OneToMany(mappedBy = "door")
+    List<EntryCode> entryCodes;
 
     @ManyToMany(mappedBy = "doors")
     List<User> allowedUsers;
@@ -34,4 +30,8 @@ public class Door {
     @ManyToOne
     @JoinColumn(name = "building_id")
     Building building;
+
+    @OneToOne
+    @JoinColumn(name = "parking_id")
+    Parking parking;
 }

@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.UserDTO;
 import com.example.demo.entities.User;
+import com.example.demo.mappers.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     @Override
-    public User save(User user) {
+    public User saveUser(UserDTO userDTO) {
+
+        User user = userMapper.maptoUser(userDTO);
+
         return userRepository.save(user);
     }
 
