@@ -71,16 +71,28 @@ public class LeaseManagementDropBoxImpl implements LeaseManagement {
                 .endDate(ZonedDateTime.parse(leaseSignRequestDTO.getMetaData().getEndDate()))
                 .tenants(List.of(tenantOptional.get()))
                 .build());
-        log.info("new lease created: {}",newLease);
+        log.info("new lease created: {}", newLease);
         return response;
     }
 
-    public void cancelLeaseSignatureRequest(String externalId) throws ApiException {
-         signatureRequestApi.signatureRequestCancel(externalId);
+    public void cancelLeaseSignatureRequest(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Lease lease = leaseRepository.findById(leaseId).orElseThrow();
+        signatureRequestApi.signatureRequestCancel(lease.getExternalId());
+        lease.setStatus(DocStatus.CANCELED);
+        leaseRepository.save(lease);
     }
 
 
-    public SignatureRequestGetResponse getLeaseStatus(String external_id) throws ApiException {
-        return signatureRequestApi.signatureRequestGet(external_id);
+    public Lease getLeaseStatus(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Lease lease = leaseRepository.findById(leaseId).orElseThrow();
+        log.info("lease status got: {}", lease);
+        return lease;
+    }
+
+    public void dropboxCallback(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Optional<Lease> lease = leaseRepository.findById(leaseId);
+        SignatureRequestGetResponse response = signatureRequestApi.signatureRequestGet(lease.orElseThrow().getExternalId());
+        //todo check resonse object
+        log.info("lease status updated for leaseId: {}", leaseId);
     }
 }

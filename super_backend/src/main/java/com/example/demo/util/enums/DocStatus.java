@@ -7,7 +7,8 @@ public enum DocStatus {
     PENDING("pending"),
     UNSIGNED("unsigned"),
     REVIEW("review"),
-    SIGNED("signed");
+    SIGNED("signed"),
+    CANCELED("canceled");
     private final String documentStatus;
 
     DocStatus(String documentStatus) {
