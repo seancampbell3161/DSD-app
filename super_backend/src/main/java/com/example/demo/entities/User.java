@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -55,7 +54,7 @@ public class User {
     List<Door> doors;
 
     @OneToMany(mappedBy = "issuedBy")
-    List<DoorCode> issuedDoorCodes;
+    List<EntryCode> issuedEntryCodes;
 
     @OneToOne(mappedBy = "user")
     Tenant tenantProfile;

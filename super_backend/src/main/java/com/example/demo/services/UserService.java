@@ -7,10 +7,15 @@ import java.util.List;
 
 public interface UserService {
 
-    User saveUser(UserDTO userDTO);
-
+    User save(User user);
 
     List<User> getAllUsers();
 
     User getUser(Long id);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+
+    User getUserbyUsername(String username);
 }

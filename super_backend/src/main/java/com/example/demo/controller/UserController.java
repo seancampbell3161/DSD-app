@@ -1,5 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.dto.PageResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserRead;
@@ -35,12 +43,12 @@ public class UserController {
     private final UserMapper userMapper;
 
 
-//    @Operation(summary = "Get all users")
-//    @GetMapping
-//    public List<UserDTO> getUsers() {
-//        List<User> userList = userService.getAllUsers();
-//        return userList.stream().map(userMapper::mapToUserDTO).toList();
-//    }
+    @Operation( summary = "Get all users")
+    @GetMapping
+    public List<UserDTO> getUsers() {
+        List<User> userList = userService.getAllUsers();
+        return userList.stream().map(userMapper::mapToUserDTO).toList();
+    }
 
     @Operation(
             summary = "this sends a signature requests to anyone with an email in our user table db",
