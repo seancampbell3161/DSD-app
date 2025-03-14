@@ -11,6 +11,6 @@ public abstract class EntryCodeDTO {
 
     String code;
 
-    @JsonFormat(pattern = "YYYY-MM-DD'T'HH:mm:ss.SSSZ")
+    @JsonFormat(pattern = "YYYY-MM-dd'T'HH:mm:ss.SSSZ")
     ZonedDateTime expireDate;
 }
