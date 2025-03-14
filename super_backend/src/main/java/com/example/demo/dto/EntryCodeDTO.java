@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
@@ -10,5 +11,6 @@ public abstract class EntryCodeDTO {
 
     String code;
 
+    @JsonFormat(pattern = "YYYY-MM-DD'T'HH:mm:ss.SSSZ")
     ZonedDateTime expireDate;
 }
