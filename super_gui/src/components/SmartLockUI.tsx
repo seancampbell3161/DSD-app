@@ -114,12 +114,15 @@ const SmartLockUI = () => {
     setDisplayGuestCode(false);
 
     try {
-      const res = await fetch(`http://localhost:8080/${userId}/door-codes`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `http://localhost:8080/users/${userId}/door/${doorId}/door-codes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (res.ok) {
         const data = await res.json();
         setGuestCode(data);
@@ -137,13 +140,18 @@ const SmartLockUI = () => {
     setDisplayGuestCode(false);
 
     try {
-      const res = await fetch(`http://localhost:8080/${userId}/door-codes`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: guestCode.id }),
-      });
+      const res = await fetch(
+        `http://localhost:8080/users/${userId}/door/${doorId}/door-codes`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: guestCode.id,
+          }),
+        }
+      );
       if (res.ok) {
         console.log(`Guest Code deleted: ${guestCode.id}`);
         setGuestCode(null);
@@ -307,8 +315,11 @@ const SmartLockUI = () => {
                               {new Date(guestCode.expireDate).toLocaleString(
                                 [],
                                 {
+                                  year: "2-digit",
+                                  month: "numeric",
+                                  day: "numeric",
                                   hour: "numeric",
-                                  hour12: false,
+                                  minute: "2-digit",
                                 }
                               )}
                             </span>
