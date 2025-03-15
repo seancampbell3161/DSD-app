@@ -50,7 +50,7 @@ public class ComplaintController {
             @ApiResponse(responseCode = "200", description = "Complaints retrieved successfully", content = @Content(schema = @Schema(implementation = Complaint.class, type = "array"))),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @GetMapping("/allFrom{username}}")
+    @GetMapping("/allFrom{username}")
     public ResponseEntity<List<Complaint>> getComplaintById(@io.swagger.v3.oas.annotations.Parameter(description = "Username of the user to retrieve complaints for", required = true, example = "john_doe") @PathVariable String username) {
         List<Complaint> complaints = complaintService.getAllComplaintByUser(username);
         return new ResponseEntity<>(complaints, HttpStatus.OK);

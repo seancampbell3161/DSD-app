@@ -17,7 +17,7 @@ public class Complaint {
     Long id;
 
     @JoinColumn(name = "submitter_user_id)", nullable = false)
-    @OneToMany
+    @ManyToOne
     User user;
 
     @Column(name = "message")
