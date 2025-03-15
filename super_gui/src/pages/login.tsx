@@ -1,72 +1,21 @@
-import { useState } from "react";
-import TestEndpoint from "../components/TestEndpoint";
+import { LoginForm } from "../components/LoginForm"
 
-import api from "../api/api"
 
 export const Login = () => {
-  const [credentials, setCredentials] = useState({
-    username: '',
-    password: ''
-  });
-  const [error, setError] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleClick = async() => {
-    await api.get('/doors/1/status')
-  }
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await api.post('/auth/login', credentials)
-      const { access_token } = response.data;
-      console.log(access_token);
-      localStorage.setItem('access_token', access_token);
-
-    } catch (error) {
-      console.error(error);
-      setError('Login failed. Please check your credentials and try again.');
-    }
-  };
-
   return (
-    <div>
-      <h2>Login</h2>
-      {/* <pre>{JSON.stringify(credentials, null, 2)}</pre> */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input 
-          type="text"
-          name="username"
-          value={credentials.username}
-          onChange={handleChange}
-          className="border border-gray-700 p-2 w-full"
-        />
-        <input 
-          type="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-          className="border border-gray-700 p-2 w-full"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded"
-        >
-          Login
-        </button>
-        {error && <p className="text-red-500">{error}</p>}
-      </form>
-      {/* <TestEndpoint /> */}
-      <button onClick={handleClick}>
-        Click me
-      </button>
-    </div>
+    <section className="absolute md:hidden h-lvh z-20 md:flex md:flex-row bg-accentBlue md:bg-white">
+      <div className="hero w-4/5 text-center md:border-charcoal md:border-r-10">
+        <div className="hero-text pt-[100px]">
+          <h1 className="font-[Bebas_Neue] text-6xl text-red tracking-tighter my-auto">Super</h1>
+          <h2 className="font-header mobile-subheader font-normal text-charcoal text-2xl pb-6 tracking-tighter">Your Pocket Superintendant, Simplifying Apartment living.</h2>
+        </div>
+        <div className="hidden md:grid md:h-[800px] md:w-[800px] overflow-hidden md:mx-auto">
+          <img className="object-cover object-top" src="/assets/images/freepik__background__40241 1.webp" />
+        </div>  
+      </div>
+      <div className="bg-brown grid content-center px-5">
+        <LoginForm />
+      </div>
+    </section>
   )
 }
