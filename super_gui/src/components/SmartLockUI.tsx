@@ -318,12 +318,9 @@ const SmartLockUI = () => {
                                   year: "2-digit",
                                   month: "numeric",
                                   day: "numeric",
-                                  hour: "numeric",
-                                  minute: "2-digit",
                                 }
                               )}
                             </span>
-                            <span className="text-xs">hrs</span>
                           </span>
                         </h1>
                       </div>
@@ -389,12 +386,12 @@ const SmartLockUI = () => {
                               {new Date(guestCode.expireDate).toLocaleString(
                                 [],
                                 {
-                                  hour: "numeric",
-                                  hour12: false,
+                                  year: "2-digit",
+                                  month: "numeric",
+                                  day: "numeric",
                                 }
                               )}
                             </span>
-                            <span className="text-xs">hrs</span>
                           </span>
                         </h1>
                       </div>
