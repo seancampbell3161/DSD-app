@@ -95,7 +95,7 @@ public class ComplaintController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "Create a new complaint without jwt token for testing purposes", description = "extracts username from jwt, need to be logged in", responses = {
+    @Operation(summary = "Create a new complaint without jwt token for testing purposes", description = "for testing purposes. need to add valid username in header", responses = {
             @ApiResponse(responseCode = "201", description = "Complaint created successfully", content = @Content(schema = @Schema(implementation = Complaint.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
