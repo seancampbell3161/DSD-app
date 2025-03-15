@@ -5,6 +5,10 @@ import com.example.demo.entities.User;
 import com.example.demo.mappers.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,5 +51,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserbyUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The user does not exist"));
+    }
+
+     public Page<User> searchUsersWithEmail(String email, int page, int size, String sortParam) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortParam).descending());
+        return userRepository.findByEmailContainingIgnoreCase(email, pageable);
     }
 }
