@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Parking from "./Parking";
 import Placeholder from "/assets/images/placeholder.jpg";
 import trashCan from "/assets/icons/bin.svg";
@@ -6,45 +6,38 @@ import swap from "/assets/icons/swap.svg";
 
 const Activeparkpass = () => {
   const [showLicensePlate, setShowLicensePlate] = useState(false);
+  const [parkingStatus, setParkingStatus] = useState<boolean>(false);
 
-  // Temporary Mock Data
-  const data = [
-    {
-      id: 1,
-      name: "John Doe",
-      licensePlate: "ABC-123",
-      code: "12345",
-      time: "1:45:00",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      licensePlate: "XYZ-789",
-      code: "12345",
-      time: "32:00",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      licensePlate: "DEF-456",
-      code: "12345",
-      time: "12:27",
-    },
-    {
-      id: 4,
-      name: "Al Johnson",
-      licensePlate: "DEF-456",
-      code: "12345",
-      time: "12:27",
-    },
-    {
-      id: 5,
-      name: "Tim Son",
-      licensePlate: "DEF-456",
-      code: "12345",
-      time: "12:27",
-    },
-  ];
+  const doorId = 1; // Initial Door value:
+  const userId = 1; // Initial Tenant value:
+
+  // GET Parking Status
+  useEffect(() => {
+    const fetchParkingStatus = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8080/users/${userId}/doors/${doorId}/parking-codes`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setParkingStatus(data);
+          console.log(`Parking status:`, data);
+        } else {
+          console.error("Failed to retrieve parking status");
+        }
+      } catch (error) {
+        console.error("Error fetching parking status:", error);
+      }
+    };
+
+    fetchParkingStatus();
+  }, []);
 
   const toggleDisplay = () => {
     setShowLicensePlate((prev) => !prev);
@@ -115,28 +108,45 @@ const Activeparkpass = () => {
                           Pass #
                         </th>
                         <th className="p-2 text-right font-body border-b border-beige">
-                          Time
+                          Expiration
                         </th>
                         <th className="p-2"></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((pass) => (
-                        <tr key={pass.id} className="border-b border-beige">
-                          <td className="p-2 text-left border-r border-beige">
-                            {showLicensePlate ? pass.licensePlate : pass.name}
-                          </td>
-                          <td className="p-2 text-left border-r border-beige">
-                            {pass.code}
-                          </td>
-                          <td className="p-2 text-left">{pass.time}</td>
-                          <td className="p-2">
-                            <div className="flex justify-end">
-                              <img src={trashCan} alt="Bin" className="h-5" />
-                            </div>
+                      {parkingStatus === true ? (
+                        <>
+                          <tr
+                            key={parkingStatus.id}
+                            className="border-b border-beige"
+                          >
+                            <td className="p-2 text-left border-r border-beige">
+                              {showLicensePlate
+                                ? parkingStatus.numberPlate
+                                : parkingStatus.guestName}
+                            </td>
+                            <td className="p-2 text-left border-r border-beige">
+                              {parkingStatus.code}
+                            </td>
+                            <td className="p-2 text-left">
+                              {parkingStatus.expireDate}
+                            </td>
+                            <td className="p-2">
+                              <div className="flex justify-end">
+                                <img src={trashCan} alt="Bin" className="h-5" />
+                              </div>
+                            </td>
+                          </tr>
+                        </>
+                      ) : (
+                        <tr>
+                          <td colSpan="4" className="p-2 text-center">
+                            <p className="mt-6 italic text-charcoal font-body">
+                              No active passes have been created
+                            </p>
                           </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -156,3 +166,13 @@ const Activeparkpass = () => {
 };
 
 export default Activeparkpass;
+
+// Temporary Mock Data
+// const data = [
+//   {
+//     id: 1,
+//     name: "John Doe",
+//     licensePlate: "ABC-123",
+//     code: "12345",
+//     expireDate: "1:45:00",
+//   }];
