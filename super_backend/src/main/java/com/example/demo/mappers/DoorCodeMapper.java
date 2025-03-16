@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DoorCodeMapper {
 
-    DoorCode doorCodeDTOtoDoorCode(DoorCodeDTO dto);
-    DoorCodeDTO doorCodeToDoorCodeDTO(DoorCode entity);
+    DoorCode mapToDoorCode(DoorCodeDTO dto);
+    DoorCodeDTO mapToDoorCodeDTO(DoorCode entity);
 }

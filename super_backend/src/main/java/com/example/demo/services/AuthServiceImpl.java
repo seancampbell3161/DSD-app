@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,23 +51,32 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public LoginReponse login(LoginRequest request) {
 
-        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        try {
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(auth);
 
-        SecurityContextHolder.getContext().setAuthentication(auth);
+            UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+            String token = jwtUtils.generateJwtToken(userDetails);
 
-        String token = jwtUtils.generateJwtToken(userDetails);
+            List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+            return LoginReponse.builder()
+                    .username(userDetails.getUsername())
+                    .email(userDetails.getEmail())
+                    .roles(roles)
+                    .accessToken(token)
+                    .tokenType("Bearer ")
+                    .build();
+        } catch (AuthenticationException e) {
 
-        return LoginReponse.builder()
-                .username(userDetails.getUsername())
-                .email(userDetails.getEmail())
-                .roles(roles)
-                .accessToken(token)
-                .tokenType("Bearer ")
-                .build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong combination of username and password");
+
+        }
+
+
+
+
     }
 
     @Transactional
