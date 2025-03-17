@@ -28,7 +28,7 @@ public class Lease {
     @Column(nullable = false, name = "external_id")
     String externalId;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "DEFAULT 'draft'")
+    @Column(name = "status", columnDefinition = "varchar(30) DEFAULT 'DRAFT'")
     DocStatus status;
     @ManyToOne
     @JoinColumn(name = "apartment_id", nullable = false)
