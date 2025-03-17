@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Description } from "./Description";
+import { useState } from "react";
 import { Modal } from "./modal/Modal";
+import Placeholder from "/assets/images/placeholder.jpg";
 
 // Acceptance criteria for MVP
 
@@ -16,27 +16,16 @@ import { Modal } from "./modal/Modal";
 // include summary of complaints. (a table with buttons? download report cta)
 
 export const Complaint = () => {
-  const [isDescriptionOpen, setDescriptionOpen,] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const handleOutsideClickOrTap = (e: MouseEvent | TouchEvent) => {
-    if (isDescriptionOpen || isModal) {
+    if (isModal) {
       const target = e.target as HTMLElement;
       if (!target.closest('.Complaint')) {
-        handleDescriptionClose();
         handleModalClose();
       }
     }
   };
-
-  const handleDescriptionOpen = () => {
-    setDescriptionOpen(true);
-  }
-
-  const handleDescriptionClose = () => {
-    setDescriptionOpen(false);
-  }
-
-  const [isModal, setIsModal] = useState(false);
 
   const handleModalClose = () => {
     setIsModal(false);
@@ -44,47 +33,44 @@ export const Complaint = () => {
 
   return (
     <section>
-      <div className="Complaint max-w-[400px] h-full my-auto mx-auto py-6 px-4 border-2 border-red relative bottom-0">
-        <div className="complaint-header flex flex-row justify-between">
-          <h1>Have a complaint?</h1>
-          <button 
-          className={`close-button bg-lightGrey w-10 h-10 ${isDescriptionOpen || isModal ? 'block' : 'hidden'} ${!isModal || !isDescriptionOpen ? 'hidden' : ''}`} 
-          onClick={() => { handleDescriptionClose(); handleModalClose(); }}
-          onTouchEnd={() => { handleDescriptionClose(); handleModalClose(); }}
-          >
-            close
-          </button>
-        </div>
-        {isDescriptionOpen && window.innerWidth < 431 ? (
-          <div className="description" id="description">
-            <Description 
-              isDescriptionOpen={isDescriptionOpen}
-              handleDescriptionClose={handleDescriptionClose}
-              onClick={handleDescriptionClose}
-              onTouchEnd={handleDescriptionClose}
-              handleOutsideClickOrTap={handleOutsideClickOrTap}
-            />
+      <div className="Complaint max-w-4xl h-full my-auto mx-auto py-6 px-4 md:bg-accentBlue rounded-xl overflow-hidden">
+          <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white">
+            Hello, Laura Johnson
+          </h1>
+        <div className="complaint-desktop hidden md:flex md:flex-row md:justify-between">
+          <div className="user-profile hidden md:flex md:flex-col md:items-center md:justify-start rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
+            <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
+              Have a Complaint?
+            </h2> 
+            <div className="user-info flex flex-col justify-center items-center">
+              <div className="relative flex justify-center rounded-full h-32 w-32 shadow-sm">
+                <img
+                  src={Placeholder}
+                  alt="Placeholder"
+                  className="w-32 h-32 border rounded-full"
+                />
+              </div>
+              <h1>Laura Johnson</h1>
+              <p className="text-sm">Room: 204</p>
+            </div>
+            <div className="flex justify-center w-full">
+              <button
+                onClick={() => { setIsModal(true); }} onTouchEnd={() => { setIsModal(true); }}
+                className="border rounded-sm py-2 px-4 w-full text-white font-medium bg-[#0A2342] transition capitalize"
+              >
+                File a Complaint
+              </button>
+            </div>
           </div>
-        ) : (
-          window.innerWidth > 431 && (
-            <Modal 
-              isOpen={isModal} 
-              closeModal={handleModalClose}
-              handleOutsideClickOrTap={handleOutsideClickOrTap}
-            />
-          )
-        )}
-        <div className={'buttons-grid flex flex-row justify-between py-4'}>
-          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
-          Fixes
-          </button>
-          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
-          Super
-          </button>
-          <button className="bg-lightGrey w-20 h-10 border-2 border-charcoal" onClick={() => { handleDescriptionOpen(); setIsModal(true); }} onTouchEnd={() => { handleDescriptionOpen(); setIsModal(true); }}>
-          Noise
-          </button>
+          <div className="complaint-table rounded-xl p-4 md:p-6 md:w-1/2 bg-white">
+            <h1 className="">latest Complaint</h1>
+          </div>
         </div>
+        <Modal 
+          isOpen={isModal} 
+          closeModal={handleModalClose} 
+          handleOutsideClickOrTap={handleOutsideClickOrTap} 
+        />
       </div>
     </section> 
   )
