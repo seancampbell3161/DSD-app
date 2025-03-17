@@ -4,6 +4,7 @@ import com.dropbox.sign.ApiException;
 import com.dropbox.sign.model.SignatureRequestGetResponse;
 import com.example.demo.dto.LeaseSignRequestDTO;
 import com.example.demo.dto.MetaData;
+import com.example.demo.entities.Lease;
 import com.example.demo.services.LeaseManagementDropBoxImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +29,6 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class DocumentManagementController {
     final LeaseManagementDropBoxImpl leaseManagementDropBox;
-    //todo create callback to receive notification about statuses.
     @Operation(
             summary = "send doc request via dropbox signature services",
             description = "sends signature request and saves to database for a valid user",
@@ -44,7 +44,7 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "500", description = "server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @PostMapping(path = "/sendSignatureRequest", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+    @PostMapping(path = "/send", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
     ResponseEntity<SignatureRequestGetResponse> sendLeaseSignatureRequest(@RequestPart("file") @Schema(type = "string", format = "binary") MultipartFile file, @Parameter(description = "all other details", required = true) @RequestPart("leaseSignatureRequestDetails") LeaseSignRequestDTO leaseSignRequestDTO, @Parameter(description = "meta data about the document", required = true) @RequestPart("metaData") MetaData metaData) throws Exception {
         Path document;
         document = Files.createTempFile("lease", ".tmp");
@@ -63,9 +63,9 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "4XX", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @PostMapping(path = "/sendRequestToCancel")
-    ResponseEntity<?> sendLeaseSignatureRequest(@Parameter String externalId) throws ApiException {
-        leaseManagementDropBox.cancelLeaseSignatureRequest(externalId);
+    @PostMapping(path = "/cancel")
+    ResponseEntity<?> sendLeaseSignatureRequest(@RequestParam Long leaseId) throws ApiException {
+        leaseManagementDropBox.cancelLeaseSignatureRequest(leaseId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Operation(
@@ -78,8 +78,24 @@ public class DocumentManagementController {
                     @ApiResponse(responseCode = "4XX", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
             }
     )
-    @GetMapping(path = "/getStatus", consumes = "application/json", produces = "application/json")
-    ResponseEntity<SignatureRequestGetResponse> getLeaseSignatureStatus(@Parameter String externalId) throws ApiException {
-        return new ResponseEntity<>(leaseManagementDropBox.getLeaseStatus(externalId), HttpStatus.OK);
+    @GetMapping(path = "/get",  produces = "application/json")
+    ResponseEntity<Lease> getLeaseSignatureStatus(@RequestParam Long leaseId) throws ApiException {
+        //todo try out a mapstruct here
+        return new ResponseEntity<>(leaseManagementDropBox.getLeaseStatus(leaseId), HttpStatus.OK);
+    }
+    @Operation(
+            summary = "callback for dropbox to update status",
+            description = "uses our lease ID to read stored external id provided by dropbox to get the most recent status of specific doc"
+            ,
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "db updated"
+                          ),
+                    @ApiResponse(responseCode = "4XX", description = "bad request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))),
+            }
+    )
+    @GetMapping(path = "/update")
+    ResponseEntity<SignatureRequestGetResponse> updateStatus(@RequestParam Long leaseId) throws ApiException {
+        leaseManagementDropBox.dropboxCallback(leaseId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

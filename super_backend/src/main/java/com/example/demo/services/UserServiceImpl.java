@@ -1,9 +1,10 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.UserDTO;
 import com.example.demo.entities.User;
+import com.example.demo.mappers.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final UserMapper userMapper;
 
     @Override
     public User save(User user) {
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The user does not exist"));
     }
 
-    public Page<User> searchUsersWithEmail(String email, int page, int size, String sortParam) {
+     public Page<User> searchUsersWithEmail(String email, int page, int size, String sortParam) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortParam).descending());
         return userRepository.findByEmailContainingIgnoreCase(email, pageable);
     }

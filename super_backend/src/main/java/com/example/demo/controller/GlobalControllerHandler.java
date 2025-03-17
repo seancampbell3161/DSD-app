@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.dropbox.sign.ApiException;
-import com.dropbox.sign.model.ErrorResponse;
-import com.example.demo.utils.Error;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,13 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.Map;
 import java.util.NoSuchElementException;
 @Hidden
 @Slf4j
@@ -37,7 +33,7 @@ public class GlobalControllerHandler {
     )
     @ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class})
     public ResponseEntity<Error> EmptyResultDataAccessException(EmptyResultDataAccessException noSuchElementException) {
-        Error error = new Error(noSuchElementException, "Request body input in request does not match any records in database");
+        Error error = new Error("Request body input in request does not match any records in database", noSuchElementException);
         log.error("validation exception thrown: {}", error);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -55,7 +51,7 @@ public class GlobalControllerHandler {
     )
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<Error> apiException(ApiException apiException) {
-        Error error = new Error(apiException, "dropbox request failed. Please review stack trace");
+        Error error = new Error("dropbox request failed. Please review stack trace", apiException);
         log.error("api exception threw: {}", error);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -79,7 +75,7 @@ public class GlobalControllerHandler {
             return ResponseEntity.ok().build();
         }
 
-         Error error = new Error(exception, "An unexpected error occurred. Please report to dev team");
+         Error error = new Error("An unexpected error occurred. Please report to dev team", exception);
         log.error("unchecked exception thrown: {}", error);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

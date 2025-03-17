@@ -13,7 +13,7 @@ import com.example.demo.repository.ApartmentRepository;
 import com.example.demo.repository.LeaseRepository;
 import com.example.demo.repository.TenantRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.utils.enums.DocStatus;
+import com.example.demo.util.enums.DocStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -66,21 +66,33 @@ public class LeaseManagementDropBoxImpl implements LeaseManagement {
         Optional<Apartment> apartmentOptional = apartmentRepository.findByApartmentNumber(leaseSignRequestDTO.getApartmentNumber());
         Apartment apartment = apartmentOptional.orElseThrow(() -> new EmptyResultDataAccessException("no record matches apartment number in database", 1));
         Optional<Tenant> tenantOptional = Optional.of(tenantRepository.findByUser(user).orElse(tenantRepository.save(Tenant.builder().user(user).build())));
-        Lease newLease = leaseRepository.save(Lease.builder().status(DocStatus.SENT).apartment((apartment)).externalId(response.getSignatureRequest().getSignatureRequestId())
+        Lease newLease = leaseRepository.save(Lease.builder().status(DocStatus.PENDING).apartment((apartment)).externalId(response.getSignatureRequest().getSignatureRequestId())
                 .startDate(ZonedDateTime.parse(leaseSignRequestDTO.getMetaData().getStartDate()))
                 .endDate(ZonedDateTime.parse(leaseSignRequestDTO.getMetaData().getEndDate()))
                 .tenants(List.of(tenantOptional.get()))
                 .build());
-        log.info("new lease created: {}",newLease);
+        log.info("new lease created: {}", newLease);
         return response;
     }
 
-    public void cancelLeaseSignatureRequest(String externalId) throws ApiException {
-         signatureRequestApi.signatureRequestCancel(externalId);
+    public void cancelLeaseSignatureRequest(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Lease lease = leaseRepository.findById(leaseId).orElseThrow();
+        signatureRequestApi.signatureRequestCancel(lease.getExternalId());
+        lease.setStatus(DocStatus.CANCELED);
+        leaseRepository.save(lease);
     }
 
 
-    public SignatureRequestGetResponse getLeaseStatus(String external_id) throws ApiException {
-        return signatureRequestApi.signatureRequestGet(external_id);
+    public Lease getLeaseStatus(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Lease lease = leaseRepository.findById(leaseId).orElseThrow();
+        log.info("lease status got: {}", lease);
+        return lease;
+    }
+
+    public void dropboxCallback(Long leaseId) throws ApiException, EmptyResultDataAccessException {
+        Optional<Lease> lease = leaseRepository.findById(leaseId);
+        SignatureRequestGetResponse response = signatureRequestApi.signatureRequestGet(lease.orElseThrow().getExternalId());
+        //todo check resonse object
+        log.info("lease status updated for leaseId: {}", leaseId);
     }
 }

@@ -3,6 +3,7 @@ import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 
+import FileUpload from "./Uploader";
 
 interface User {
 	name: string
@@ -69,6 +70,7 @@ const AutoCompleteTenant = () => {
 		containerOpen: "block absolute z-2",
 		input:
 			"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+			"w-full px-4 py-2 border border-red rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
 		suggestionsContainer:
 			"absolute mt-1 w-[320px] rounded-md shadow-md bg-transparent z-10",
 		suggestionsList: "bg-[var(--color-white)] rounded-md", // Ensures suggestions have a background
@@ -123,9 +125,13 @@ const AutoCompleteTenant = () => {
         <div className="flex flex-col h-[190px] bg-[var(--color-white)] rounded-lg font-normal text-sm">
           <div className="border border-(--color-beige)">
             <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-[12px]">
+        <div className="flex flex-col h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm pt-3 px-2.5 pb-5">
+          <div className="border-b-1 border-(--color-beige)">
+            <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black pb-2.5">
               Tenant
             </h2>
           </div>
+          <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm">
             {selectedTenant && ( // Conditionally render info if email is selected
               <div>
@@ -134,6 +140,7 @@ const AutoCompleteTenant = () => {
               </div>
             )}
           </div>
+					<div><FileUpload /></div>
         </div>
       </div>
     </Theme>

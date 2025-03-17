@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
     "@tailwindcss/vite": "^4.0.7",
+    "axios": "^1.8.2",
     "react": "^19.0.0",
     "react-autosuggest": "^10.1.0",
     "react-dom": "^19.0.0",

@@ -14,15 +14,15 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User userDTOtoUser(UserDTO dto);
+    User maptoUser(UserDTO dto);
 
     @Mapping(source = "roles", target = "roles", qualifiedByName = "roleSetToRoleTypeList")
-    public UserDTO userToUserDTO (User entity);
+    UserDTO mapToUserDTO(User entity);
+
 
     @Named("roleSetToRoleTypeList")
-    public static List<RoleType> map(Set<Role> source){
+    static List<RoleType> map(Set<Role> source){
 
         return source.stream().map(Role::getName).toList();
     }
-
 }

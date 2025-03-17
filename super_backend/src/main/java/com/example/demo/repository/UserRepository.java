@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
-
     Page<User> findByEmailContainingIgnoreCase(String email, Pageable pageable);
     Optional<User> findByUsername(String username);
 

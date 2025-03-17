@@ -1,5 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.dto.PageResponse;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserRead;
@@ -17,7 +25,10 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -32,26 +43,11 @@ public class UserController {
     private final UserMapper userMapper;
 
 
-    @Operation(summary = "Get all users")
+    @Operation( summary = "Get all users")
     @GetMapping
     public List<UserDTO> getUsers() {
         List<User> userList = userService.getAllUsers();
-        return userList.stream().map(userMapper::userToUserDTO).toList();
-    }
-
-    @Operation(
-            summary = "Create a new user",
-            description = "Adds a user to the database",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "User created",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid input")
-            }
-    )
-    @PostMapping(path = "")
-    public UserDTO createUser(@RequestBody User user) {
-        User newUser = userService.save(user);
-        return userMapper.userToUserDTO(newUser);
+        return userList.stream().map(userMapper::mapToUserDTO).toList();
     }
 
     @Operation(
@@ -61,7 +57,7 @@ public class UserController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageResponse.class)))
             }
     )
-    @GetMapping(path = "/searchUsersByEmail", produces = {"application/hal+json"})
+    @GetMapping(path = "/search", produces = {"application/hal+json"})
     public ResponseEntity<PagedModel<EntityModel<UserRead>>> getUsersByEmail(@RequestParam String email, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "email") String sortParam) {
         Page<User> searchResults = userService.searchUsersWithEmail(email, page, size, sortParam);
         Page<UserRead> mappedPage = searchResults.map(user -> UserRead.builder().username(user.getUsername()).email(user.getEmail()).name(user.getName()).build());
