@@ -2,8 +2,10 @@ package com.example.demo.entities;
 
 import com.example.demo.util.enums.ComplaintStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
@@ -11,6 +13,8 @@ import java.time.ZonedDateTime;
 @Data
 @Table(name = "complaints")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
