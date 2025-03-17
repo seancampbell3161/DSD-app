@@ -4,16 +4,29 @@ import Placeholder from "/assets/images/placeholder.jpg";
 import trashCan from "/assets/icons/bin.svg";
 import swap from "/assets/icons/swap.svg";
 
+// It describes the shape of the objects:
+interface ParkingStatus {
+  id: string;
+  numberPlate: string;
+  guestName: string;
+  code: string;
+  expireDate: string;
+}
+
 const Activeparkpass = () => {
   const [showLicensePlate, setShowLicensePlate] = useState(false);
-  const [parkingStatus, setParkingStatus] = useState<boolean>(false);
+  const [parkingStatus, setParkingStatus] = useState<ParkingStatus | null>(
+    null
+  );
 
-  const doorId = 1; // Initial Door value:
+  const doorId = 3; // Initial Door value MUST be 3:
   const userId = 1; // Initial Tenant value:
 
   // GET Parking Status
   useEffect(() => {
     const fetchParkingStatus = async () => {
+      if (!parkingStatus) return;
+
       try {
         const res = await fetch(
           `http://localhost:8080/users/${userId}/doors/${doorId}/parking-codes`,
@@ -27,6 +40,7 @@ const Activeparkpass = () => {
         if (res.ok) {
           const data = await res.json();
           setParkingStatus(data);
+
           console.log(`Parking status:`, data);
         } else {
           console.error("Failed to retrieve parking status");
@@ -38,6 +52,67 @@ const Activeparkpass = () => {
 
     fetchParkingStatus();
   }, []);
+
+  // POST Creates Parking Access Code
+  const createParkingAccessCode = async ({
+    guestName,
+    numberPlate,
+  }: {
+    guestName: string;
+    numberPlate: string;
+  }) => {
+    try {
+      const res = await fetch(
+        `http://localhost:8080/users/${userId}/door/${doorId}/parking-codes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            numberPlate,
+            guestName,
+          }),
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setParkingStatus(data);
+        console.log(`Parking Code:`, data);
+      } else {
+        console.error("Failed to create parking code");
+      }
+    } catch (error) {
+      console.error("Error creating parking code:", error);
+    }
+  };
+
+  // Deletes Parking Access Code
+  const DeleteParkingCode = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8080/parking-codes/${parkingStatus.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.ok) {
+        console.log(
+          `Parking access code for: ${parkingStatus.guestName} has been deleted`
+        );
+        setParkingStatus(null);
+      } else {
+        console.error("Failed to delete parking access code");
+        const errorData = await res.json();
+        console.error("Server error:", errorData);
+      }
+    } catch (error) {
+      console.error("Error deleting parking access code:", error);
+    }
+  };
 
   const toggleDisplay = () => {
     setShowLicensePlate((prev) => !prev);
@@ -75,7 +150,7 @@ const Activeparkpass = () => {
                     Laura Johnson
                     <p className="text-sm">Room: 204</p>
                   </h1>
-                  <Parking />
+                  <Parking createParkingCode={createParkingAccessCode} />
                 </div>
               </div>
             </div>
@@ -114,30 +189,38 @@ const Activeparkpass = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {parkingStatus === true ? (
-                        <>
-                          <tr
-                            key={parkingStatus.id}
-                            className="border-b border-beige"
-                          >
-                            <td className="p-2 text-left border-r border-beige">
-                              {showLicensePlate
-                                ? parkingStatus.numberPlate
-                                : parkingStatus.guestName}
-                            </td>
-                            <td className="p-2 text-left border-r border-beige">
-                              {parkingStatus.code}
-                            </td>
-                            <td className="p-2 text-left">
-                              {parkingStatus.expireDate}
-                            </td>
-                            <td className="p-2">
-                              <div className="flex justify-end">
-                                <img src={trashCan} alt="Bin" className="h-5" />
-                              </div>
-                            </td>
-                          </tr>
-                        </>
+                      {parkingStatus ? (
+                        <tr
+                          key={parkingStatus.id}
+                          className="border-b border-beige"
+                        >
+                          <td className="p-2 text-left border-r border-beige">
+                            {showLicensePlate
+                              ? parkingStatus.numberPlate
+                              : parkingStatus.guestName}
+                          </td>
+                          <td className="p-2 text-left border-r border-beige">
+                            {parkingStatus.code}
+                          </td>
+                          <td className="p-2 text-left">
+                            {new Date(parkingStatus.expireDate).toLocaleString(
+                              [],
+                              {
+                                year: "2-digit",
+                                month: "numeric",
+                                day: "numeric",
+                              }
+                            )}
+                          </td>
+                          <td className="p-2">
+                            <button
+                              onClick={DeleteParkingCode}
+                              className="flex justify-end"
+                            >
+                              <img src={trashCan} alt="Bin" className="h-5" />
+                            </button>
+                          </td>
+                        </tr>
                       ) : (
                         <tr>
                           <td colSpan="4" className="p-2 text-center">
@@ -151,7 +234,7 @@ const Activeparkpass = () => {
                   </table>
                 </div>
                 <div className="flex justify-center sm:hidden">
-                  <Parking />
+                  <Parking createParkingCode={createParkingAccessCode} />
                 </div>
                 <p className="mt-6 text-charcoal italic text-center">
                   Contact management if more than 3 guest passes are needed.
@@ -166,13 +249,3 @@ const Activeparkpass = () => {
 };
 
 export default Activeparkpass;
-
-// Temporary Mock Data
-// const data = [
-//   {
-//     id: 1,
-//     name: "John Doe",
-//     licensePlate: "ABC-123",
-//     code: "12345",
-//     expireDate: "1:45:00",
-//   }];

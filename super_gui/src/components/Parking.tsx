@@ -1,7 +1,15 @@
 import { useState } from "react";
 
-const Parking = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const Parking = ({ createParkingCode }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [guestName, setGuestName] = useState<string>("");
+  const [numberPlate, setNumberPlate] = useState<string>("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createParkingCode({ guestName, numberPlate });
+    setIsModalOpen(false);
+  };
 
   return (
     <section className="p-4 text-center">
@@ -16,11 +24,11 @@ const Parking = () => {
         <div className="z-10 fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm backdrop-brightness-50 flex justify-center items-center">
           <div className="bg-white p-6 w-full max-w-md shadow-lg sm:rounded">
             <h1 className="block text-xl font-body font-bold text-gray-700 mb-2">
-              Tenant Info
+              Guest Information
             </h1>
             <hr className="border-[#D3C9B8] w-full mb-4" />
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
                   htmlFor="name"
@@ -32,6 +40,8 @@ const Parking = () => {
                   type="text"
                   name="name"
                   id="name"
+                  value={guestName}
+                  onChange={(e) => setGuestName(e.target.value)}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentGreen focus:border-accentGreen sm:text-sm"
                   required
                 />
@@ -47,6 +57,8 @@ const Parking = () => {
                   type="text"
                   name="licensePlate"
                   id="licensePlate"
+                  value={numberPlate}
+                  onChange={(e) => setNumberPlate(e.target.value)}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentGreen focus:border-accentGreen sm:text-sm"
                   required
                 />
