@@ -2,7 +2,10 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,15 +16,19 @@ public class Apartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Integer apartmentNumber;
+    @Column(name = "apartment_number", unique = true)
+    Long apartmentNumber;
 
-    @ManyToMany(mappedBy = "apartments")
-    List<User> tenants;
-
-    @OneToMany(mappedBy="apartment")
-    List<Door> doors;
+    @OneToMany(mappedBy = "apartment")
+    Set<Door> doors;
 
     @ManyToOne
     @JoinColumn(name = "building_id", nullable = false)
     Building building;
+
+    @OneToMany(mappedBy = "apartment")
+    List<Lease> leaseHistory;
+
+    @ManyToMany(mappedBy = "apartments")
+    Set<User> tenants;
 }

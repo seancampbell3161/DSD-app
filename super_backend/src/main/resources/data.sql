@@ -13,7 +13,9 @@ DELETE FROM buildings where (select count(*) from buildings) > 0;
 INSERT INTO roles (id,name) VALUES (1,'TENANT'),(2,'ADMIN');
 INSERT INTO users (id,username, password, email, name)
 VALUES
-    (1,'superuser', '$2a$10$DngToCGxdfBYmj9O2l01c.JtNfvKSBOqgYbuHlMLBf52f9s6wJO7u', 'superuser@test.nl', 'Super User');
+    (1,'superuser', '$2a$10$DngToCGxdfBYmj9O2l01c.JtNfvKSBOqgYbuHlMLBf52f9s6wJO7u', 'superuser@test.nl', 'Super User'),
+    (2,'alice_j', 'securepassword1', 'alice@example.com', 'Alice Johnson'),
+    (3,'ruben', 'securepassword1', 'rubens@gmail.com','ruben g');
 
 INSERT INTO users_roles (user_id, role_id) VALUES (1,1),(1,2);
 

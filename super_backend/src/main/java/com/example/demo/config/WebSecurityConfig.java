@@ -3,9 +3,15 @@ package com.example.demo.config;
 import com.example.demo.security.jwt.AuthEntryPointJwt;
 import com.example.demo.security.jwt.AuthTokenFilter;
 import com.example.demo.security.services.UserDetailsServiceImpl;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -26,6 +32,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Profile("!dev")
 public class WebSecurityConfig {
 
     @Value("${CORS_ORIGINS}")
@@ -85,12 +92,22 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs*/**", "/error","doors/**","parking-codes/**","users/**").permitAll().anyRequest().authenticated());
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs*/**", "/error","doors/**","parking-codes/**","users/**","document/**").permitAll().anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+     @Bean
+    public OpenAPI customOpenAPI(){
+        return new OpenAPI()
+                .info(new Info().title("The tenant backend API").description("Here you can find all the endpoints and the requirements"))
+                .addSecurityItem(new SecurityRequirement().addList("TheTenantBackendAPIsecurityScheme"))
+                .components(new Components().addSecuritySchemes("TheTenantBackendAPIsecurityScheme", new SecurityScheme()
+                        .name("TheTenantBackendAPIsecurityScheme")
+                        .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
 }
