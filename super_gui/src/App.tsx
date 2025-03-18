@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 // import SmartLockUI from "./components/SmartLockUI";
 import Activeparkpass from "./components/Activeparkpass";
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/lease" element={<Lease />} />
         <Route path="/smartlock" element={<SmartLock />} /> */}
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 };

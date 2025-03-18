@@ -9,6 +9,8 @@ const Parking = ({ createParkingCode }) => {
     e.preventDefault();
     createParkingCode({ guestName, numberPlate });
     setIsModalOpen(false);
+    setGuestName("");
+    setNumberPlate("");
   };
 
   return (

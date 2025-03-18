@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import Parking from "./Parking";
 import Placeholder from "/assets/images/placeholder.jpg";
 import trashCan from "/assets/icons/bin.svg";
@@ -15,9 +16,7 @@ interface ParkingStatus {
 
 const Activeparkpass = () => {
   const [showLicensePlate, setShowLicensePlate] = useState(false);
-  const [parkingStatus, setParkingStatus] = useState<ParkingStatus | null>(
-    null
-  );
+  const [parkingPasses, setParkingPasses] = useState<ParkingStatus[]>([]);
 
   const doorId = 3; // Initial Door value MUST be 3:
   const userId = 1; // Initial Tenant value:
@@ -25,8 +24,6 @@ const Activeparkpass = () => {
   // GET Parking Status
   useEffect(() => {
     const fetchParkingStatus = async () => {
-      if (!parkingStatus) return;
-
       try {
         const res = await fetch(
           `http://localhost:8080/users/${userId}/doors/${doorId}/parking-codes`,
@@ -39,9 +36,13 @@ const Activeparkpass = () => {
         );
         if (res.ok) {
           const data = await res.json();
-          setParkingStatus(data);
-
-          console.log(`Parking status:`, data);
+          // Handles if data is an object or array
+          if (Array.isArray(data)) {
+            setParkingPasses(data);
+          } else if (data) {
+            setParkingPasses([data]);
+          }
+          console.log("Parking status:", data);
         } else {
           console.error("Failed to retrieve parking status");
         }
@@ -77,7 +78,9 @@ const Activeparkpass = () => {
       );
       if (res.ok) {
         const data = await res.json();
-        setParkingStatus(data);
+        // Adds new parking pass using spread syntax
+        setParkingPasses((prevPasses) => [...prevPasses, data]);
+        toast.success("Parking code was created!");
         console.log(`Parking Code:`, data);
       } else {
         console.error("Failed to create parking code");
@@ -88,22 +91,25 @@ const Activeparkpass = () => {
   };
 
   // Deletes Parking Access Code
-  const DeleteParkingCode = async () => {
+  const deleteParkingCode = async (passId: string) => {
+    // Finds the guestName in order to console log it
+    const findGuestName = parkingPasses.find((guest) => guest.id === passId);
     try {
-      const res = await fetch(
-        `http://localhost:8080/parking-codes/${parkingStatus.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch(`http://localhost:8080/parking-codes/${passId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (res.ok) {
         console.log(
-          `Parking access code for: ${parkingStatus.guestName} has been deleted`
+          `Parking access code for: ${findGuestName?.guestName} has been deleted`
         );
-        setParkingStatus(null);
+        // Discards the deleted pass from the array
+        setParkingPasses((prevPasses) =>
+          prevPasses.filter((pass) => pass.id !== passId)
+        );
+        toast.success("Parking code was deleted!");
       } else {
         console.error("Failed to delete parking access code");
         const errorData = await res.json();
@@ -114,6 +120,7 @@ const Activeparkpass = () => {
     }
   };
 
+  // Toggles between guestName & numberPlate
   const toggleDisplay = () => {
     setShowLicensePlate((prev) => !prev);
   };
@@ -189,38 +196,34 @@ const Activeparkpass = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {parkingStatus ? (
-                        <tr
-                          key={parkingStatus.id}
-                          className="border-b border-beige"
-                        >
-                          <td className="p-2 text-left border-r border-beige">
-                            {showLicensePlate
-                              ? parkingStatus.numberPlate
-                              : parkingStatus.guestName}
-                          </td>
-                          <td className="p-2 text-left border-r border-beige">
-                            {parkingStatus.code}
-                          </td>
-                          <td className="p-2 text-left">
-                            {new Date(parkingStatus.expireDate).toLocaleString(
-                              [],
-                              {
+                      {parkingPasses.length > 0 ? (
+                        parkingPasses.map((pass) => (
+                          <tr key={pass.id} className="border-b border-beige">
+                            <td className="p-0 text-left border-r border-beige">
+                              {showLicensePlate
+                                ? pass.numberPlate
+                                : pass.guestName}
+                            </td>
+                            <td className="p-2 text-left border-r border-beige">
+                              {pass.code}
+                            </td>
+                            <td className="p-2 text-left">
+                              {new Date(pass.expireDate).toLocaleString([], {
                                 year: "2-digit",
                                 month: "numeric",
                                 day: "numeric",
-                              }
-                            )}
-                          </td>
-                          <td className="p-2">
-                            <button
-                              onClick={DeleteParkingCode}
-                              className="flex justify-end"
-                            >
-                              <img src={trashCan} alt="Bin" className="h-5" />
-                            </button>
-                          </td>
-                        </tr>
+                              })}
+                            </td>
+                            <td className="p-1">
+                              <button
+                                onClick={() => deleteParkingCode(pass.id)}
+                                className="flex justify-end"
+                              >
+                                <img src={trashCan} alt="Bin" className="h-8" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
                       ) : (
                         <tr>
                           <td colSpan="4" className="p-2 text-center">
