@@ -3,7 +3,8 @@ import { LoginForm } from "../components/LoginForm"
 
 export const Login = () => {
   return (
-    <section className="absolute md:hidden h-lvh z-20 md:flex md:flex-row bg-accentBlue md:bg-white">
+    <section className="absolute hidden
+     h-lvh z-20 flex flex-row bg-accentBlue md:bg-white">
       <div className="hero w-4/5 text-center md:border-charcoal md:border-r-10">
         <div className="hero-text pt-[100px]">
           <h1 className="font-[Bebas_Neue] text-6xl text-red tracking-tighter my-auto">Super</h1>
