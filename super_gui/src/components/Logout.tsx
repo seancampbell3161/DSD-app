@@ -1,17 +1,25 @@
-import { useNavigate } from "react-router-dom";
 
-export const Logout = () => {
-  const navigate = useNavigate();
+interface LogoutProps {
+  setShowLogin: (value: boolean) => void; // Function to update showLogin state
+}
+
+export const Logout = ({ setShowLogin }: LogoutProps) => {
+
 
   const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    navigate('/login');
-  }
+    localStorage.removeItem('access_token'); 
+    setShowLogin(true); 
+    window.location.href = '/';
+  };
+
   return (
-    <div>
-      <button onClick={handleLogout}>
+    <div className="absolute top-2 right-5 rounded-sm border-charcoal border-1">
+      <button 
+        onClick={handleLogout}
+        className="p-1 text-charcoal"
+        >
         Logout
       </button>
     </div>
-  )
-}
+  );
+};
