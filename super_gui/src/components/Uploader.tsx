@@ -18,7 +18,7 @@ const FileUpload = () => {
     console.log(selectedFile);
 
     try {
-      const result = await fetch('https://httpbin.org/post', {
+      const result = await fetch('/api/document/sendSignatureRequest)', {
         method: 'POST',
         body: formData,
       });
