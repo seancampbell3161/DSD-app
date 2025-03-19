@@ -6,7 +6,8 @@ import SmartLockUI from "./components/SmartLockUI";
 import Activeparkpass from "./components/Activeparkpass";
 import { Login } from "./pages/login";
 import { Complaint } from "./components/complaint/Complaint";
-import Nav from "./global/Nav";
+import DigitalLease from "./components/DigitalLease";
+import { Nav } from "./global/Nav.tsx";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/" element={<SmartLockUI />} />
           <Route path="/parking" element={<Activeparkpass />} />
           <Route path="/complaint" element={<Complaint />} />
+          <Route path="/lease" element={<DigitalLease />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>
