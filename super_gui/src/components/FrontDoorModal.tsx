@@ -13,7 +13,7 @@ const FrontDoorModal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="z-10 fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center">
+    <div className="z-10 fixed inset-0 bg-charcoal/75 backdrop-blur-sm flex justify-center items-center">
       <div className="bg-white p-6 w-full max-w-sm shadow-lg rounded-lg text-center">
         <h3 className="text-xl font-semibold mb-4">Do You Want To Proceed?</h3>
         <div className="flex justify-center gap-4">
