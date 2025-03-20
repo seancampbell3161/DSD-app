@@ -6,14 +6,17 @@ import Complaints from "/assets/icons/bxs-folder-open.svg";
 import SmartLocker from "/assets/icons/bxs-package.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 
-
 interface NavProps {
   isModal: boolean;
   setIsModal: (value: boolean) => void;
   handleModalClose: () => void;
 }
 
-export const Nav: React.FC<NavProps> = ({ isModal, setIsModal, handleModalClose }) => {
+export const Nav: React.FC<NavProps> = ({
+  isModal,
+  setIsModal,
+  handleModalClose,
+}) => {
   const navigate = useNavigate();
   const menuItems = [
     { Icon: FrontDoor, alt: "FrontDoor" },
@@ -22,13 +25,13 @@ export const Nav: React.FC<NavProps> = ({ isModal, setIsModal, handleModalClose 
     { Icon: Lease, alt: "Lease" },
     { Icon: SmartLocker, alt: "SmartLocker" },
   ];
-  
+
   // this event handler is for the mobile screen button to just navigate to the complaint log and open the modal after.
   const handleComplaintClick = (e: React.MouseEvent | React.TouchEvent) => {
     if (window.innerWidth < 431) {
-      e.preventDefault(); 
+      e.preventDefault();
       navigate("/complaint");
-      setIsModal(true); 
+      setIsModal(true);
     }
   };
 
@@ -61,7 +64,7 @@ export const Nav: React.FC<NavProps> = ({ isModal, setIsModal, handleModalClose 
                     ? "/complaint"
                     : index === 3
                     ? "/lease"
-                    : "/smartlock"
+                    : "/doormanui"
                 }
                 className={`w-[50px] h-[50px] rounded-full flex items-center justify-center hover:bg-green focus:bg-green focus:ring-0 focus:outline-green
                 focus:inset-shadow-none transition duration-500 group ${
@@ -86,10 +89,7 @@ export const Nav: React.FC<NavProps> = ({ isModal, setIsModal, handleModalClose 
           ))}
         </ul>
       </nav>
-      <Modal
-        isOpen={isModal}
-        closeModal={handleModalClose}
-      />
+      <Modal isOpen={isModal} closeModal={handleModalClose} />
     </section>
   );
 };
