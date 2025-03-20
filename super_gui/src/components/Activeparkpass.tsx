@@ -240,7 +240,7 @@ const Activeparkpass = () => {
                   <Parking createParkingCode={createParkingAccessCode} />
                 </div>
                 <p className="mt-6 text-charcoal italic text-center">
-                  Contact management if more than 3 guest passes are needed.
+                  Contact management if more than 4 guest passes are needed.
                 </p>
               </div>
             </div>
