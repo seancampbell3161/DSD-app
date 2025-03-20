@@ -38,7 +38,7 @@ const DoorManUI = () => {
 
   return (
     <main className="min-h-screen relative pb-16 md:pb-0">
-      <div className="mx-auto max-w-6xl m-4 p-4">
+      <div className="mx-auto max-w-4xl m-4 p-4">
         <div className="border rounded-xl shadow-md overflow-hidden">
           <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white bg-accentBlue">
             Tenant Package Management
