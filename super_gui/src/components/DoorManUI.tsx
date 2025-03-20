@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import trashCan from "/assets/icons/bin.svg";
+import { useState } from "react";
 
 // Interface for package lockers
 interface PackageLocker {
