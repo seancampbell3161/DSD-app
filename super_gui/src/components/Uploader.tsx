@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<'initial' | 'uploading' | 'success' | 'fail'>('initial');
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -12,13 +13,17 @@ const FileUpload = () => {
   const handleUpload = async () => {
     if (!selectedFile) return;
 
+    setStatus('uploading');
+
     const formData = new FormData();
-    formData.append("myFile", selectedFile, selectedFile.name);
+    formData.append("file", selectedFile, selectedFile.name);
+    // formData.append("leaseSignatureRequestDetails", );
+    // formData.append("metaData", metaData);
 
     console.log(selectedFile);
 
     try {
-      const result = await fetch('/api/document/sendSignatureRequest)', {
+      const result = await fetch('/api/document/send', {
         method: 'POST',
         body: formData,
       });
@@ -26,8 +31,15 @@ const FileUpload = () => {
       const data = await result.json();
       console.log(data)
 
+      if (result.ok) {
+        setStatus('success'); 
+      } else {
+        setStatus('fail')
+      }
+
     } catch (error) {
       console.error(error);
+      setStatus('fail');
     }
 
   };
@@ -64,7 +76,7 @@ const FileUpload = () => {
   );
 };
 
-const Result = ({ status }: { status: string }) => {
+const Result = ({ status }: { status: string | null }) => {
   if (status === 'success') {
     return <p>✅ File uploaded successfully!</p>;
   } else if (status === 'fail') {

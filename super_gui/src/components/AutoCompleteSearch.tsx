@@ -30,7 +30,7 @@ const AutoCompleteTenant = () => {
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
 		setIsLoading(true) // Set loading state
 		try {
-			fetch(`/api/users/searchUsersByEmail?email=${value}&page=0&size=10&sortParam=email`, {
+			fetch(`/api/users/search?email=${value}&page=0&size=10&sortParam=email`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/hal+json",
@@ -55,9 +55,10 @@ const AutoCompleteTenant = () => {
 	const inputProps: InputProps<User> = {
 		placeholder: "Email",
 		value: value,
-		onChange: (_, { newValue, method }) => {
-			setValue(newValue)
-		},
+		onChange: onChange,
+		// onChange: (_, { newValue, method }) => {
+
+		// },
 		className:
 			"w-[320px] border rounded-md px-4 py-2 bg-[var(--color-white)] text-[var(--color-grey-800)] font-normal text-sm border-[var(--color-grey-400)] focus:outline-none focus:ring-2 focus:ring-blue-500",
 	}
