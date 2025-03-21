@@ -1,11 +1,16 @@
 import { useState } from "react";
-import api from "../api/api";
+import api from "../api/api"; 
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  setShowLogin: (value: boolean) => void;
+}
+
+export const LoginForm = ({ setShowLogin }: LoginFormProps) => {
   const [credentials, setCredentials] = useState({
     username: '',
     password: ''
   });
+
   const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,10 +24,12 @@ export const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/auth/login', credentials)
+      const response = await api.post('/auth/login', credentials);
       const { access_token } = response.data;
-      console.log(access_token);
+   
       localStorage.setItem('access_token', access_token);
+
+      setShowLogin(false);
 
     } catch (error) {
       console.error(error);
@@ -31,9 +38,9 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="bg-beige h-[300px] rounded-lg p-5 shadow-md">
-      <img className="w-20 h-20 mx-auto" src="/assets/icons/super-s.png" alt="super-s" />
-      <h1>Login</h1>
+    <div className="bg-beige max-h-[400px] my-auto rounded-lg p-5 shadow-md mt-[100px]">
+      <img className="hidden md:block w-20 h-20 mx-auto" src="/assets/icons/super-s.png" alt="super-s" />
+      <h1 className="font-body">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4 relative">
         <input 
           type="text"
@@ -44,7 +51,7 @@ export const LoginForm = () => {
           className="border border-grey-400 bg-grey-100 rounded-md p-2 w-full"
         />
         <input 
-          type="text"
+          type="password" 
           name="password"
           placeholder="password"
           value={credentials.password}
@@ -53,12 +60,12 @@ export const LoginForm = () => {
         />
         <button
           type="submit"
-          className="bg-blue text-white py-2 px-4 w-[200px] mx-auto rounded relative bottom-0"
+          className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 md:relative md:bottom-0 bg-blue text-white py-2 p-4 w-[200px] md:w-full rounded"
         >
           Login
         </button>
         {error && <p className="text-red-500">{error}</p>}
       </form>
     </div>
-  )
-}
+  );
+};

@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Modal } from "../components/complaint/modal/Modal";
 import FrontDoor from "/assets/icons/bx-door-open.svg";
 import Parking from "/assets/icons/bxs-parking.svg";
 import Complaints from "/assets/icons/bxs-folder-open.svg";
 import SmartLocker from "/assets/icons/bxs-package.svg";
 import Lease from "/assets/icons/bxs-pen.svg";
 
-export const Nav = () => {
+interface NavProps {
+  isModal: boolean;
+  setIsModal: (value: boolean) => void;
+  handleModalClose: () => void;
+}
+
+export const Nav: React.FC<NavProps> = ({
+  isModal,
+  setIsModal,
+  handleModalClose,
+}) => {
+  const navigate = useNavigate();
   const menuItems = [
     { Icon: FrontDoor, alt: "FrontDoor" },
     { Icon: Parking, alt: "Parking" },
@@ -13,6 +25,15 @@ export const Nav = () => {
     { Icon: Lease, alt: "Lease" },
     { Icon: SmartLocker, alt: "SmartLocker" },
   ];
+
+  // this event handler is for the mobile screen button to just navigate to the complaint log and open the modal after.
+  const handleComplaintClick = (e: React.MouseEvent | React.TouchEvent) => {
+    if (window.innerWidth < 431) {
+      e.preventDefault();
+      navigate("/complaint");
+      setIsModal(true);
+    }
+  };
 
   return (
     <section className="z-10 fixed w-full md:relative bottom-0 left-0">
@@ -43,7 +64,7 @@ export const Nav = () => {
                     ? "/complaint"
                     : index === 3
                     ? "/lease"
-                    : "/smartlock"
+                    : "/doormanui"
                 }
                 className={`w-[50px] h-[50px] rounded-full flex items-center justify-center hover:bg-green focus:bg-green focus:ring-0 focus:outline-green
                 focus:inset-shadow-none transition duration-500 group ${
@@ -51,6 +72,16 @@ export const Nav = () => {
                     ? "bg-accentBlue md:bg-beige relative md:top-0 w-full h-full border-1 border-[#1D478B] md:border-none md:shadow-none md:inset-shadow-none inset-shadow-sm inset-shadow-[#4595F8] shadow-md shadow-[#1358AE]/50 focus:border-none focus:shadow-none focus:border-transparent inset-shadow-sm-bottom"
                     : "bg-beige"
                 }`}
+                onClick={(e) => {
+                  if (index === 2 && window.innerWidth < 431) {
+                    handleComplaintClick(e);
+                  }
+                }}
+                onTouchStart={(e) => {
+                  if (index === 2 && window.innerWidth < 431) {
+                    handleComplaintClick(e);
+                  }
+                }}
               >
                 <img src={item.Icon} alt={item.alt} className="w-6 h-6" />
               </Link>
@@ -58,6 +89,7 @@ export const Nav = () => {
           ))}
         </ul>
       </nav>
+      <Modal isOpen={isModal} closeModal={handleModalClose} />
     </section>
   );
 };
