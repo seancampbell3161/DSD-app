@@ -125,12 +125,11 @@ const AutoCompleteTenant = () => {
 							<div>
                 <p className="color-grey-800">Name: {selectedTenant.name}</p>
                 <p className="color-grey-800">Username: {selectedTenant.username}</p>
+								<FileUpload />
               </div>
 						) : null
             )}
           </div>
-					// TODO: conditionally render this
-					<div><FileUpload /></div>
         </div>
       </div>
 	)
