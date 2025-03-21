@@ -7,12 +7,6 @@ interface User {
 	email: string
 	username: string
 }
-// const emailTest: Tenant[] = [
-
-//   {name: 'Sam Donald', email: 'sam@example.com', apt: "118"},
-//   {name: 'Jane Donald', email: 'jane@domain.com.com', apt: "150"},
-//   {name: 'Doe Donald', email: 'doe@mail.com', apt: "150"}
-// ]
 
 const AutoCompleteTenant = () => {
 	const [value, setValue] = useState("")
@@ -25,22 +19,21 @@ const AutoCompleteTenant = () => {
 		{ newValue, method }: ChangeEvent,
 	) => {
 		setValue(newValue)
+		if (newValue === "") {
 		setSelectedTenant(null) //Clear selected info when input changes
+		}
 	}
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
 		setIsLoading(true) // Set loading state
 		try {
-			fetch(`/api/users/search?email=${value}&page=0&size=10&sortParam=email`, {
+			const response = await fetch(`/api/users/search?email=${value}&page=0&size=10&sortParam=email`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/hal+json",
 				},
 			})
-				.then((response) => response.json())
-				.then((data) => {
-					console.log(data)
-					setSuggestions(data._embedded.userReadList)
-				})
+			const data = await response.json();
+			setSuggestions(data._embedded.userReadList);
 		} catch (error) {
 			console.error("Error fetching data:", error)
 		} finally {
@@ -125,13 +118,18 @@ const AutoCompleteTenant = () => {
             </h2>
           </div>
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
-            {selectedTenant && ( // Conditionally render info if email is selected
-              <div>
+            {value && !suggestions.length && !selectedTenant ? ( 
+							<p>No tenant found</p> 
+						) : (  
+							value && selectedTenant ? (
+							<div>
                 <p className="color-grey-800">Name: {selectedTenant.name}</p>
                 <p className="color-grey-800">Username: {selectedTenant.username}</p>
               </div>
+						) : null
             )}
           </div>
+					// TODO: conditionally render this
 					<div><FileUpload /></div>
         </div>
       </div>
