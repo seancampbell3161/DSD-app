@@ -1,8 +1,5 @@
 import { useState } from "react"
 import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
-
 import FileUpload from "./Uploader";
 
 interface User {
@@ -33,7 +30,7 @@ const AutoCompleteTenant = () => {
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
 		setIsLoading(true) // Set loading state
 		try {
-			fetch(`/api/users/searchUsersByEmail?email=${value}&page=0&size=10&sortParam=email`, {
+			fetch(`/api/users/search?email=${value}&page=0&size=10&sortParam=email`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/hal+json",
@@ -58,9 +55,10 @@ const AutoCompleteTenant = () => {
 	const inputProps: InputProps<User> = {
 		placeholder: "Email",
 		value: value,
-		onChange: (_, { newValue, method }) => {
-			setValue(newValue)
-		},
+		onChange: onChange,
+		// onChange: (_, { newValue, method }) => {
+
+		// },
 		className:
 			"w-[320px] border rounded-md px-4 py-2 bg-[var(--color-white)] text-[var(--color-grey-800)] font-normal text-sm border-[var(--color-grey-400)] focus:outline-none focus:ring-2 focus:ring-blue-500",
 	}
@@ -69,7 +67,6 @@ const AutoCompleteTenant = () => {
 		container: "relative",
 		containerOpen: "block absolute z-2",
 		input:
-			"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
 			"w-full px-4 py-2 border border-red rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
 		suggestionsContainer:
 			"absolute mt-1 w-[320px] rounded-md shadow-md bg-transparent z-10",
@@ -80,14 +77,14 @@ const AutoCompleteTenant = () => {
 	}
 
 	// shouuld this be used in fetch?
-	const getSuggestions = (value: string) => {
-		const inputValue = value.trim().toLowerCase()
-		return inputValue.length === 0
-			? []
-			: users.email.filter((tenant: User) =>
-					tenant.email.toLowerCase().includes(inputValue),
-			)
-	}
+	// const getSuggestions = (value: string) => {
+	// 	const inputValue = value.trim().toLowerCase()
+	// 	return inputValue.length === 0
+	// 		? []
+	// 		: users.email.filter((tenant: User) =>
+	// 				tenant.email.toLowerCase().includes(inputValue),
+	// 		)
+	// }
 
 	const getSuggestionValue = (suggestion: User) => suggestion.email
 
@@ -106,7 +103,6 @@ const AutoCompleteTenant = () => {
 	)
 
 	return (
-    <Theme>
       <div className="grid grid-cols-2 gap-4 mt-10">
         <div className="flex flex-col items-center">
           <Autosuggest
@@ -122,9 +118,6 @@ const AutoCompleteTenant = () => {
             theme={theme}
           />
         </div>
-        <div className="flex flex-col h-[190px] bg-[var(--color-white)] rounded-lg font-normal text-sm">
-          <div className="border border-(--color-beige)">
-            <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-[12px]">
         <div className="flex flex-col h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm pt-3 px-2.5 pb-5">
           <div className="border-b-1 border-(--color-beige)">
             <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black pb-2.5">
@@ -132,7 +125,6 @@ const AutoCompleteTenant = () => {
             </h2>
           </div>
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
-          <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm">
             {selectedTenant && ( // Conditionally render info if email is selected
               <div>
                 <p className="color-grey-800">Name: {selectedTenant.name}</p>
@@ -143,7 +135,6 @@ const AutoCompleteTenant = () => {
 					<div><FileUpload /></div>
         </div>
       </div>
-    </Theme>
 	)
 }
 export default AutoCompleteTenant
