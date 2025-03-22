@@ -4,6 +4,20 @@ const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [status, setStatus] = useState<'initial' | 'uploading' | 'success' | 'fail'>('initial');
 
+
+  interface LeaseSignatureRequestDetails {
+    leaseId: number;
+    tenantName: string;
+    signatureDate: string;
+  }
+  
+  const leaseSignatureRequestDetails: LeaseSignatureRequestDetails = {
+    leaseId: 123,
+    tenantName: "John Doe",
+    signatureDate: "2025-03-21",
+  };
+
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
@@ -17,8 +31,8 @@ const FileUpload = () => {
 
     const formData = new FormData();
     formData.append("file", selectedFile, selectedFile.name);
-    // formData.append("leaseSignatureRequestDetails", );
-    // formData.append("metaData", metaData);
+    formData.append("leaseSignatureRequestDetails", JSON.stringify(leaseSignatureRequestDetails) );
+    formData.append("metaData", metaData);
 
     console.log(selectedFile);
 
