@@ -6,16 +6,26 @@ const FileUpload = () => {
 
 
   interface LeaseSignatureRequestDetails {
-    leaseId: number;
-    tenantName: string;
-    signatureDate: string;
+    signerEmails: string[];
+    apartmentNumber: number;
+    ccEmails: string[];
   }
+
+  interface MetaData {
+    title: string;
+    description: string;
+}
   
   const leaseSignatureRequestDetails: LeaseSignatureRequestDetails = {
-    leaseId: 123,
-    tenantName: "John Doe",
-    signatureDate: "2025-03-21",
-  };
+    "signerEmails": [ "phunbunch@gmail.com" ],
+    "apartmentNumber": 2,
+    "ccEmails": [ "rubengarcia0515@gmail.com" ]
+    }
+
+  const metaData: MetaData = {
+    "title": "Sample File", 
+    "description": "This is a test file"
+  } 
 
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,15 +40,18 @@ const FileUpload = () => {
     setStatus('uploading');
 
     const formData = new FormData();
-    formData.append("file", selectedFile, selectedFile.name);
+    formData.append("file", selectedFile );
     formData.append("leaseSignatureRequestDetails", JSON.stringify(leaseSignatureRequestDetails) );
-    formData.append("metaData", metaData);
+    formData.append("metaData", JSON.stringify(metaData) );
 
     console.log(selectedFile);
 
     try {
       const result = await fetch('/api/document/send', {
         method: 'POST',
+        headers: {
+          "contentType": 'application/octet-stream',
+        },
         body: formData,
       });
 
