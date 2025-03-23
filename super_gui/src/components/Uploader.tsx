@@ -15,8 +15,10 @@ const FileUpload = () => {
 	interface MetaData {
 		title: string
 		description: string
+		startDate: string
+		endDate: string
 	}
-
+	// Sample data, for testing purposes you can change the signer email to you own email to verify, but in production it should be the tenant's email which is passed over from the user search result passing in the email.
 	const leaseSignatureRequestDetails: LeaseSignatureRequestDetails = {
 		signerEmails: ["phunbunch@gmail.com"],
 		apartmentNumber: 2,
@@ -26,6 +28,9 @@ const FileUpload = () => {
 	const metaData: MetaData = {
 		title: "Sample File",
 		description: "This is a test file",
+		startDate: "2025-09-01",
+		endDate: "2026-08-31",
+
 	}
 
 	const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +49,7 @@ const FileUpload = () => {
 		})
 		console.log("Original File Type:", file.type)
     console.table(file)
-		const metaData: MetaData = {
-			title: file.name,
-			description: "This is a test file",
-		}
+	
 		const formData = new FormData()
 		formData.append("file", selectedFile)
 		formData.append(
