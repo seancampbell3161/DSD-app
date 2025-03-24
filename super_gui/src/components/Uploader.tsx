@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const FileUpload = () => {
+const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
 	const [status, setStatus] = useState<
 		"initial" | "uploading" | "success" | "fail"
@@ -20,7 +20,7 @@ const FileUpload = () => {
 	}
 	// Sample data, for testing purposes you can change the signer email to you own email to verify, but in production it should be the tenant's email which is passed over from the user search result passing in the email.
 	const leaseSignatureRequestDetails: LeaseSignatureRequestDetails = {
-		signerEmails: ["phunbunch@gmail.com"],
+		signerEmails: [ signerEmails ],
 		apartmentNumber: 2,
 		ccEmails: ["rubengarcia0515@gmail.com"],
 	}
@@ -130,11 +130,11 @@ const FileUpload = () => {
 
 const Result = ({ status }: { status: string | null }) => {
 	if (status === "success") {
-		return <p>✅ File uploaded successfully!</p>
+		return <p className="pt-3">✅ File uploaded successfully!</p>
 	} else if (status === "fail") {
-		return <p>❌ File upload failed!</p>
+		return <p className="pt-3">❌ File upload failed!</p>
 	} else if (status === "uploading") {
-		return <p>⏳ Uploading selected file...</p>
+		return <p className="pt-3">⏳ Uploading selected file...</p>
 	} else {
 		return null
 	}
