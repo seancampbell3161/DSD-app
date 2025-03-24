@@ -104,6 +104,40 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 					onChange={onFileChange}
 					className="hidden"
 				/>
+        <label
+					htmlFor="carbon-copy"
+					className="block mb-1 text-sm font-medium text-gray-700">
+            CC Email Address
+				</label>
+				<input
+					id="carbon-copy"
+					type="email"
+					onChange={onFileChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+				/>
+        <label
+					htmlFor="start"
+					className="block mb-1 text-sm font-medium text-gray-700">
+            Lease Start Date
+				</label>
+				<input
+					id="start"
+					type="date"
+					// value={formData.startDate}
+					onChange={onFileChange}
+					className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+				/>
+        <label
+					htmlFor="end"
+					className="block mb-1 text-sm font-medium text-gray-700">
+            Lease End Date
+				</label>
+				<input
+					id="end"
+					type="date"
+					onChange={onFileChange}
+					className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+				/>
 			</div>
 			{selectedFile && (
 				<section className="flex flex-col items-center mt-4 text-[var(--color-grey-800)]">

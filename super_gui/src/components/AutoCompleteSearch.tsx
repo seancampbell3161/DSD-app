@@ -112,7 +112,7 @@ const AutoCompleteTenant = () => {
             theme={theme}
           />
         </div>
-        <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm">
+        {/* <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm"> */}
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
             {value && !suggestions.length && !selectedTenant ? ( 
 							<p>No tenant found</p> 
@@ -126,7 +126,7 @@ const AutoCompleteTenant = () => {
 						) : null
             )}
           </div>
-        </div>
+        {/* </div> */}
       </div>
 	)
 }
