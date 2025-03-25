@@ -1,27 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 // Interface for package lockers
 interface PackageLocker {
   id: number;
   lockerNumber: number;
-  status: string;
-  apartmentNumber?: string;
+  apartmentNumber: number | null;
 }
 
 const DoorManUI = () => {
   const [apartmentNumber, setApartmentNumber] = useState("");
   const [selectedLocker, setSelectedLocker] = useState("");
+  const [lockers, setLockers] = useState<PackageLocker[]>([]);
 
-  // Mock data for lockers
-  const [lockers, setLockers] = useState<PackageLocker[]>([
-    { id: 1, lockerNumber: 1, status: "Apartment #4", apartmentNumber: "4" },
-    { id: 2, lockerNumber: 2, status: "Empty" },
-    { id: 3, lockerNumber: 3, status: "Empty" },
-    { id: 4, lockerNumber: 4, status: "Empty" },
-    { id: 5, lockerNumber: 5, status: "Empty" },
-    { id: 6, lockerNumber: 6, status: "Empty" },
-    { id: 7, lockerNumber: 7, status: "Empty" },
-  ]);
+  const buildingId = 1; //This app only has one building
+  const lockerId = 1; //1-5 available lockers
+
+  // GET all lockers in the building
+  useEffect(() => {
+    const fetchBuildingLockers = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8080/buildings/${buildingId}/lockers`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (res.ok) {
+          const data: PackageLocker[] = await res.json();
+          setLockers(data);
+          console.log(`Locker Status:`, data);
+        } else {
+          console.error("Failed to fetch locker status");
+        }
+      } catch (error) {
+        console.error("Failed all available lockers", error);
+      }
+    };
+    fetchBuildingLockers();
+  }, []);
 
   // Mock function to assign package
   const assignPackage = () => {
@@ -31,14 +51,39 @@ const DoorManUI = () => {
     // Mock implementation
   };
 
-  // Mock function to discard package
-  const discardPackage = (id: number) => {
-    // Mock implementation
+  // PATCH Packages Status
+  const discardPackage = async ({ id }: { id: number }) => {
+    try {
+      const res = await fetch(`http://localhost:8080/locker/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          apartmentNumber: null,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setLockers((prevLockers) =>
+          prevLockers.map((locker) =>
+            locker.id === id ? { ...locker, apartmentNumber: null } : locker
+          )
+        );
+        toast.success("Package removed from locker.");
+        console.log("Package removed from locker.", data);
+      } else {
+        console.error("Error updating packages status:");
+      }
+    } catch (error) {
+      console.error("Error updating packages status:", error);
+    }
   };
 
   return (
     <main className="min-h-screen relative pb-16 md:pb-0">
-      <div className="mx-auto max-w-4xl m-4 p-4">
+      <div className="mx-auto max-w-4xl m-4 p-4 pb-16 md:pb-0">
         <div className="border rounded-xl shadow-md overflow-hidden">
           <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white bg-accentBlue">
             Tenant Package Management
@@ -55,7 +100,7 @@ const DoorManUI = () => {
                 </div>
 
                 {/* Input Fields */}
-                <div className="w-full mb-4">
+                <form className="w-full mb-4">
                   <div className="flex flex-col mb-3">
                     <label className="mb-1 font-body text-charcoal">
                       Apartment Number
@@ -70,7 +115,7 @@ const DoorManUI = () => {
                   </div>
                   <div className="flex flex-col mb-3">
                     <label className="mb-1 font-body text-charcoal">
-                      Locker Number (1-7)
+                      Locker Number (1-5)
                     </label>
                     <select
                       className="border border-beige rounded p-2"
@@ -78,13 +123,11 @@ const DoorManUI = () => {
                       onChange={(e) => setSelectedLocker(e.target.value)}
                     >
                       <option value="">Select a locker</option>
-                      <option value="1">Locker 1</option>
-                      <option value="2">Locker 2</option>
-                      <option value="3">Locker 3</option>
-                      <option value="4">Locker 4</option>
-                      <option value="5">Locker 5</option>
-                      <option value="6">Locker 6</option>
-                      <option value="7">Locker 7</option>
+                      <option value="101">Locker 101</option>
+                      <option value="102">Locker 102</option>
+                      <option value="103">Locker 103</option>
+                      <option value="104">Locker 104</option>
+                      <option value="105">Locker 105</option>
                     </select>
                   </div>
                   <button
@@ -93,7 +136,7 @@ const DoorManUI = () => {
                   >
                     Submit
                   </button>
-                </div>
+                </form>
 
                 <p className="mt-auto text-charcoal italic text-center">
                   Packages will be removed after 7 days if not picked up.
@@ -130,24 +173,18 @@ const DoorManUI = () => {
                           <td className="p-2 text-left border-r border-beige">
                             {locker.lockerNumber}
                           </td>
-                          <td
-                            className={`p-2 text-center border-r border-beige ${
-                              locker.status === "Empty"
-                                ? "italic text-charcoal"
-                                : ""
-                            }`}
-                          >
-                            {locker.status}
+                          <td className="p-2 text-center border-r border-beige italic">
+                            {locker.apartmentNumber !== null
+                              ? locker.apartmentNumber
+                              : "Empty"}
                           </td>
                           <td className="p-1">
-                            {locker.status !== "Empty" && (
-                              <button
-                                className="bg-accentBlue text-white py-1 px-2 rounded text-sm"
-                                onClick={() => discardPackage(locker.id)}
-                              >
-                                Discard
-                              </button>
-                            )}
+                            <button
+                              className="bg-accentBlue text-white py-1 px-2 rounded text-sm"
+                              onClick={() => discardPackage({ id: locker.id })}
+                            >
+                              Discard
+                            </button>
                           </td>
                         </tr>
                       ))}

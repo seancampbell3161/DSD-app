@@ -84,6 +84,7 @@ const Activeparkpass = () => {
         console.log(`Parking Code:`, data);
       } else {
         console.error("Failed to create parking code");
+        toast.error("Only 4 passes allowed per tenant.");
       }
     } catch (error) {
       console.error("Error creating parking code:", error);
