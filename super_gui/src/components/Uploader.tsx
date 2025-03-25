@@ -105,13 +105,14 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
     console.log(`Updated ${id} to: ${value}`)
   }
 
+  
 	return (
 		<>
 			<h3 className="text-xl mt-2.5 font-[Raleway]">Upload Tenant Lease</h3>
 			<p className="font-[var(--font-body)] text-sm text-[var(--color-grey-800)] italic mb-2.5">
 				pdf format
 			</p>
-      <form onSubmit={handleUpload}>
+      <form onSubmit={handleUpload} className="pb-7">
         <div className="flex flex-col items-center justify-center">
           <label
             htmlFor="file"
@@ -130,7 +131,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 
           <label
             htmlFor="apartmentNumber"
-            className="block mb-1 text-sm font-medium text-gray-700">
+            className="block py-2 text-sm font-medium text-gray-700">
               Apartment Number
           </label>
           <input
@@ -144,7 +145,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
           />
           <label
             htmlFor="ccEmails"
-            className="block mb-1 text-sm font-medium text-gray-700">
+            className="block py-2 text-sm font-medium text-gray-700">
               CC Email Address
           </label>
           <input
@@ -158,7 +159,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 
           <label
             htmlFor="startDate"
-            className="block mb-1 text-sm font-medium text-gray-700">
+            className="block py-2 text-sm font-medium text-gray-700">
               Lease Start Date
           </label>
           <input
@@ -170,7 +171,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
           />
           <label
             htmlFor="endDate"
-            className="block mb-1 text-sm font-medium text-gray-700">
+            className="block py-2 text-sm font-medium text-gray-700">
               Lease End Date
           </label>
           <input
@@ -186,7 +187,6 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
             File details:
             <ul>
               <li>Name: {selectedFile.name}</li>
-              <li>Size: {selectedFile.size} bytes</li>
             </ul>
           </section>
         )}
