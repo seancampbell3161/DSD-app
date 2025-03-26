@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
 import FileUpload from "./Uploader";
-import { Lease } from "./LeaseDetails";
+import { DisplayAllLeaseByUsername, Lease } from "./LeaseDetails";
 
 interface User {
 	name: string
@@ -15,6 +15,7 @@ const AutoCompleteTenant = () => {
 	const [suggestions, setSuggestions] = useState<User[]>([])
 	const [selectedTenant, setSelectedTenant] = useState<User | null>(null)
 	const [isLoading, setIsLoading] = useState(false) // Add loading state
+	const [username, setUsername] = useState<string>("")
 
 	const onChange = (
 		event: React.FormEvent<HTMLElement>,
@@ -89,6 +90,7 @@ const AutoCompleteTenant = () => {
 			onClick={() => {
 				setValue(suggestion.email) //Set input val to selected email
 				setSelectedTenant(suggestion) // Store selected Tenant for display
+				setUsername(suggestion.username)
 			}}
 		>
 			{suggestion.email}
@@ -114,6 +116,7 @@ const AutoCompleteTenant = () => {
             theme={theme}
           />
         </div>
+	
         {/* <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm"> */}
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
             {value && !suggestions.length && !selectedTenant ? ( 
@@ -123,14 +126,8 @@ const AutoCompleteTenant = () => {
 							<div>
                 <p className="color-grey-800">Name: {selectedTenant.name}</p>
                 <p className="color-grey-800">Username: {selectedTenant.username}</p>
-				<ul>
-					{selectedTenant.leaseHistory?.map((lease) => (
-						<li key={lease.id}>
-							<p>{lease.externalId}</p>
-						</li>
-					))}
-				</ul>
-								<FileUpload signerEmails={selectedTenant.email} />
+				{/* todo passing in props of username is giving me issue. can you please resolve this 				<DisplayAllLeaseByUsername username={username as string} />*/}
+				<FileUpload signerEmails={selectedTenant.email} />
               </div>
 						) : null
             )}

@@ -1,8 +1,97 @@
 import { useState, useEffect } from "react"
 
+export interface LeaseDTO {
+	id: number
+	status: string
+	externalId: string
+	startDate: string
+	endDate: string
+	apartment: any
+	tenants: any[]
+	dropboxUrl: string, 
+	signatureRequestGetResponse?: any
+
+}
+//test this. This is the endpoint to get all leases by username. Need to resolve prop type input passed from suggestion in autocomplete
+const getAllLeasesByUsername = async (username: string) => {
+	const result = await fetch(`/api/document/getAllByUser/${username}`, {
+		method: "GET",
+	})
+
+	const data = await result.json()
+	console.log(data)
+	return data
+}
+
+export const DisplayAllLeaseByUsername = (username: string) => {
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
+	const [list, setList] = useState<LeaseDTO[] | null>(null)
+
+	useEffect(() => {
+		// Fetch lease data when the component mounts
+		getAllLeasesByUsername(username)
+			.then((data) => {
+				setList(data)
+				setLoading(false)
+			})
+			.catch((err) => {
+				if (err instanceof Error) {
+					setError(err.message)
+				}
+			})
+	}, [username])
+
+	if (loading) {
+		return <div>Loading...</div>
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>
+	}
+
+	return (
+		<div>
+			<h1>Lease Details</h1>
+			{list ? (
+				<div>
+					<ul>
+						{list.map((lease) => (
+							<li key={lease.id}>
+								<p>
+									<strong>External ID:</strong> {lease.externalId}
+								</p>
+								<p>
+									<strong>Status:</strong> {lease.status}
+								</p>
+								<p>
+									<strong>Start Date:</strong> {lease.startDate}
+								</p>
+								<p>
+									<strong>End Date:</strong> {lease.endDate}
+								</p>
+								<p>
+									<strong>Apartment:</strong> {lease.apartment
+										? lease.apartment.number
+										: "N/A"}
+								</p>
+								<p>
+								<a href={lease.dropboxUrl} target="_blank" rel="noopener noreferrer">download link</a>
+								</p>
+							</li>
+						))}
+					</ul>
+				</div>
+			) : (
+				<p>No lease data found.</p>
+			)}
+		</div>
+	)
+}
+
 export interface Lease {
 	id: number
-	externalId: string //dropbox sign id
+	externalId: string 
 }
 
 const getLeaseDetails = async (lease: Lease) => {
