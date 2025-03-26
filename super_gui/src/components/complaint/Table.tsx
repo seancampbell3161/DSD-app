@@ -11,14 +11,14 @@ interface Complaint {
   timeCreated: string;
   status: string;
   complaintType: string;
-  user: {username: string}
+  user: { username: string };
 }
 
 interface TableProps {
   complaints: Complaint[];
 }
 
-export const Table = ({ complaints }: TableProps) => {
+export const Table = ({ complaints, setComplaints }: TableProps) => {
   const [showComplaintType, setShowComplaintType] = useState(false);
 
   const toggleDisplay = () => {
@@ -28,11 +28,7 @@ export const Table = ({ complaints }: TableProps) => {
   const handleDeleteComplaint = async (id: string) => {
     try {
       await api.delete(`/complaints/${id}`);
-
-      complaints((prev) => {
-        prev.filter((complaint) => complaint.id !== id);
-      });
-
+      setComplaints((prev) => prev.filter((complaint) => complaint.id !== id));
       toast.success("Complaint deleted successfully");
     } catch {
       toast.error("Failed to delete complaint");
@@ -64,7 +60,7 @@ export const Table = ({ complaints }: TableProps) => {
         {complaints.length > 0 ? (
           complaints.map((complaint) => (
             <tr key={complaint.id} className="border-b border-beige">
-              <td className="p-0 text-left border-r border-beige">
+              <td className="p-0 text-left border-r border-beige capitalize">
                 {showComplaintType
                   ? complaint.complaintType
                   : complaint.user.username}
