@@ -5,8 +5,8 @@ import Package from "/assets/icons/bxs-package.svg";
 const SmartLockUI = () => {
   const [packageStatus, setPackageStatus] = useState<number | null>(null);
 
-  const userId = 1;
-  const lockerId = 1; //1-5 available lockers
+  const userId = 1001;
+  const lockerId = 1001; //1-5 available lockers
 
   // GET Packages Status
   useEffect(() => {
@@ -23,9 +23,7 @@ const SmartLockUI = () => {
         );
         if (res.ok) {
           const data = await res.json();
-          if (data[lockerId] && data[lockerId].length > 0) {
-            setPackageStatus(data[lockerId][0]);
-          }
+          setPackageStatus(data[1][0]);
           console.log(`Packages status:`, data);
         } else {
           console.error("Failed to fetch packages for pickup");

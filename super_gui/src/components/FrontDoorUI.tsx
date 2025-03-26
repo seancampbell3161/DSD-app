@@ -14,8 +14,8 @@ const FrontDoorUI = () => {
   const [displayGuestCode, setDisplayGuestCode] = useState<boolean>(false);
   const [copied, setCopied] = useState<string | null>("");
 
-  const doorId = 1; // Initial Door value:
-  const userId = 1; // Initial Tenant value:
+  const doorId = 1001; // Initial Door value:
+  const userId = 1001; // Initial Tenant value:
 
   // Gives prompt copy functionality
   const handleCopy = () => {
@@ -218,7 +218,7 @@ const FrontDoorUI = () => {
                   <>
                     <h1 className="mb-4 text-center capitalize font-[Roboto Condensed] font-medium text-xl">
                       Laura Johnson
-                      <p className="text-sm">Room: 204</p>
+                      <p className="text-sm">Apartment: 1</p>
                     </h1>
                     <div className="flex justify-center w-full">
                       <button

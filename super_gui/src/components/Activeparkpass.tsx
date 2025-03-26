@@ -18,8 +18,8 @@ const Activeparkpass = () => {
   const [showLicensePlate, setShowLicensePlate] = useState(false);
   const [parkingPasses, setParkingPasses] = useState<ParkingStatus[]>([]);
 
-  const doorId = 3; // Initial Door value MUST be 3:
-  const userId = 1; // Initial Tenant value:
+  const doorId = 1003; // Initial Door value MUST be 3:
+  const userId = 1001; // Initial Tenant value:
 
   // GET Parking Status
   useEffect(() => {
@@ -156,7 +156,7 @@ const Activeparkpass = () => {
                 <div className="flex justify-center flex-col items-center">
                   <h1 className="mb-4 text-center capitalize font-[Roboto Condensed] font-medium text-xl">
                     Laura Johnson
-                    <p className="text-sm">Room: 204</p>
+                    <p className="text-sm">Apartment: 1</p>
                   </h1>
                   <Parking createParkingCode={createParkingAccessCode} />
                 </div>

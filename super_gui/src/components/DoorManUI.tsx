@@ -13,7 +13,7 @@ const DoorManUI = () => {
   const [selectedLocker, setSelectedLocker] = useState("");
   const [lockers, setLockers] = useState<PackageLocker[]>([]);
 
-  const buildingId = 1; //This app only has one building
+  const buildingId = 1001; //This app only has one building
 
   // GET all lockers in the building
   useEffect(() => {
@@ -160,11 +160,11 @@ const DoorManUI = () => {
                       onChange={(e) => setSelectedLocker(e.target.value)}
                     >
                       <option value="">Select a locker</option>
-                      <option value="1">Locker 101</option>
-                      <option value="2">Locker 102</option>
-                      <option value="3">Locker 103</option>
-                      <option value="4">Locker 104</option>
-                      <option value="5">Locker 105</option>
+                      <option value="1001">Locker 101</option>
+                      <option value="1002">Locker 102</option>
+                      <option value="1003">Locker 103</option>
+                      <option value="1004">Locker 104</option>
+                      <option value="1005">Locker 105</option>
                     </select>
                   </div>
                   <button className="bg-accentBlue text-white py-2 px-4 rounded font-body w-full">
