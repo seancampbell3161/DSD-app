@@ -23,7 +23,7 @@ const getAllLeasesByUsername = async (username: string) => {
 	return data
 }
 
-export const DisplayAllLeaseByUsername = (username: string) => {
+export const DisplayAllLeaseByUsername = ({ username }: { username: string }) => {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 	const [list, setList] = useState<LeaseDTO[] | null>(null)

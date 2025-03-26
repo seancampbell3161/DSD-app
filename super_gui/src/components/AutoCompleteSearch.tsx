@@ -24,6 +24,7 @@ const AutoCompleteTenant = () => {
 		setValue(newValue)
 		if (newValue === "") {
 		setSelectedTenant(null) //Clear selected info when input changes
+		setUsername("")
 		}
 	}
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
@@ -90,7 +91,7 @@ const AutoCompleteTenant = () => {
 			onClick={() => {
 				setValue(suggestion.email) //Set input val to selected email
 				setSelectedTenant(suggestion) // Store selected Tenant for display
-				setUsername(suggestion.username)
+				setUsername(suggestion.username || '')
 			}}
 		>
 			{suggestion.email}
@@ -117,22 +118,22 @@ const AutoCompleteTenant = () => {
           />
         </div>
 	
-        {/* <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm"> */}
-          <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
-            {value && !suggestions.length && !selectedTenant ? ( 
-							<p>No tenant found</p> 
-						) : (  
-							value && selectedTenant ? (
-							<div>
-                <p className="color-grey-800">Name: {selectedTenant.name}</p>
-                <p className="color-grey-800">Username: {selectedTenant.username}</p>
-				{/* todo passing in props of username is giving me issue. can you please resolve this 				<DisplayAllLeaseByUsername username={username as string} />*/}
-				<FileUpload signerEmails={selectedTenant.email} />
-              </div>
-						) : null
-            )}
-          </div>
-        {/* </div> */}
+				<div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
+					{value && !suggestions.length && !selectedTenant ? ( 
+						<p>No tenant found</p> 
+					) : (  
+						value && selectedTenant ? (
+						<div>
+							<p className="color-grey-800">Name: {selectedTenant.name}</p>
+							<p className="color-grey-800">Username: {selectedTenant.username}</p>
+			{/* todo passing in props of username is giving me issue. can you please resolve this 	*/}		
+					<DisplayAllLeaseByUsername username={selectedTenant.username} />
+					<FileUpload signerEmails={selectedTenant.email} />
+						</div>
+					) : null
+					)}
+				</div>
+
       </div>
 	)
 }
