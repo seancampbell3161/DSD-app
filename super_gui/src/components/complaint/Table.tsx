@@ -2,14 +2,14 @@ import { useState } from "react";
 import swap from "/assets/icons/swap.svg";
 import trashCan from "/assets/icons/bin.svg";
 import api from "../../api/api";
-import { toast } from  "react-toastify";
+import { toast } from "react-toastify";
 
 interface Complaint {
   type: string;
   id: string;
   message: string;
   timeCreated: string;
-  status:string;
+  status: string;
 }
 
 interface TableProps {
@@ -18,6 +18,7 @@ interface TableProps {
 
 export const Table = ({ complaints }: TableProps) => {
   const [showComplaintType, setShowComplaintType] = useState(false);
+
   const toggleDisplay = () => {
     setShowComplaintType((prev) => !prev);
   };
@@ -25,16 +26,16 @@ export const Table = ({ complaints }: TableProps) => {
   const handleDeleteComplaint = async (id: string) => {
     try {
       await api.delete(`/complaints/${id}`);
-      setComplaintsArray((prevComplaints) =>
-        prevComplaints.filter((complaint) => complaint.id !== id)
-      );
+
+      complaints((prev) => {
+        prev.filter((complaint) => complaint.id !== id);
+      });
+
       toast.success("Complaint deleted successfully");
     } catch {
       toast.error("Failed to delete complaint");
     }
   };
-
-  const [complaintsArray, setComplaintsArray] = useState(complaints)
 
   return (
     <table className="w-full">
@@ -45,9 +46,7 @@ export const Table = ({ complaints }: TableProps) => {
             onClick={toggleDisplay}
           >
             <div className="flex items-left">
-              Status{" "}
-              <img src={swap} alt="Swap" className="h-3 mx-1" />{" "}
-              Type
+              Tenant <img src={swap} alt="Swap" className="h-3 mx-1" /> Type
             </div>
           </th>
           <th className="p-2 text-center font-body border-b border-beige">
@@ -60,13 +59,13 @@ export const Table = ({ complaints }: TableProps) => {
         </tr>
       </thead>
       <tbody>
-        {complaintsArray.length > 0 ? (
-          complaintsArray.map((complaint) => (
+        {complaints.length > 0 ? (
+          complaints.map((complaint) => (
             <tr key={complaint.id} className="border-b border-beige">
               <td className="p-0 text-left border-r border-beige">
                 {showComplaintType
-                  ? complaint.type
-                  : complaint.status}
+                  ? complaint.complaintType
+                  : complaint.user.username}
               </td>
               <td className="p-2 text-left border-r border-beige">
                 {complaint.message}
@@ -101,5 +100,5 @@ export const Table = ({ complaints }: TableProps) => {
         )}
       </tbody>
     </table>
-  )
-}
+  );
+};
