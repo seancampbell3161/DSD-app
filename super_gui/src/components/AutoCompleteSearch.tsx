@@ -128,7 +128,7 @@ const AutoCompleteTenant = () => {
 							<p className="color-grey-800">Username: {selectedTenant.username}</p>
 			{/* todo passing in props of username is giving me issue. can you please resolve this 	*/}		
 					<DisplayAllLeaseByUsername username={selectedTenant.username} />
-					<FileUpload signerEmails={selectedTenant.email} />
+					<FileUpload signerEmail={selectedTenant.email} />
 						</div>
 					) : null
 					)}
