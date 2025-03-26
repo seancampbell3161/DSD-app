@@ -14,7 +14,6 @@ const DoorManUI = () => {
   const [lockers, setLockers] = useState<PackageLocker[]>([]);
 
   const buildingId = 1; //This app only has one building
-  const lockerId = 1; //1-5 available lockers
 
   // GET all lockers in the building
   useEffect(() => {
@@ -43,12 +42,50 @@ const DoorManUI = () => {
     fetchBuildingLockers();
   }, []);
 
-  // Mock function to assign package
-  const assignPackage = () => {
-    if (!apartmentNumber || !selectedLocker) {
-      return;
+  // PATCH To Assign Packages
+  const assignPackage = async (lockerId: number, apartmentNumber: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/locker/${lockerId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          apartmentNumber: apartmentNumber,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+
+        // Update the lockers status UI
+        setLockers((prevLockers) =>
+          prevLockers.map((locker) =>
+            locker.id === lockerId
+              ? { ...locker, apartmentNumber: Number(apartmentNumber) }
+              : locker
+          )
+        );
+
+        toast.success("Package has been assigned!");
+        console.log(`Package assigned to:`, data);
+      } else {
+        console.error("Failed to assign package");
+        toast.error("Failed to assign package.");
+      }
+    } catch (error) {
+      console.error("Failed to assign package", error);
     }
-    // Mock implementation
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedLocker && apartmentNumber) {
+      assignPackage(Number(selectedLocker), apartmentNumber);
+      setApartmentNumber("");
+      setSelectedLocker("");
+    } else {
+      toast.error("Please select both locker and apartment number.");
+    }
   };
 
   // PATCH Packages Status
@@ -100,7 +137,7 @@ const DoorManUI = () => {
                 </div>
 
                 {/* Input Fields */}
-                <form className="w-full mb-4">
+                <form onSubmit={handleSubmit} className="w-full mb-4">
                   <div className="flex flex-col mb-3">
                     <label className="mb-1 font-body text-charcoal">
                       Apartment Number
@@ -123,17 +160,14 @@ const DoorManUI = () => {
                       onChange={(e) => setSelectedLocker(e.target.value)}
                     >
                       <option value="">Select a locker</option>
-                      <option value="101">Locker 101</option>
-                      <option value="102">Locker 102</option>
-                      <option value="103">Locker 103</option>
-                      <option value="104">Locker 104</option>
-                      <option value="105">Locker 105</option>
+                      <option value="1">Locker 101</option>
+                      <option value="2">Locker 102</option>
+                      <option value="3">Locker 103</option>
+                      <option value="4">Locker 104</option>
+                      <option value="5">Locker 105</option>
                     </select>
                   </div>
-                  <button
-                    className="bg-accentBlue text-white py-2 px-4 rounded font-body w-full"
-                    onClick={assignPackage}
-                  >
+                  <button className="bg-accentBlue text-white py-2 px-4 rounded font-body w-full">
                     Submit
                   </button>
                 </form>
@@ -179,12 +213,18 @@ const DoorManUI = () => {
                               : "Empty"}
                           </td>
                           <td className="p-1">
-                            <button
-                              className="bg-accentBlue text-white py-1 px-2 rounded text-sm"
-                              onClick={() => discardPackage({ id: locker.id })}
-                            >
-                              Discard
-                            </button>
+                            {locker.apartmentNumber ? (
+                              <button
+                                className="bg-accentBlue text-white py-1 px-2 rounded text-sm"
+                                onClick={() =>
+                                  discardPackage({ id: locker.id })
+                                }
+                              >
+                                Discard
+                              </button>
+                            ) : (
+                              ""
+                            )}
                           </td>
                         </tr>
                       ))}
