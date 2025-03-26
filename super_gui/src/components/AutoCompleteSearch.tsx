@@ -92,14 +92,15 @@ const AutoCompleteTenant = () => {
 			}}
 		>
 			{suggestion.email}
-			{suggestion.username}
-      {suggestion.name}
 		</div>
 	)
 
 	return (
-      <div className="grid grid-cols-2 gap-4 mt-10">
-        <div className="flex flex-col items-center">
+      <div className="grid h-auto p-10 text-center gmt-10 rounded-2xl bg-accentBlue">
+        <div className="flex flex-col items-center bg-[var(--color-white)] rounded-lg shadow-md py-4">
+					<h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-2.5">
+              Admin Dashboard
+          </h2>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -113,12 +114,7 @@ const AutoCompleteTenant = () => {
             theme={theme}
           />
         </div>
-        <div className="flex flex-col h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm pt-3 px-2.5 pb-5">
-          <div className="border-b-1 border-(--color-beige)">
-            <h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black pb-2.5">
-              Tenant
-            </h2>
-          </div>
+        {/* <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm"> */}
           <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
             {value && !suggestions.length && !selectedTenant ? ( 
 							<p>No tenant found</p> 
@@ -139,7 +135,7 @@ const AutoCompleteTenant = () => {
 						) : null
             )}
           </div>
-        </div>
+        {/* </div> */}
       </div>
 	)
 }
