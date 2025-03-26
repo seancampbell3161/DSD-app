@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "./modal/Modal";
+import api from "../../api/api";
 import Placeholder from "/assets/images/placeholder.jpg";
+import swap from "/assets/icons/swap.svg";
+import { Table } from "./table";
 
 // Acceptance criteria for MVP
 
@@ -15,21 +18,49 @@ import Placeholder from "/assets/images/placeholder.jpg";
 
 // include summary of complaints. (a table with buttons? download report cta)
 
+interface Complaint {
+  id: string;
+  type: string;
+  message: string;
+  timeCreated: string;
+  status: string;
+}
+
 export const Complaint = () => {
   const [isModal, setIsModal] = useState(false);
-
-  const handleOutsideClickOrTap = (e: MouseEvent | TouchEvent) => {
-    if (isModal) {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.Complaint')) {
-        handleModalClose();
-      }
-    }
-  };
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
 
   const handleModalClose = () => {
     setIsModal(false);
   }
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const res = await api.get(`/complaints`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (res.status === 200) {
+          const data = res.data;
+
+          if (Array.isArray(data)) {
+            setComplaints(data);
+          } else if (data) {
+            setComplaints([data]);
+          }
+          console.log("New Complaint", data);
+        } else {
+          console.error("Failed to retrieve new complaints");
+        }
+      } catch (error) {
+        console.error('Error fetching complaints:', error);
+      }
+    };
+
+    fetchComplaints();
+  }, []);
 
   return (
     <section>
@@ -63,13 +94,22 @@ export const Complaint = () => {
             </div>
           </div>
           <div className="complaint-table rounded-xl p-4 md:p-6 md:w-1/2 bg-white">
-            <h1 className="">latest Complaint</h1>
+            <div className="w-full mb-6">
+              <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
+                Complaint Report
+              </h2>
+              <hr className="border-[#D3C9B8] w-full mt-2" />
+            </div>
+            <div className="w-full h-48 overflow-y-auto no-scrollbar">
+              <Table
+                complaints={complaints}
+              /> 
+            </div>
           </div>
         </div>
         <Modal 
           isOpen={isModal} 
           closeModal={handleModalClose} 
-          handleOutsideClickOrTap={handleOutsideClickOrTap} 
         />
       </div>
     </section> 

@@ -89,7 +89,10 @@ export const Nav: React.FC<NavProps> = ({
           ))}
         </ul>
       </nav>
-      <Modal isOpen={isModal} closeModal={handleModalClose} />
+      <Modal 
+        isOpen={isModal} 
+        closeModal={handleModalClose} 
+      />
     </section>
   );
 };
