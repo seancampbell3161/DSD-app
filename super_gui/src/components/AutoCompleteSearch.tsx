@@ -1,11 +1,13 @@
 import { useState } from "react"
 import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
 import FileUpload from "./Uploader";
+import { Lease } from "./LeaseDetails";
 
 interface User {
 	name: string
 	email: string
 	username: string
+	leaseHistory?: Lease[]
 }
 
 const AutoCompleteTenant = () => {
@@ -125,6 +127,13 @@ const AutoCompleteTenant = () => {
 							<div>
                 <p className="color-grey-800">Name: {selectedTenant.name}</p>
                 <p className="color-grey-800">Username: {selectedTenant.username}</p>
+				<ul>
+					{selectedTenant.leaseHistory?.map((lease) => (
+						<li key={lease.id}>
+							<p>{lease.externalId}</p>
+						</li>
+					))}
+				</ul>
 								<FileUpload signerEmails={selectedTenant.email} />
               </div>
 						) : null
