@@ -62,6 +62,7 @@ export const Complaint = () => {
     fetchComplaints();
   }, []);
 
+
   return (
     <section>
       <div className="Complaint max-w-4xl h-full my-auto mx-auto py-6 px-4 md:bg-accentBlue rounded-xl overflow-hidden">

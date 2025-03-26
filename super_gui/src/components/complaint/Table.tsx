@@ -1,6 +1,8 @@
 import { useState } from "react";
 import swap from "/assets/icons/swap.svg";
 import trashCan from "/assets/icons/bin.svg";
+import api from "../../api/api";
+import { toast } from  "react-toastify";
 
 interface Complaint {
   type: string;
@@ -19,6 +21,20 @@ export const Table = ({ complaints }: TableProps) => {
   const toggleDisplay = () => {
     setShowComplaintType((prev) => !prev);
   };
+
+  const handleDeleteComplaint = async (id: string) => {
+    try {
+      await api.delete(`/complaints/${id}`);
+      setComplaintsArray((prevComplaints) =>
+        prevComplaints.filter((complaint) => complaint.id !== id)
+      );
+      toast.success("Complaint deleted successfully");
+    } catch {
+      toast.error("Failed to delete complaint");
+    }
+  };
+
+  const [complaintsArray, setComplaintsArray] = useState(complaints)
 
   return (
     <table className="w-full">
@@ -44,8 +60,8 @@ export const Table = ({ complaints }: TableProps) => {
         </tr>
       </thead>
       <tbody>
-        {complaints.length > 0 ? (
-          complaints.map((complaint) => (
+        {complaintsArray.length > 0 ? (
+          complaintsArray.map((complaint) => (
             <tr key={complaint.id} className="border-b border-beige">
               <td className="p-0 text-left border-r border-beige">
                 {showComplaintType
@@ -55,16 +71,18 @@ export const Table = ({ complaints }: TableProps) => {
               <td className="p-2 text-left border-r border-beige">
                 {complaint.message}
               </td>
-              <td className="p-2 text-left">
-                {new Date(complaint.timeCreated).toLocaleString([], {
-                  year: "2-digit",
-                  month: "numeric",
-                  day: "numeric",
-                })}
+              <td className="p-2 text-right border-r border-beige">
+                <>
+                  {new Date(complaint.timeCreated).toLocaleString([], {
+                    year: "2-digit",
+                    month: "numeric",
+                    day: "numeric",
+                  })}
+                </>
               </td>
               <td className="p-1">
                 <button
-                  onClick={() => deleteComplaint(complaint.id)}
+                  onClick={() => handleDeleteComplaint(complaint.id)}
                   className="flex justify-end"
                 >
                   <img src={trashCan} alt="Bin" className="h-8" />
@@ -74,7 +92,7 @@ export const Table = ({ complaints }: TableProps) => {
           ))
         ) : (
           <tr>
-            <td colSpan="4" className="p-2 text-center">
+            <td colSpan={4} className="p-2 text-center">
               <p className="mt-6 italic text-charcoal font-body">
                 No active complaints have been created
               </p>
