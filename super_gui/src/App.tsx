@@ -13,6 +13,7 @@ import { Nav } from "./global/Nav.tsx";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
@@ -20,7 +21,11 @@ const App = () => {
       <BrowserRouter>
         <>
           <Header />
-          <Nav />
+          <Nav
+            isModal={isModalOpen} 
+            setIsModal={setIsModalOpen} 
+            handleModalClose={() => setIsModalOpen(false)} 
+          />
         </>
         <Routes>
           <Route path="/" element={<FrontDoorUI />} />

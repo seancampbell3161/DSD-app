@@ -73,12 +73,12 @@ export const Nav: React.FC<NavProps> = ({
                     : "bg-beige"
                 }`}
                 onClick={(e) => {
-                  if (index === 2 && window.innerWidth < 431) {
+                  if (index === 2) {
                     handleComplaintClick(e);
                   }
                 }}
                 onTouchStart={(e) => {
-                  if (index === 2 && window.innerWidth < 431) {
+                  if (index === 2) {
                     handleComplaintClick(e);
                   }
                 }}

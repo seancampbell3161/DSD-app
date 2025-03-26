@@ -46,7 +46,7 @@ export const Modal = ({ isOpen, closeModal, complaints }: ModalProps) => {
       const data = response.data;
       complaints((prev) => [...prev, data]);
       toast.success("Complaint submitted successfully!");
-      closeModal(true);
+      closeModal();
       setFormData("");
       console.log("Success:", data);
     } catch (error) {

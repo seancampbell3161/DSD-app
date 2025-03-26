@@ -10,6 +10,8 @@ interface Complaint {
   message: string;
   timeCreated: string;
   status: string;
+  complaintType: string;
+  user: {username: string}
 }
 
 interface TableProps {

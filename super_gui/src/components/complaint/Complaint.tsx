@@ -67,7 +67,7 @@ export const Complaint = () => {
         <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white">
           Hello, Laura Johnson
         </h1>
-        <div className="complaint-desktop hidden md:flex md:flex-row md:justify-between">
+        <div className="complaint-desktop md:flex md:flex-row md:justify-between">
           <div className="user-profile hidden md:flex md:flex-col md:items-center md:justify-start rounded-2xl p-6 w-full max-w-sm shadow-sm hover:shadow transition bg-white">
             <h2 className="text-xl text-center font-medium font-[Roboto Condensed]">
               Have a Complaint?
