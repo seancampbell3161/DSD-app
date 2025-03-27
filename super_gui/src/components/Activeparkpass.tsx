@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Parking from "./Parking";
+import api from "../api/api";
 import Placeholder from "/assets/images/placeholder.jpg";
 import trashCan from "/assets/icons/bin.svg";
 import swap from "/assets/icons/swap.svg";
+
+import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
 
 // It describes the shape of the objects:
 interface ParkingStatus {
@@ -25,17 +28,15 @@ const Activeparkpass = () => {
   useEffect(() => {
     const fetchParkingStatus = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:8080/users/${userId}/doors/${doorId}/parking-codes`,
+        const res = await api.get(`users/${userId}/doors/${doorId}/parking-codes`,
           {
-            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        if (res.ok) {
-          const data = await res.json();
+        if (SuccessfulStatusCodes.includes(res.status))  {
+          const data = res.data;
           // Handles if data is an object or array
           if (Array.isArray(data)) {
             setParkingPasses(data);
@@ -63,21 +64,20 @@ const Activeparkpass = () => {
     numberPlate: string;
   }) => {
     try {
-      const res = await fetch(
-        `http://localhost:8080/users/${userId}/door/${doorId}/parking-codes`,
+      const res = await api.post(
+        `users/${userId}/door/${doorId}/parking-codes`,
         {
-          method: "POST",
+          numberPlate,
+          guestName,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            numberPlate,
-            guestName,
-          }),
         }
       );
-      if (res.ok) {
-        const data = await res.json();
+      if (SuccessfulStatusCodes.includes(res.status)) {
+        const data = res.data;
         // Adds new parking pass using spread syntax
         setParkingPasses((prevPasses) => [...prevPasses, data]);
         toast.success("Parking code was created!");
@@ -88,6 +88,7 @@ const Activeparkpass = () => {
       }
     } catch (error) {
       console.error("Error creating parking code:", error);
+      toast.error("Only 4 passes allowed per tenant.");
     }
   };
 
@@ -96,13 +97,12 @@ const Activeparkpass = () => {
     // Finds the guestName in order to console log it
     const findGuestName = parkingPasses.find((guest) => guest.id === passId);
     try {
-      const res = await fetch(`http://localhost:8080/parking-codes/${passId}`, {
-        method: "DELETE",
+      const res = await api.delete(`/parking-codes/${passId}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (res.ok) {
+      if (SuccessfulStatusCodes.includes(res.status)) {
         console.log(
           `Parking access code for: ${findGuestName?.guestName} has been deleted`
         );
@@ -113,7 +113,7 @@ const Activeparkpass = () => {
         toast.success("Parking code was deleted!");
       } else {
         console.error("Failed to delete parking access code");
-        const errorData = await res.json();
+        const errorData = res.data;
         console.error("Server error:", errorData);
       }
     } catch (error) {

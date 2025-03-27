@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import api from "../api/api";
+import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
 
 // Interface for package lockers
 interface PackageLocker {
@@ -19,17 +21,15 @@ const DoorManUI = () => {
   useEffect(() => {
     const fetchBuildingLockers = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:8080/buildings/${buildingId}/lockers`,
+        const res = await api.get(`/buildings/${buildingId}/lockers`,
           {
-            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        if (res.ok) {
-          const data: PackageLocker[] = await res.json();
+        if (SuccessfulStatusCodes.includes(res.status)) {
+          const data: PackageLocker[] = res.data;
           setLockers(data);
           console.log(`Locker Status:`, data);
         } else {
@@ -45,17 +45,16 @@ const DoorManUI = () => {
   // PATCH To Assign Packages
   const assignPackage = async (lockerId: number, apartmentNumber: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/locker/${lockerId}`, {
-        method: "PATCH",
+      const res = await api.patch(`/locker/${lockerId}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           apartmentNumber: apartmentNumber,
-        }),
+        },
       });
-      if (res.ok) {
-        const data = await res.json();
+      if (SuccessfulStatusCodes.includes(res.status)) {
+        const data = res.data;
 
         // Update the lockers status UI
         setLockers((prevLockers) =>
@@ -91,18 +90,17 @@ const DoorManUI = () => {
   // PATCH Packages Status
   const discardPackage = async ({ id }: { id: number }) => {
     try {
-      const res = await fetch(`http://localhost:8080/locker/${id}`, {
-        method: "PATCH",
+      const res = await api.patch(`/locker/${id}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           apartmentNumber: null,
-        }),
+        },
       });
 
-      if (res.ok) {
-        const data = await res.json();
+      if (SuccessfulStatusCodes.includes(res.status)) {
+        const data = res.data;
         setLockers((prevLockers) =>
           prevLockers.map((locker) =>
             locker.id === id ? { ...locker, apartmentNumber: null } : locker
