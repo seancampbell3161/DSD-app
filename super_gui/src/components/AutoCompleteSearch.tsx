@@ -14,12 +14,12 @@ const AutoCompleteTenant = () => {
 	const [value, setValue] = useState("")
 	const [suggestions, setSuggestions] = useState<User[]>([])
 	const [selectedTenant, setSelectedTenant] = useState<User | null>(null)
-	const [isLoading, setIsLoading] = useState(false) // Add loading state
-	const [username, setUsername] = useState<string>("")
+	const [, setIsLoading] = useState(false) // Add loading state
+	const [, setUsername] = useState<string>("")
 
 	const onChange = (
-		event: React.FormEvent<HTMLElement>,
-		{ newValue, method }: ChangeEvent,
+		_event: React.FormEvent<HTMLElement>,
+		{ newValue, }: ChangeEvent,
 	) => {
 		setValue(newValue)
 		if (newValue === "") {

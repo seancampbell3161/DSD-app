@@ -3,19 +3,12 @@ import swap from "/assets/icons/swap.svg";
 import trashCan from "/assets/icons/bin.svg";
 import api from "../../api/api";
 import { toast } from "react-toastify";
+import { ComplaintInterface } from "./Complaint";
 
-interface Complaint {
-  type: string;
-  id: string;
-  message: string;
-  timeCreated: string;
-  status: string;
-  complaintType: string;
-  user: { username: string };
-}
 
 interface TableProps {
-  complaints: Complaint[];
+  complaints: ComplaintInterface[];
+  setComplaints: any;
 }
 
 export const Table = ({ complaints, setComplaints }: TableProps) => {

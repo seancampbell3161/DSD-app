@@ -11,9 +11,9 @@ import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
 const FrontDoorUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [hasConfirmed, setHasConfirmed] = useState<boolean>(false);
-  const [guestCode, setGuestCode] = useState<string | null>("");
-  const [displayGuestCode, setDisplayGuestCode] = useState<boolean>(false);
+  const [, setHasConfirmed] = useState<boolean>(false);
+  const [guestCode, setGuestCode] = useState<any | null>("");
+  const [, setDisplayGuestCode] = useState<boolean>(false);
   const [copied, setCopied] = useState<string | null>("");
 
   const doorId = 1001; // Initial Door value:

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Modal } from "./modal/Modal";
 import api from "../../api/api";
 import Placeholder from "/assets/images/placeholder.jpg";
-import swap from "/assets/icons/swap.svg";
-import { Table } from "./table";
 import { SuccessfulStatusCodes } from "../../global/SuccessfulStatusCodes";
+import { Table } from "./Table";
 
 // Acceptance criteria for MVP
 
@@ -18,17 +17,19 @@ import { SuccessfulStatusCodes } from "../../global/SuccessfulStatusCodes";
 
 // include summary of complaints. (a table with buttons? download report cta)
 
-interface Complaint {
-  id: string;
+export interface ComplaintInterface {
   type: string;
+  id: string;
   message: string;
   timeCreated: string;
   status: string;
+  complaintType: string;
+  user: { username: string };
 }
 
 export const Complaint = () => {
   const [isModal, setIsModal] = useState(false);
-  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [complaints, setComplaints] = useState<ComplaintInterface[]>([]);
 
   const handleModalClose = () => {
     setIsModal(false);

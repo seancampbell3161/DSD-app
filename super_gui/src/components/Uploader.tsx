@@ -10,18 +10,18 @@ const FileUpload = ( {signerEmail}: {signerEmail: string} ) => {
     endDate: ''
   })
 
-	interface LeaseSignatureRequestDetails {
-		signerEmail: string
-		apartmentNumber: number
-		ccEmails: string[]
-	}
+	// interface LeaseSignatureRequestDetails {
+	// 	signerEmail: string
+	// 	apartmentNumber: number
+	// 	ccEmails: string[]
+	// }
 
-	interface MetaData {
-		title: string
-		description: string
-		startDate: string
-		endDate: string
-	}
+	// interface MetaData {
+	// 	title: string
+	// 	description: string
+	// 	startDate: string
+	// 	endDate: string
+	// }
 	// Sample data, for testing purposes you can change the signer email to you own email to verify, but in production it should be the tenant's email which is passed over from the user search result passing in the email.
 	// const leaseSignatureRequestDetails: LeaseSignatureRequestDetails = {
 	// 	signerEmails: [ signerEmails ],

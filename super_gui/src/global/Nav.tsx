@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Modal } from "../components/complaint/modal/Modal";
 import FrontDoor from "/assets/icons/bx-door-open.svg";
 import Parking from "/assets/icons/bxs-parking.svg";
@@ -14,10 +14,9 @@ interface NavProps {
 
 export const Nav: React.FC<NavProps> = ({
   isModal,
-  setIsModal,
   handleModalClose,
 }) => {
-  const navigate = useNavigate();
+
   const menuItems = [
     { Icon: FrontDoor, alt: "FrontDoor" },
     { Icon: Parking, alt: "Parking" },
@@ -27,13 +26,13 @@ export const Nav: React.FC<NavProps> = ({
   ];
 
   // this event handler is for the mobile screen button to just navigate to the complaint log and open the modal after.
-  const handleComplaintClick = (e: React.MouseEvent | React.TouchEvent) => {
-    if (window.innerWidth < 431) {
-      e.preventDefault();
-      navigate("/complaint");
-      setIsModal(true);
-    }
-  };
+  // const handleComplaintClick = (e: React.MouseEvent | React.TouchEvent) => {
+  //   if (window.innerWidth < 431) {
+  //     e.preventDefault();
+  //     navigate("/complaint");
+  //     setIsModal(true);
+  //   }
+  // };
 
   return (
     <section className="z-10 fixed w-full md:relative bottom-0 left-0">
@@ -79,7 +78,7 @@ export const Nav: React.FC<NavProps> = ({
           ))}
         </ul>
       </nav>
-      <Modal isOpen={isModal} closeModal={handleModalClose} />
+      <Modal isOpen={isModal} closeModal={handleModalClose} complaints={null} />
     </section>
   );
 };
