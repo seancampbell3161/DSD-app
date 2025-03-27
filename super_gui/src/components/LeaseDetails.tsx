@@ -6,7 +6,7 @@ export interface LeaseDTO {
 	externalId: string
 	startDate: string
 	endDate: string
-	apartment: any
+	apartmentNumber: number
 	tenants: any[]
 	dropboxUrl: string, 
 	signatureRequestGetResponse?: any
@@ -52,7 +52,7 @@ export const DisplayAllLeaseByUsername = ({ username }: { username: string }) =>
 
 	return (
 		<div>
-			<h1>Lease Details</h1>
+			<h1 className="pt-2.5 text-(length:--text-xl) text-black">Lease Histories</h1>
 			{list ? (
 				<div>
 					<ul>
@@ -71,8 +71,8 @@ export const DisplayAllLeaseByUsername = ({ username }: { username: string }) =>
 									<strong>End Date:</strong> {lease.endDate}
 								</p>
 								<p>
-									<strong>Apartment:</strong> {lease.apartment
-										? lease.apartment.number
+									<strong>Apartment:</strong> {lease.apartmentNumber
+										? lease.apartmentNumber
 										: "N/A"}
 								</p>
 								<p>
@@ -193,7 +193,7 @@ const displayAllLease = () => {
 	//todo add other fields in response
 	return (
 		<div>
-			<h1>Lease Details</h1>
+			<h1 className="text-(length:--text-xl) text-black">Lease Details</h1>
 			{list ? (
 				<div>
 					<ul>

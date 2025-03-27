@@ -104,6 +104,7 @@ const AutoCompleteTenant = () => {
 					<h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-2.5">
               Admin Dashboard
           </h2>
+					<p className="text-[var(--color-grey-800)] italic pb-2">Search for tenant</p>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -123,13 +124,20 @@ const AutoCompleteTenant = () => {
 						<p>No tenant found</p> 
 					) : (  
 						value && selectedTenant ? (
-						<div>
-							<p className="color-grey-800">Name: {selectedTenant.name}</p>
-							<p className="color-grey-800">Username: {selectedTenant.username}</p>
-			{/* todo passing in props of username is giving me issue. can you please resolve this 	*/}		
-					<DisplayAllLeaseByUsername username={selectedTenant.username} />
-					<FileUpload signerEmails={selectedTenant.email} />
-						</div>
+							<div className="grid grid-cols-2 gap-4 pt-4">
+          			<div className="flex flex-col items-center">
+								<p className="pt-4 capitalize text-[var(--color-grey-800)]">
+									Name: {selectedTenant.name}
+								</p>
+								<p className="text-[var(--color-grey-800)]">
+									Username: {selectedTenant.username}
+								</p>
+								<DisplayAllLeaseByUsername username={selectedTenant.username} />
+								</div>
+								<div className="flex flex-col items-center">
+								<FileUpload signerEmail={selectedTenant.email} />
+								</div>
+  						</div>
 					) : null
 					)}
 				</div>
