@@ -120,24 +120,24 @@ const AutoCompleteTenant = () => {
         </div>
 	
 				<div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
-					{value && !suggestions.length && !selectedTenant ? ( 
-						<p>No tenant found</p> 
+				{value && !suggestions.length && !selectedTenant ? ( 
+					<p>No tenant found</p> 
 					) : (  
 						value && selectedTenant ? (
-							<div className="grid grid-cols-2 gap-4 pt-4">
-          			<div className="flex flex-col items-center">
-								<p className="pt-4 capitalize text-[var(--color-grey-800)]">
-									Name: {selectedTenant.name}
-								</p>
-								<p className="text-[var(--color-grey-800)]">
-									Username: {selectedTenant.username}
-								</p>
-								<DisplayAllLeaseByUsername username={selectedTenant.username} />
-								</div>
-								<div className="flex flex-col items-center">
-								<FileUpload signerEmail={selectedTenant.email} />
-								</div>
-  						</div>
+				<div className="grid grid-cols-2 gap-4 pt-4">
+        <div className="flex flex-col items-center">
+					<p className="pt-4 capitalize text-[var(--color-grey-800)]">
+						Name: {selectedTenant.name}
+					</p>
+					<p className="text-[var(--color-grey-800)]">
+						Username: {selectedTenant.username}
+					</p>
+					<DisplayAllLeaseByUsername username={selectedTenant.username} />
+					</div>
+					<div className="flex flex-col items-center">
+					<FileUpload signerEmail={selectedTenant.email} />
+					</div>
+				</div>
 					) : null
 					)}
 				</div>
