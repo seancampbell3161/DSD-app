@@ -65,7 +65,7 @@ export const Table = ({ complaints, setComplaints }: TableProps) => {
                   ? complaint.complaintType
                   : complaint.user.username}
               </td>
-              <td className="p-2 text-left border-r border-beige">
+              <td className="p-2 text-left border-r border-beige text-wrap">
                 {complaint.message}
               </td>
               <td className="p-2 text-right border-r border-beige">

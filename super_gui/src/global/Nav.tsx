@@ -72,16 +72,6 @@ export const Nav: React.FC<NavProps> = ({
                     ? "bg-accentBlue md:bg-beige relative md:top-0 w-full h-full border-1 border-[#1D478B] md:border-none md:shadow-none md:inset-shadow-none inset-shadow-sm inset-shadow-[#4595F8] shadow-md shadow-[#1358AE]/50 focus:border-none focus:shadow-none focus:border-transparent inset-shadow-sm-bottom"
                     : "bg-beige"
                 }`}
-                onClick={(e) => {
-                  if (index === 2) {
-                    handleComplaintClick(e);
-                  }
-                }}
-                onTouchStart={(e) => {
-                  if (index === 2) {
-                    handleComplaintClick(e);
-                  }
-                }}
               >
                 <img src={item.Icon} alt={item.alt} className="w-6 h-6" />
               </Link>
@@ -89,10 +79,7 @@ export const Nav: React.FC<NavProps> = ({
           ))}
         </ul>
       </nav>
-      <Modal 
-        isOpen={isModal} 
-        closeModal={handleModalClose} 
-      />
+      <Modal isOpen={isModal} closeModal={handleModalClose} />
     </section>
   );
 };

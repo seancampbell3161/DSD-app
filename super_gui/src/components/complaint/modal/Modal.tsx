@@ -50,6 +50,7 @@ export const Modal = ({ isOpen, closeModal, complaints }: ModalProps) => {
       setFormData("");
       console.log("Success:", data);
     } catch (error) {
+      toast.error("Must select type of complaint");
       console.error("Error:", error);
     }
   };
