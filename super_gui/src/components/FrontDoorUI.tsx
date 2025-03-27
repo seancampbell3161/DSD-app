@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import api from "../api/api";
 import SmartLockUI from "./SmartLockUI";
 import Lock from "/assets/icons/bx-lock-alt.svg";
 import OpenLock from "/assets/icons/bx-lock-open-alt.svg";
 import NoSignal from "/assets/icons/bx-no-signal.svg";
 import Placeholder from "/assets/images/placeholder.jpg";
 import FrontDoorModal from "./FrontDoorModal";
+import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
 
 const FrontDoorUI = () => {
   const [lockStatus, setLockStatus] = useState<string | null>(null);
@@ -28,17 +30,15 @@ const FrontDoorUI = () => {
   useEffect(() => {
     const fetchDoorStatus = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:8080/doors/${doorId}/status`,
+        const res = await api.get(`/doors/${doorId}/status`,
           {
-            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        if (res.ok) {
-          const data = await res.json();
+        if (SuccessfulStatusCodes.includes(res.status)) {
+          const data = res.data;
           setLockStatus(data);
           console.log(`Door Status:`, data);
         } else {
@@ -56,16 +56,14 @@ const FrontDoorUI = () => {
     if (lockStatus === null) return;
     const newStatus = lockStatus === "locked";
     try {
-      const res = await fetch(
-        `http://localhost:8080/doors/${doorId}/status?openTheDoor=${newStatus}`,
+      const res = await api.put(`/doors/${doorId}/status?openTheDoor=${newStatus}`,
         {
-          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      if (res.ok) {
+      if (SuccessfulStatusCodes.includes(res.status)) {
         setIsModalOpen(true);
       } else {
         console.error("Failed to update door status");
@@ -83,20 +81,18 @@ const FrontDoorUI = () => {
       setHasConfirmed(true); // set to true to handle logic.
 
       try {
-        const res = await fetch(
-          `http://localhost:8080/doors/${doorId}/status?openTheDoor=${
+        const res = await api.put(`/doors/${doorId}/status?openTheDoor=${
             lockStatus === "locked" ? true : false
           }`,
           {
-            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
 
-        if (res.ok) {
-          const data = await res.json();
+        if (SuccessfulStatusCodes.includes(res.status)) {
+          const data = res.data;
           setLockStatus(data);
           console.log(`Door Status:`, data);
         } else {
@@ -115,17 +111,15 @@ const FrontDoorUI = () => {
     setDisplayGuestCode(false);
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/users/${userId}/door/${doorId}/door-codes`,
+      const res = await api.post(`/users/${userId}/door/${doorId}/door-codes`,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      if (res.ok) {
-        const data = await res.json();
+      if (SuccessfulStatusCodes.includes(res.status)) {
+        const data = res.data;
         setGuestCode(data);
         console.log(`Guest Code:`, data);
       } else {
@@ -141,24 +135,23 @@ const FrontDoorUI = () => {
     setDisplayGuestCode(false);
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/users/${userId}/door/${doorId}/door-codes`,
+      const res = await api.delete(
+        `/users/${userId}/door/${doorId}/door-codes`,
         {
-          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
+          data: {
             id: guestCode.id,
-          }),
+          },
         }
       );
-      if (res.ok) {
+      if (SuccessfulStatusCodes.includes(res.status)) {
         console.log(`Guest Code deleted: ${guestCode.id}`);
         setGuestCode(null);
       } else {
         console.error("Failed to delete door code");
-        const errorData = await res.json();
+        const errorData = res.data;
         console.error("Server error:", errorData);
       }
     } catch (error) {

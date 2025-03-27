@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Package from "/assets/icons/bxs-package.svg";
+import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
+
+import api from "../api/api";
 
 const SmartLockUI = () => {
   const [packageStatus, setPackageStatus] = useState<number | null>(null);
@@ -12,17 +15,16 @@ const SmartLockUI = () => {
   useEffect(() => {
     const fetchPackageStatus = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:8080/users/${userId}/lockers`,
+        const res = await api.get(
+          `/users/${userId}/lockers`,
           {
-            method: "GET",
             headers: {
               "Content-type": "application/json",
             },
           }
         );
-        if (res.ok) {
-          const data = await res.json();
+        if (SuccessfulStatusCodes.includes(res.status)) {
+          const data = res.data;
           setPackageStatus(data[1][0]);
           console.log(`Packages status:`, data);
         } else {
@@ -47,20 +49,19 @@ const SmartLockUI = () => {
     apartmentNumber: number;
   }) => {
     try {
-      const res = await fetch(`http://localhost:8080/locker/${lockerId}`, {
-        method: "PATCH",
+      const res = await api.patch(`/locker/${lockerId}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           id,
           lockerNumber,
           apartmentNumber: null,
-        }),
+        },
       });
 
-      if (res.ok) {
-        const data = await res.json();
+      if (SuccessfulStatusCodes.includes(res.status)) {
+        const data = res.data;
         setPackageStatus(null);
         toast.success("Package retrieved by tenant.");
         console.log("Package retrieved by tenant.", data);

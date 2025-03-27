@@ -4,6 +4,7 @@ import api from "../../api/api";
 import Placeholder from "/assets/images/placeholder.jpg";
 import swap from "/assets/icons/swap.svg";
 import { Table } from "./table";
+import { SuccessfulStatusCodes } from "../../global/SuccessfulStatusCodes";
 
 // Acceptance criteria for MVP
 
@@ -41,7 +42,7 @@ export const Complaint = () => {
             "Content-Type": "application/json",
           },
         });
-        if (res.status === 200) {
+        if (SuccessfulStatusCodes.includes(res.status)) {
           const data = res.data;
           if (Array.isArray(data)) {
             setComplaints(data);

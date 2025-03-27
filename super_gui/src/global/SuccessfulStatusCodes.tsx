@@ -1,0 +1,1 @@
+export const SuccessfulStatusCodes = [200, 201, 204];
