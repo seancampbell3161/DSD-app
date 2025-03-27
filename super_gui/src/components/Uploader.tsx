@@ -73,6 +73,7 @@ const FileUpload = ( {signerEmail}: {signerEmail: string} ) => {
 
 
 		try {
+			console.log(formDataToSend);
 			const result = await fetch("/api/document/send", {
 				method: "POST",
 				body: formDataToSend,
