@@ -1,11 +1,13 @@
 import { useState } from "react"
 import Autosuggest, { InputProps, ChangeEvent } from "react-autosuggest"
 import FileUpload from "./Uploader";
+import { DisplayAllLeaseByUsername, Lease } from "./LeaseDetails";
 
 interface User {
 	name: string
 	email: string
 	username: string
+	leaseHistory?: Lease[]
 }
 
 const AutoCompleteTenant = () => {
@@ -13,6 +15,7 @@ const AutoCompleteTenant = () => {
 	const [suggestions, setSuggestions] = useState<User[]>([])
 	const [selectedTenant, setSelectedTenant] = useState<User | null>(null)
 	const [isLoading, setIsLoading] = useState(false) // Add loading state
+	const [username, setUsername] = useState<string>("")
 
 	const onChange = (
 		event: React.FormEvent<HTMLElement>,
@@ -21,6 +24,7 @@ const AutoCompleteTenant = () => {
 		setValue(newValue)
 		if (newValue === "") {
 		setSelectedTenant(null) //Clear selected info when input changes
+		setUsername("")
 		}
 	}
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
@@ -87,6 +91,7 @@ const AutoCompleteTenant = () => {
 			onClick={() => {
 				setValue(suggestion.email) //Set input val to selected email
 				setSelectedTenant(suggestion) // Store selected Tenant for display
+				setUsername(suggestion.username || '')
 			}}
 		>
 			{suggestion.email}
@@ -99,6 +104,7 @@ const AutoCompleteTenant = () => {
 					<h2 className="text-left font-(family-name:--font-subHeading) text-(length:--text-xl) text-black p-2.5">
               Admin Dashboard
           </h2>
+					<p className="text-[var(--color-grey-800)] italic pb-2">Search for tenant</p>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -112,21 +118,30 @@ const AutoCompleteTenant = () => {
             theme={theme}
           />
         </div>
-        {/* <div className="flex max-w-4xl mx-auto h-auto bg-[var(--color-white)] rounded-lg font-normal text-sm"> */}
-          <div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
-            {value && !suggestions.length && !selectedTenant ? ( 
-							<p>No tenant found</p> 
-						) : (  
-							value && selectedTenant ? (
-							<div>
-                <p className="color-grey-800">Name: {selectedTenant.name}</p>
-                <p className="color-grey-800">Username: {selectedTenant.username}</p>
-								<FileUpload signerEmails={selectedTenant.email} />
-              </div>
-						) : null
-            )}
-          </div>
-        {/* </div> */}
+	
+				<div className="bg-[var(--color-white)] rounded-lg text-[var(--color-grey-800)] font-normal text-sm mt-2">
+				{value && !suggestions.length && !selectedTenant ? ( 
+					<p>No tenant found</p> 
+					) : (  
+						value && selectedTenant ? (
+				<div className="grid grid-cols-2 gap-4 pt-4">
+        <div className="flex flex-col items-center">
+					<p className="pt-4 capitalize text-[var(--color-grey-800)]">
+						Name: {selectedTenant.name}
+					</p>
+					<p className="text-[var(--color-grey-800)]">
+						Username: {selectedTenant.username}
+					</p>
+					<DisplayAllLeaseByUsername username={selectedTenant.username} />
+					</div>
+					<div className="flex flex-col items-center">
+					<FileUpload signerEmail={selectedTenant.email} />
+					</div>
+				</div>
+					) : null
+					)}
+				</div>
+
       </div>
 	)
 }

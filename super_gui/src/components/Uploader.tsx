@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
+const FileUpload = ( {signerEmail}: {signerEmail: string} ) => {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
 	const [status, setStatus] = useState<"initial" | "uploading" | "success" | "fail">("initial")
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
   })
 
 	interface LeaseSignatureRequestDetails {
-		signerEmails: string[]
+		signerEmail: string
 		apartmentNumber: number
 		ccEmails: string[]
 	}
@@ -51,7 +51,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 		setStatus("uploading")
 
     const leaseSignatureRequestDetails = {
-      signerEmails: [signerEmails],
+      signerEmail: signerEmail,
       apartmentNumber: parseInt(formData.apartmentNumber) || 0,
       ccEmails: [formData.ccEmails]
     }
@@ -73,6 +73,7 @@ const FileUpload = ( {signerEmails}: {signerEmails: string} ) => {
 
 
 		try {
+			console.log(formDataToSend);
 			const result = await fetch("/api/document/send", {
 				method: "POST",
 				body: formDataToSend,
