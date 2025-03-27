@@ -30,7 +30,7 @@ const AutoCompleteTenant = () => {
 	const onSuggestionsFetchRequested = async ({ value }: { value: string }) => {
 		setIsLoading(true) // Set loading state
 		try {
-			const response = await fetch(`/api/users/search?email=${value}&page=0&size=10&sortParam=email`, {
+			const response = await fetch(`https://dsd-backend-production.up.railway.app/users/search?email=${value}&page=0&size=10&sortParam=email`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/hal+json",

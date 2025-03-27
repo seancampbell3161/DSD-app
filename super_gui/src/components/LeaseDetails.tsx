@@ -14,7 +14,7 @@ export interface LeaseDTO {
 }
 //test this. This is the endpoint to get all leases by username. Need to resolve prop type input passed from suggestion in autocomplete
 const getAllLeasesByUsername = async (username: string) => {
-	const result = await fetch(`/api/document/getAllByUser/${username}`, {
+	const result = await fetch(`https://dsd-backend-production.up.railway.app/document/getAllByUser/${username}`, {
 		method: "GET",
 	})
 
@@ -95,7 +95,7 @@ export interface Lease {
 }
 
 const getLeaseDetails = async (lease: Lease) => {
-	const result = await fetch("/api/document/get/" + lease.id, {
+	const result = await fetch("https://dsd-backend-production.up.railway.app/document/get/" + lease.id, {
 		method: "GET",
 	})
 
@@ -154,7 +154,7 @@ const LeaseDetails = (lease: Lease) => {
 }
 //optional to get all leases in the db for like a dashboard for admin to view all leases
 const getAllLeases = async () => {
-	const result = await fetch("/api/document/all", {
+	const result = await fetch("https://dsd-backend-production.up.railway.app/document/all", {
 		method: "GET",
 	})
 
