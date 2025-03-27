@@ -11,6 +11,7 @@ import api from "../../../api/api";
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  complaints: any;
 }
 
 export const Modal = ({ isOpen, closeModal, complaints }: ModalProps) => {
@@ -47,7 +48,7 @@ export const Modal = ({ isOpen, closeModal, complaints }: ModalProps) => {
       complaints((prev) => [...prev, data]);
       toast.success("Complaint submitted successfully!");
       closeModal();
-      setFormData("");
+      setFormData(null);
       console.log("Success:", data);
     } catch (error) {
       toast.error("Must select type of complaint");

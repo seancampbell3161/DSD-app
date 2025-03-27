@@ -6,7 +6,7 @@ import { SuccessfulStatusCodes } from "../global/SuccessfulStatusCodes";
 import api from "../api/api";
 
 const SmartLockUI = () => {
-  const [packageStatus, setPackageStatus] = useState<number | null>(null);
+  const [packageStatus, setPackageStatus] = useState<any | null>(null);
 
   const userId = 1001;
   const lockerId = 1001; //1-5 available lockers
@@ -42,7 +42,6 @@ const SmartLockUI = () => {
   const updatePackageStatus = async ({
     id,
     lockerNumber,
-    apartmentNumber,
   }: {
     id: number;
     lockerNumber: number;

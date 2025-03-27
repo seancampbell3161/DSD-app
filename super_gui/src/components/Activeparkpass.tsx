@@ -227,7 +227,7 @@ const Activeparkpass = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="4" className="p-2 text-center">
+                          <td colSpan={4} className="p-2 text-center">
                             <p className="mt-6 italic text-charcoal font-body">
                               No active passes have been created
                             </p>
